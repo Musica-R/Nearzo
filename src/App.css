@@ -13,6 +13,50 @@
   }
 }
 
+.lk-home {
+  --lk-primary: #9b20d0;
+  --lk-primary-dark: #7920b4;
+  --lk-primary-light: #c02de5;
+  --lk-primary-tint: #f7ebfc;
+  --lk-gradient: linear-gradient(145deg, #7920b4 0%, #9b20d0 50%, #c02de5 100%);
+  --lk-bg: #ffffff;
+  --lk-surface: #ffffff;
+  --lk-ink: #3d2e5a;
+  --lk-text-muted: #6b7280;
+  --lk-border: #e6e1f5;
+  --lk-success: #15803d;
+  --lk-danger: #dc2626;
+  --lk-radius-sm: 8px;
+  --lk-radius-md: 14px;
+  --lk-radius-lg: 22px;
+  --lk-shadow-sm: 0 4px 14px rgba(155, 32, 208, 0.1);
+  --lk-shadow-md: 0 12px 30px rgba(121, 32, 180, 0.16);
+  --lk-font-display: "Sora", "Poppins", system-ui, sans-serif;
+  --lk-font-body: "Inter", system-ui, sans-serif;
+  font-family: var(--lk-font-body);
+  color: var(--lk-ink);
+  background: var(--lk-bg);
+
+  /* Map onto the --color-* names every existing component already uses */
+  --color-primary: var(--lk-primary);
+  --color-primary-dark: var(--lk-primary-dark);
+  --color-primary-light: var(--lk-primary-light);
+  --color-primary-tint: var(--lk-primary-tint);
+  --color-bg: var(--lk-bg);
+  --color-surface: var(--lk-surface);
+  --color-ink: var(--lk-ink);
+  --color-text: var(--lk-ink);
+  --color-text-muted: var(--lk-text-muted);
+  --color-border: var(--lk-border);
+  --color-danger: var(--lk-danger);
+  --radius-sm: var(--lk-radius-sm);
+  --radius-md: var(--lk-radius-md);
+  --radius-pill: 999px;
+  --shadow-sm: var(--lk-shadow-sm);
+  --shadow-md: var(--lk-shadow-md);
+  --font-display: var(--lk-font-display);
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

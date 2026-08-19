@@ -1,0 +1,21 @@
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.section-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.section-header p {
+  margin-top: 6px;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 560px) {
+  .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+}

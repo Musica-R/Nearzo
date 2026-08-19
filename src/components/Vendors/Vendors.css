@@ -1,0 +1,387 @@
+/* ---- Lokal brand palette ---- */
+:root {
+    --lk-primary: #9b20d0;
+    --lk-primary-dark: #7920b4;
+    --lk-primary-light: #c02de5;
+    --lk-primary-tint: #f7ebfc;
+
+    --lk-gradient: linear-gradient(145deg, #7920b4 0%, #9b20d0 50%, #c02de5 100%);
+}
+
+.vendors-filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 18px 0 10px;
+}
+
+.con{
+    width: 1500px;
+    margin: 0px auto;
+}
+
+.vendors-filter-pills {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    padding: 9px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.filter-pill:hover {
+    border-color: var(--lk-primary);
+}
+
+.filter-pill.active {
+    background: var(--lk-primary-tint);
+    border-color: var(--lk-primary);
+    color: var(--lk-primary-dark);
+}
+
+.filter-pill-more {
+    margin-left: auto;
+}
+
+.vendors-results-count {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: 0 0 16px;
+}
+
+.vendors-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.vendor-card {
+    display: block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+
+.vendor-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+    border-color: var(--lk-primary-light);
+}
+
+.vendor-card-photo {
+    position: relative;
+    height: 220px;
+    width: 100%;
+    background: var(--lk-primary-tint);
+}
+
+.vendor-card-photo img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.vendor-card-rating {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--lk-gradient);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 2px 8px rgba(155, 32, 208, 0.35);
+}
+
+.vendor-card-body {
+    padding: 16px 18px 18px;
+}
+
+.vendor-card-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--lk-primary);
+}
+
+.vendor-card-body h4 {
+    margin: 6px 0 6px;
+    font-size: 1.15rem;
+}
+
+.vendor-card-loc {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    margin: 0 0 12px;
+}
+
+.vendor-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 14px;
+}
+
+.vendor-card-tag {
+    background: var(--lk-primary-tint);
+    color: var(--lk-primary-dark);
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: var(--radius-pill);
+}
+
+.vendor-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border);
+}
+
+.vendor-card-price {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--lk-primary-dark);
+}
+
+.vendor-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text);
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.vendor-card:hover .vendor-card-cta {
+    border-color: var(--lk-primary);
+    background: var(--lk-primary-tint);
+    color: var(--lk-primary-dark);
+}
+
+/* ==========================================================
+   RESPONSIVE — Vendors page
+   ========================================================== */
+
+/* ---- 1024px: container fluid, grid to 2 columns ---- */
+@media (max-width: 1024px) {
+    .con {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    .vendors-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .nearby-page-layout {
+        gap: 20px;
+    }
+
+    .vendor-card-photo {
+        height: 190px;
+    }
+}
+
+/* ---- 760px: stack sidebar above/below, single column grid ---- */
+@media (max-width: 760px) {
+    .con {
+        padding: 0 16px;
+    }
+
+    .nearby-page-layout {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .vendors-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .vendors-filter-row {
+        margin: 14px 0 8px;
+    }
+
+    .vendors-filter-pills {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
+        scrollbar-width: none;
+    }
+
+    .vendors-filter-pills::-webkit-scrollbar {
+        display: none;
+    }
+
+    .filter-pill {
+        flex: 0 0 auto;
+        padding: 8px 14px;
+        font-size: 0.78rem;
+    }
+
+    .filter-pill-more {
+        margin-left: 0;
+    }
+
+    .vendors-results-count {
+        margin: 0 0 12px;
+    }
+
+    .vendor-card-photo {
+        height: 200px;
+    }
+
+    .vendor-card-body {
+        padding: 14px 16px 16px;
+    }
+
+    .vendor-card-body h4 {
+        font-size: 1.05rem;
+    }
+}
+
+/* ---- 450px: tighter spacing, smaller type, compact footer ---- */
+@media (max-width: 450px) {
+    .con {
+        padding: 0 12px;
+    }
+
+    .vendors-filter-pills {
+        gap: 8px;
+    }
+
+    .filter-pill {
+        padding: 7px 12px;
+        font-size: 0.74rem;
+        gap: 5px;
+    }
+
+    .filter-pill svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    .vendors-results-count {
+        font-size: 0.8rem;
+    }
+
+    .vendor-card-photo {
+        height: 170px;
+    }
+
+    .vendor-card-rating {
+        top: 8px;
+        right: 8px;
+        font-size: 0.72rem;
+        padding: 4px 8px;
+    }
+
+    .vendor-card-body {
+        padding: 12px 14px 14px;
+    }
+
+    .vendor-card-body h4 {
+        font-size: 1rem;
+        margin: 4px 0 5px;
+    }
+
+    .vendor-card-loc {
+        font-size: 0.78rem;
+        margin: 0 0 10px;
+    }
+
+    .vendor-card-tags {
+        gap: 6px;
+        margin-bottom: 12px;
+    }
+
+    .vendor-card-tag {
+        font-size: 0.7rem;
+        padding: 4px 9px;
+    }
+
+    .vendor-card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding-top: 10px;
+    }
+
+    .vendor-card-cta {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ---- 340px: smallest phones, minimal padding, single-line pills shrink further ---- */
+@media (max-width: 340px) {
+    .con {
+        padding: 0 10px;
+    }
+
+    .filter-pill {
+        padding: 6px 10px;
+        font-size: 0.7rem;
+    }
+
+    .vendors-grid {
+        gap: 12px;
+    }
+
+    .vendor-card-photo {
+        height: 150px;
+    }
+
+    .vendor-card-body {
+        padding: 10px 12px 12px;
+    }
+
+    .vendor-card-body h4 {
+        font-size: 0.92rem;
+    }
+
+    .vendor-card-price {
+        font-size: 0.82rem;
+    }
+
+    .vendor-card-cta {
+        font-size: 0.74rem;
+        padding: 7px 10px;
+    }
+}

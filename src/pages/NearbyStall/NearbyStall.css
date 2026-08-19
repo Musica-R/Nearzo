@@ -1,0 +1,246 @@
+.con {
+  width: 1500px;
+  margin: 0px auto;
+}
+
+.nearby-toolbar {
+  margin-bottom: 20px;
+}
+
+.nearby-page-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.nearby-page-layout-nocats {
+  grid-template-columns: 1fr;
+}
+
+/* Main content on the left, warning card on the right */
+.nearby-page-layout-with-warning {
+  grid-template-columns: 1fr 300px;
+}
+
+.nearby-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.nearby-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.nearby-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.nearby-card img {
+  height: 150px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.nearby-card-body {
+  padding: 14px 16px 16px;
+}
+
+.nearby-card-type {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.nearby-card-body h4 {
+  margin: 4px 0 6px;
+  font-size: 1rem;
+}
+
+.nearby-card-loc {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin-bottom: 10px;
+}
+
+.nearby-card-subcats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 4px 0 10px;
+}
+
+.nearby-card-subcat {
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.nearby-card-price {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin-top: 6px;
+}
+
+.nearby-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px dashed var(--color-border);
+  padding-top: 10px;
+  font-size: 0.8rem;
+}
+
+.nearby-card-distance {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.nearby-card-placeholder {
+  height: 150px;
+  width: 100%;
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.spin {
+  animation: spin 0.9s linear infinite;
+  vertical-align: -3px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Right-side warning card ---- */
+.nearby-warning-card {
+  position: sticky;
+  top: 90px;
+  background: var(--color-primary-tint);
+  border: 1px solid var(--color-primary-light);
+  border-radius: var(--radius-md);
+  padding: 20px 18px;
+}
+
+.nearby-warning-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  margin-bottom: 12px;
+}
+
+.nearby-warning-card h4 {
+  margin: 0 0 12px;
+  font-size: 0.98rem;
+  color: var(--color-primary-dark);
+}
+
+.nearby-warning-card-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nearby-warning-card-list li {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.con {
+  width: 1500px;
+  margin: 0px auto;
+}
+
+.nearby-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.nearby-pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--lk-border, #e6e1f5);
+  background: var(--lk-surface, #fff);
+  color: var(--lk-ink, #3d2e5a);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nearby-pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.nearby-pagination-page {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+@media (max-width: 1100px) {
+
+  .nearby-page-layout,
+  .nearby-page-layout-with-warning {
+    grid-template-columns: 1fr;
+  }
+
+  .nearby-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nearby-warning-card {
+    position: static;
+  }
+}
+
+@media (max-width: 420px) {
+  .nearby-grid {
+    grid-template-columns: 1fr 1fr;
+    border-radius: 0px;
+    gap: 2px;
+  }
+  .nearby-card-loc{
+    display: none;
+  }
+  .nearby-card {
+    border-radius: 0px;
+  }
+}

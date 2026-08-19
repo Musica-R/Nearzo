@@ -1,0 +1,589 @@
+/* ===================================================================
+   Lokal — Become a Vendor
+   Color system lives on .lk-home so this page can drop into any
+   layout without leaking variables onto sibling sections.
+=================================================================== */
+
+.lk-home {
+  --lk-primary: #9b20d0;
+  --lk-primary-dark: #7920b4;
+  --lk-primary-light: #c02de5;
+  --lk-primary-tint: #f7ebfc;
+
+  --lk-gradient: linear-gradient(145deg, #7920b4 0%, #9b20d0 50%, #c02de5 100%);
+
+  --lk-bg: #ffffff;
+  --lk-surface: #ffffff;
+  --lk-ink: #3d2e5a;
+  --lk-text-muted: #6b7280;
+  --lk-border: #e6e1f5;
+  --lk-success: #15803d;
+  --lk-danger: #dc2626;
+
+  --lk-radius-sm: 8px;
+  --lk-radius-md: 14px;
+  --lk-radius-lg: 22px;
+
+  --lk-shadow-sm: 0 4px 14px rgba(155, 32, 208, 0.1);
+  --lk-shadow-md: 0 12px 30px rgba(121, 32, 180, 0.16);
+
+  --lk-font-display: "Sora", "Poppins", system-ui, sans-serif;
+  --lk-font-body: "Inter", system-ui, sans-serif;
+
+  font-family: var(--lk-font-body);
+  color: var(--lk-ink);
+  background: var(--lk-bg);
+}
+
+.lk-home .container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+/* ---------------- Tabs ---------------- */
+
+.lk-home .bv-tabs {
+  display: flex;
+  gap: 10px;
+  margin: 24px 0 22px;
+  flex-wrap: wrap;
+}
+
+.lk-home .bv-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1.5px solid var(--lk-border);
+  background: var(--lk-surface);
+  color: var(--lk-text-muted);
+  font-family: var(--lk-font-display);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.lk-home .bv-tab:hover {
+  border-color: var(--lk-primary-light);
+  color: var(--lk-primary-dark);
+}
+
+.lk-home .bv-tab.active {
+  background: var(--lk-gradient);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: var(--lk-shadow-sm);
+}
+
+/* ---------------- Two column layout ---------------- */
+
+.lk-home .bv-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 26px;
+  align-items: start;
+}
+
+.lk-home .bv-form-col {
+  min-width: 0;
+}
+
+/* ---------------- Form card ---------------- */
+
+.lk-home .bv-card {
+  background: var(--lk-surface);
+  border: 1px solid var(--lk-border);
+  border-radius: var(--lk-radius-lg);
+  box-shadow: var(--lk-shadow-sm);
+  overflow: hidden;
+}
+
+.lk-home .bv-form {
+  padding: 0;
+}
+
+/* Hero banner bleeding to the card's top edge */
+.lk-home .bv-hero {
+  padding: 26px 32px 24px;
+  background: var(--lk-gradient);
+}
+
+.lk-home .bv-hero-title {
+  font-family: var(--lk-font-display);
+  font-weight: 600;
+  font-size: 1.55rem;
+  color: #ffffff;
+  margin: 0 0 6px;
+}
+
+.lk-home .bv-hero-sub {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  max-width: 520px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.lk-home .bv-form-body {
+  padding: 28px 32px 32px;
+}
+
+.lk-home .bv-form-icon {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--lk-border);
+}
+
+.lk-home .bv-form-icon-badge {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--lk-gradient);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.lk-home .bv-form-icon-title {
+  font-family: var(--lk-font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--lk-ink);
+}
+
+.lk-home .bv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 22px;
+}
+
+.lk-home .bv-span-2 {
+  grid-column: span 2;
+}
+
+.lk-home .bv-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.lk-home .bv-label-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--lk-ink);
+}
+
+.lk-home .bv-label-text .req {
+  color: var(--lk-danger);
+}
+
+/* ---------------- Icon-prefixed pill fields ---------------- */
+
+.lk-home .bv-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--lk-border);
+  border-radius: 999px;
+  background: #fbfaff;
+  padding: 0 6px 0 16px;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.lk-home .bv-field:focus-within {
+  border-color: var(--lk-primary);
+  background: var(--lk-surface);
+  box-shadow: 0 0 0 4px var(--lk-primary-tint);
+}
+
+.lk-home .bv-field-icon {
+  flex-shrink: 0;
+  color: var(--lk-primary);
+  margin-right: 10px;
+}
+
+.lk-home .bv-field input,
+.lk-home .bv-field select {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  padding: 12px 0;
+  font-size: 0.9rem;
+  font-family: var(--lk-font-body);
+  color: var(--lk-ink);
+  font-weight: 500;
+}
+
+.lk-home .bv-field input:focus,
+.lk-home .bv-field select:focus {
+  outline: none;
+}
+
+.lk-home .bv-field select {
+  cursor: pointer;
+  appearance: auto;
+}
+
+.lk-home .bv-tag-add-btn {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: var(--lk-gradient);
+  color: #fff;
+  font-family: var(--lk-font-display);
+  font-weight: 600;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.lk-home .bv-hint {
+  font-size: 0.78rem;
+  color: var(--lk-text-muted);
+  font-weight: 500;
+  margin: 4px 0 0;
+}
+
+/* ---------------- Custom sub-category tags ---------------- */
+
+.lk-home .bv-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.lk-home .bv-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 6px 13px;
+  border-radius: 999px;
+  background: var(--lk-primary-tint);
+  color: var(--lk-primary-dark);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.lk-home .bv-tag button {
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(121, 32, 180, 0.15);
+  color: var(--lk-primary-dark);
+  cursor: pointer;
+}
+
+.lk-home .bv-tag button:hover {
+  background: rgba(121, 32, 180, 0.28);
+}
+
+/* ---------------- Sub-category: row list with tick ---------------- */
+
+.lk-home .bv-subcat-rows {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.lk-home .bv-subcat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--lk-border);
+  border-radius: var(--lk-radius-sm);
+  background: #fbfaff;
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--lk-ink);
+  transition: all 0.15s ease;
+}
+
+.lk-home .bv-subcat-row:hover {
+  border-color: var(--lk-primary-light);
+}
+
+.lk-home .bv-subcat-row.active {
+  border-color: var(--lk-primary);
+  background: var(--lk-primary-tint);
+  color: var(--lk-primary-dark);
+}
+
+.lk-home .bv-subcat-row input {
+  display: none;
+}
+
+.lk-home .bv-subcat-tick {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  border: 1.5px solid var(--lk-border);
+  background: #fff;
+  color: #fff;
+  transition: all 0.15s ease;
+}
+
+.lk-home .bv-subcat-row.active .bv-subcat-tick {
+  background: var(--lk-gradient);
+  border-color: transparent;
+}
+
+.lk-home .bv-subcat-row-label {
+  flex: 1;
+}
+
+.lk-home .bv-file {
+  justify-content: flex-start;
+}
+
+.lk-home .bv-file .bv-label-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lk-home .bv-file input[type="file"] {
+  border: 1.5px dashed var(--lk-border);
+  border-radius: var(--lk-radius-sm);
+  padding: 10px 12px;
+  cursor: pointer;
+  background: #fbfaff;
+  font-size: 0.85rem;
+}
+
+.lk-home .bv-submit {
+  margin-top: 28px;
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 999px;
+  background: var(--lk-gradient);
+  color: #fff;
+  font-family: var(--lk-font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.lk-home .bv-submit:hover:not(:disabled) {
+  box-shadow: var(--lk-shadow-md);
+  transform: translateY(-1px);
+}
+
+.lk-home .bv-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.lk-home .bv-error {
+  color: var(--lk-danger);
+  font-size: 0.85rem;
+  margin-top: 16px;
+}
+
+/* ---------------- Success state ---------------- */
+
+.lk-home .bv-success {
+  text-align: center;
+  padding: 46px 30px;
+}
+
+.lk-home .bv-success-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: var(--lk-primary-tint);
+  color: var(--lk-success);
+}
+
+.lk-home .bv-success h3 {
+  font-family: var(--lk-font-display);
+  font-weight: 600;
+  color: var(--lk-ink);
+  margin: 0 0 8px;
+}
+
+.lk-home .bv-success .text-muted {
+  color: var(--lk-text-muted);
+  font-size: 0.9rem;
+}
+
+.lk-home .bv-success .btn {
+  margin-top: 20px;
+  border: none;
+  border-radius: 999px;
+  padding: 11px 26px;
+  background: var(--lk-gradient);
+  color: #fff;
+  font-family: var(--lk-font-display);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ---------------- Promo side card ---------------- */
+
+.lk-home .bv-promo {
+  position: sticky;
+  top: 24px;
+  border-radius: var(--lk-radius-lg);
+  padding: 26px 24px 24px;
+  background: var(--lk-gradient);
+  color: #fff;
+  box-shadow: var(--lk-shadow-md);
+  overflow: hidden;
+}
+
+.lk-home .bv-promo-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.lk-home .bv-promo-title {
+  font-family: var(--lk-font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #ffffff;
+  margin: 0 0 8px;
+}
+
+.lk-home .bv-promo-sub {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 18px;
+}
+
+.lk-home .bv-promo-image {
+  border-radius: var(--lk-radius-md);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+}
+
+.lk-home .bv-promo-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lk-home .bv-promo-points {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lk-home .bv-promo-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.lk-home .bv-promo-point-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.lk-home .bv-promo-footer {
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.lk-home .bv-promo-footer-label {
+  display: block;
+  font-family: var(--lk-font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #ffffff;
+}
+
+.lk-home .bv-promo-footer-sub {
+  display: block;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 4px;
+}
+
+/* ---------------- Responsive ---------------- */
+
+@media (max-width: 900px) {
+  .lk-home .bv-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .lk-home .bv-promo {
+    position: static;
+    order: -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .lk-home .bv-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lk-home .bv-span-2 {
+    grid-column: span 1;
+  }
+
+  .lk-home .bv-subcat-rows {
+    grid-template-columns: 1fr;
+  }
+
+  .lk-home .bv-hero {
+    padding: 22px 20px;
+  }
+
+  .lk-home .bv-form-body {
+    padding: 22px 20px 26px;
+  }
+
+  .lk-home .bv-promo {
+    padding: 22px 20px;
+  }
+}

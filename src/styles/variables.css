@@ -1,0 +1,38 @@
+:root {
+  /* Brand violet palette - medium, not too dark */
+  --color-primary: #7c4fe0;
+  --color-primary-dark: #5f36c2;
+  --color-primary-darker: #4527a0;
+  --color-primary-light: #a683ec;
+  --color-primary-tint: #f2edfd;
+  --color-primary-tint-2: #e8ddfb;
+
+  /* Near-black with violet undertone, used sparingly */
+  --color-ink: #1c1626;
+  --color-ink-soft: #352b47;
+
+  --color-text: #2c2438;
+  --color-text-muted: #6f6580;
+  --color-border: #e7e1f4;
+
+  --color-bg: #fbfaff;
+  --color-surface: #ffffff;
+
+  --color-success: #22b07d;
+  --color-warning: #e0a233;
+  --color-danger: #e0525f;
+
+  --font-display: "Poppins", "Segoe UI", sans-serif;
+  --font-body: "Inter", "Segoe UI", sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 2px 8px rgba(60, 30, 110, 0.06);
+  --shadow-md: 0 8px 24px rgba(60, 30, 110, 0.1);
+  --shadow-lg: 0 16px 40px rgba(60, 30, 110, 0.16);
+
+  --container-width: 1200px;
+}

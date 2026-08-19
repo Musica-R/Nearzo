@@ -1,0 +1,110 @@
+.lk-vendor-card {
+  display: block;
+  background: var(--lk-surface);
+  border-radius: var(--lk-radius-md);
+  border: 1px solid var(--lk-border);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--lk-ink);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.lk-vendor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lk-shadow-md);
+  border-color: var(--lk-primary-light);
+}
+
+.lk-vendor-card-media {
+  position: relative;
+  height: 160px;
+}
+
+.lk-vendor-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lk-vendor-card-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff;
+  color: var(--lk-success);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 999px;
+}
+
+.lk-vendor-card-body {
+  padding: 14px 16px 16px;
+}
+
+.lk-vendor-card-cat {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  color: var(--lk-primary-dark);
+}
+
+.lk-vendor-card-body h4 {
+  font-family: var(--lk-font-display);
+  font-size: 1rem;
+  margin: 4px 0 6px;
+}
+
+.lk-vendor-card-loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: var(--lk-text-muted);
+  margin-bottom: 10px;
+}
+
+.lk-vendor-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px dashed var(--lk-border);
+  padding-top: 10px;
+}
+
+.lk-vendor-card-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #d69a1d;
+}
+
+.lk-vendor-card-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lk-primary-tint, #f7ebfc);
+  color: var(--lk-primary-dark, #7920b4);
+  font-weight: 800;
+  font-size: 1.4rem;
+}
+
+.lk-vendor-card-price {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--lk-primary-dark);
+}
+
+@media (max-width: 980px) {
+  .lk-vendor-card {
+    border-radius: 0px;
+  }
+}

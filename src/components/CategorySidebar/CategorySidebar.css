@@ -1,0 +1,309 @@
+.category-sidebar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  position: sticky;
+  top: 90px;
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.04));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---- "Filters" header bar ---- */
+.category-sidebar-filters-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.category-sidebar-filters-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-sidebar-chevron {
+  transition: transform 0.2s ease;
+}
+
+.category-sidebar-chevron.open {
+  transform: rotate(180deg);
+}
+
+.category-sidebar-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 0;
+  padding: 0 2px;
+  color: var(--color-text);
+}
+
+.category-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 440px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.category-sidebar-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.category-sidebar-list::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 10px;
+}
+
+/* ---- Category row ---- */
+.category-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.category-sidebar-item:hover {
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
+}
+
+.category-sidebar-item.active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.category-sidebar-item-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+}
+
+.category-sidebar-all-icon {
+  color: var(--color-primary);
+  background: var(--color-primary-tint);
+}
+
+.category-sidebar-item.active .category-sidebar-item-icon {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #fff !important;
+}
+
+.category-sidebar-item-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.category-sidebar-item-count {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.category-sidebar-item.active .category-sidebar-item-count {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+/* ---- Become-vendor CTA card ---- */
+.category-sidebar-cta {
+  background: var(--color-primary-tint);
+  border-radius: var(--radius-md);
+  padding: 16px 14px;
+  text-align: left;
+}
+
+.category-sidebar-cta-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+.category-sidebar-cta-text {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0 0 12px;
+}
+
+.category-sidebar-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 9px 14px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* ---- 1024px: sits in a narrower desktop column ---- */
+@media (max-width: 1024px) {
+  .category-sidebar {
+    position: static;
+    padding: 12px;
+    gap: 14px;
+  }
+
+  .category-sidebar-list {
+    max-height: none;
+  }
+
+  .category-sidebar-item {
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
+}
+
+/* ---- 768px: rendered inside the mobile drawer ---- */
+@media (max-width: 768px) {
+  .category-sidebar {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 14px;
+    height: 100%;
+  }
+
+  .category-sidebar-filters-toggle {
+    display: none; /* the drawer already has its own "Categories" header */
+  }
+
+  .category-sidebar-title {
+    display: none; /* same reason */
+  }
+
+  .category-sidebar-list {
+    max-height: none;
+    gap: 3px;
+  }
+
+  .category-sidebar-cta {
+    margin-top: 4px;
+  }
+}
+
+/* ---- 420px: tighter drawer on phones ---- */
+@media (max-width: 420px) {
+  .category-sidebar {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .category-sidebar-item {
+    padding: 9px 10px;
+    font-size: 0.8rem;
+    gap: 8px;
+  }
+
+  .category-sidebar-item-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .category-sidebar-item-count {
+    font-size: 0.68rem;
+    padding: 2px 7px;
+  }
+
+  .category-sidebar-cta {
+    padding: 14px 12px;
+  }
+
+  .category-sidebar-cta-text {
+    font-size: 0.78rem;
+  }
+
+  .category-sidebar-cta-btn {
+    font-size: 0.76rem;
+    padding: 8px 12px;
+  }
+}
+
+/* ---- 340px: extra-narrow phones ---- */
+@media (max-width: 340px) {
+  .category-sidebar {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .category-sidebar-item {
+    padding: 8px;
+    font-size: 0.76rem;
+    gap: 7px;
+  }
+
+  .category-sidebar-item-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .category-sidebar-item-name {
+    white-space: normal;
+  }
+
+  .category-sidebar-item-count {
+    font-size: 0.64rem;
+    padding: 1px 6px;
+  }
+
+  .category-sidebar-cta-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .category-sidebar-cta-text {
+    font-size: 0.74rem;
+    margin-bottom: 10px;
+  }
+
+  .category-sidebar-cta-btn {
+    font-size: 0.72rem;
+    padding: 7px 10px;
+  }
+}

@@ -1,0 +1,557 @@
+.con {
+    width: 1500px;
+    max-width: 100%;
+    margin: 0px auto;
+    padding: 0 16px;
+}
+
+.service-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.service-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 10px 16px;
+  max-width: 320px;
+  flex: 1;
+  color: var(--color-text-muted);
+}
+
+.service-search input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  background: transparent;
+}
+
+/* ---- Filter pill row (same pattern as Vendors page) ---- */
+.service-filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 18px 0 10px;
+}
+
+.service-filter-pills {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    padding: 9px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.filter-pill:hover {
+    border-color: var(--color-primary);
+}
+
+.filter-pill.active {
+    background: var(--color-primary-tint);
+    border-color: var(--color-primary);
+    color: var(--color-primary-dark);
+}
+
+.filter-pill-more {
+    margin-left: auto;
+}
+
+/* Hidden on desktop/tablet — this button opens the mobile drawer sidebar */
+.mobile-category-toggle {
+  display: none;
+}
+
+.service-results-count {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: 0 0 16px;
+}
+
+/* ---- Layout ---- */
+.service-page-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.service-sidebar-wrap {
+  position: sticky;
+  top: 16px;
+}
+
+/* ---- Mobile drawer sidebar ---- */
+.service-sidebar-overlay {
+  display: none;
+}
+
+.service-sidebar-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.service-sidebar-close {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  display: flex;
+  color: var(--color-text-muted);
+}
+
+/* ---- Cards ---- */
+.service-page-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.service-item-card {
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 15, 20, 0.06);
+  transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+  display: block;
+}
+
+.service-item-card:hover {
+  box-shadow: 0 12px 28px rgba(15, 15, 20, 0.12);
+  transform: translateY(-4px);
+  border-color: var(--color-primary);
+}
+
+.service-item-photo {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  background: var(--color-primary-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-item-photo img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.service-item-rating {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--color-primary-dark);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.service-item-body {
+  padding: 18px 20px 20px;
+}
+
+.service-item-body svg {
+  color: var(--color-primary);
+}
+
+.badge-new {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-primary-dark);
+}
+
+.service-item-body h4 {
+  margin: 6px 0 8px;
+  font-size: 1.15rem;
+  line-height: 1.3;
+}
+
+.service-item-loc {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.service-item-loc svg {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.service-item-subcats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.service-item-subcat {
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.service-item-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+.service-item-price {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.service-item-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+  padding: 8px 15px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.service-item-card:hover .service-item-view {
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark);
+  background: var(--color-primary-tint);
+}
+
+.service-empty {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.spin {
+  animation: spin 0.9s linear infinite;
+  vertical-align: -3px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* ---- 1024px: tighten sidebar, keep 3-col grid ---- */
+@media (max-width: 1024px) {
+  .con {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .service-page-layout {
+    grid-template-columns: 200px 1fr;
+    gap: 18px;
+  }
+
+  .service-page-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+}
+
+/* ---- 768px: sidebar becomes a drawer, 2-col grid ---- */
+@media (max-width: 768px) {
+  .con {
+    padding: 0 16px;
+  }
+
+  .service-page-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Hide the inline sidebar; it now lives in the mobile drawer */
+  .service-sidebar-wrap {
+    display: none;
+  }
+
+  .mobile-category-toggle {
+    display: inline-flex;
+  }
+
+  .service-sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 15, 20, 0.45);
+    z-index: 60;
+  }
+
+  .service-sidebar-drawer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 78%;
+    max-width: 300px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    overflow-y: auto;
+    animation: slideIn 0.2s ease;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+
+  .service-page-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .service-filter-pills {
+    gap: 8px;
+  }
+
+  .filter-pill {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+  }
+
+  .filter-pill-more {
+    margin-left: 0;
+  }
+}
+
+/* ---- 425px: 2-column cards, compact but still legible ---- */
+@media (max-width: 425px) {
+  .con {
+    padding: 0 12px;
+  }
+
+  .service-page-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+
+  .service-item-card {
+    border-radius: 0px;
+  }
+
+  .service-item-photo {
+    height: 120px;
+  }
+
+  .service-item-rating {
+    top: 8px;
+    right: 8px;
+    font-size: 0.68rem;
+    padding: 4px 8px;
+  }
+
+  .service-filter-row {
+    margin: 14px 0 8px;
+  }
+
+  .service-filter-pills {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .service-filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-pill {
+    flex-shrink: 0;
+    padding: 8px 12px;
+    font-size: 0.76rem;
+  }
+
+  .service-results-count {
+    margin: 0 0 12px;
+  }
+
+  .service-item-body {
+    padding: 12px 12px 14px;
+  }
+
+  .badge-new {
+    font-size: 0.62rem;
+  }
+
+  .service-item-body h4 {
+    font-size: 0.86rem;
+    margin: 4px 0 6px;
+    /* clamp to 2 lines so mismatched title lengths don't break card rhythm */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .service-item-loc {
+    font-size: 0.72rem;
+  }
+
+  .service-item-loc span {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Only the first two tags on very narrow cards — keeps the card from
+     growing tall and looking cramped */
+  .service-item-subcats {
+    margin-top: 8px;
+  }
+
+  .service-item-subcat {
+    font-size: 0.64rem;
+    padding: 3px 7px;
+  }
+
+  .service-item-subcat:nth-child(n + 3) {
+    display: none;
+  }
+
+  .service-item-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+  .service-item-price {
+    font-size: 0.82rem;
+  }
+
+  .service-item-view {
+    justify-content: center;
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 0.76rem;
+  }
+
+  .service-sidebar-drawer {
+    width: 85%;
+  }
+}
+
+/* ---- 340px: extra-narrow phones — still 2 columns, tightened further ---- */
+@media (max-width: 340px) {
+  .con {
+    padding: 0 8px;
+  }
+
+  .filter-pill {
+    padding: 7px 10px;
+    font-size: 0.7rem;
+    gap: 5px;
+  }
+
+  .service-page-grid {
+    gap: 8px;
+  }
+
+  .service-item-photo {
+    height: 96px;
+  }
+
+  .service-item-rating {
+    font-size: 0.62rem;
+    padding: 3px 6px;
+  }
+
+  .service-item-body {
+    padding: 9px 9px 11px;
+  }
+
+  .badge-new {
+    font-size: 0.58rem;
+  }
+
+  .service-item-body h4 {
+    font-size: 0.78rem;
+    margin: 3px 0 5px;
+  }
+
+  .service-item-loc {
+    font-size: 0.66rem;
+    gap: 4px;
+  }
+
+  .service-item-subcats {
+    margin-top: 6px;
+  }
+
+  .service-item-subcat {
+    font-size: 0.58rem;
+    padding: 2px 6px;
+  }
+
+  .service-item-price {
+    font-size: 0.74rem;
+  }
+
+  .service-item-view {
+    font-size: 0.7rem;
+    padding: 7px 8px;
+  }
+
+  .service-sidebar-drawer {
+    width: 90%;
+  }
+}
