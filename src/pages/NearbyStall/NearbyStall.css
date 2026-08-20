@@ -243,4 +243,9 @@
   .nearby-card {
     border-radius: 0px;
   }
+
+  .near-new{
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
 }

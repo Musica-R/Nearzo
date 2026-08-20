@@ -67,7 +67,7 @@ const NearbyStall = () => {
           <LocationBar onChange={setLocation} />
         </div>
 
-        <div className="nearby-page-layout nearby-page-layout-with-warning">
+        <div className="nearby-page-layout nearby-page-layout-with-warning near-new">
           <div className="nearby-page-main">
             {loading && (
               <p className="text-muted">
