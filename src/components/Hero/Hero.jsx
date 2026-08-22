@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapPin, LocateFixed, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import "./Hero.css";
 
 // --- TODO: point this at your real asset path ---

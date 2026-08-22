@@ -27,11 +27,6 @@ import {
 } from "lucide-react";
 import "./CategorySidebar.css";
 
-// Icon + accent color per category, matched by keyword against the category
-// name (case-insensitive). Covers both "Service" categories (Electrician,
-// Plumber, AC Repair...) and "Activity" categories (Tuition, Karate, Gym...).
-// Anything not listed here still gets a sensible icon + color via the
-// fallback palette below, so new categories from the API never look broken.
 const CATEGORY_VISUALS = [
   { match: "electric", icon: Zap, color: "#ef4444" },
   { match: "plumb", icon: Wrench, color: "#3b82f6" },
@@ -62,8 +57,6 @@ const getCategoryVisual = (name = "") => {
   const found = CATEGORY_VISUALS.find((v) => lower.includes(v.match));
   if (found) return found;
 
-  // Deterministic fallback color so the same category always gets the same
-  // color across renders, instead of a random one.
   let hash = 0;
   for (let i = 0; i < lower.length; i++) hash = (hash * 31 + lower.charCodeAt(i)) >>> 0;
   return { icon: LayoutGrid, color: FALLBACK_COLORS[hash % FALLBACK_COLORS.length] };

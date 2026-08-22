@@ -27,6 +27,7 @@ const loadSavedLocation = () => {
 // onSearch is optional — called when the person hits the Search button,
 // useful for closing panels / scrolling to results / analytics, since the
 // grid itself already re-fetches reactively whenever location changes.
+
 const LocationBar = ({ onChange, onSearch }) => {
     const [cities, setCities] = useState([]);
     const [location, setLocation] = useState(() => loadSavedLocation());
