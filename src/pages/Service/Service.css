@@ -14,6 +14,34 @@
   margin-bottom: 16px;
 }
 
+.service-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.service-pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--lk-border, #e5e7eb);
+  background: #fff;
+  cursor: pointer;
+}
+
+.service-pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.service-pagination-page {
+  font-size: 14px;
+}
+
 .service-search {
   display: flex;
   align-items: center;

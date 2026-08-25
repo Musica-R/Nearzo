@@ -10,6 +10,8 @@ import {
   Radar,
   Filter,
   X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import LocationBar from "../../components/LocationBar/LocationBar";
@@ -24,6 +26,8 @@ import {
 } from "../../api/lokalApi";
 import "./Service.css";
 
+const PER_PAGE = 20;
+
 const Service = () => {
   const [query, setQuery] = useState("");
   const [activities, setActivities] = useState([]);
@@ -35,6 +39,8 @@ const Service = () => {
   const [topRatedOnly, setTopRatedOnly] = useState(false);
   const [sortBy, setSortBy] = useState("relevance"); // "relevance" | "rating" | "price"
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageMeta, setPageMeta] = useState({ lastPage: 1, total: 0 });
 
   useEffect(() => {
     Promise.all([
@@ -45,6 +51,11 @@ const Service = () => {
       .catch(() => setCategories([]));
   }, []);
 
+  // Any time the location filter changes, start back at page 1.
+  useEffect(() => {
+    setPage(1);
+  }, [location]);
+
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
@@ -54,6 +65,8 @@ const Service = () => {
       latitude: location?.latitude,
       longitude: location?.longitude,
       radius: location?.radius,
+      page,
+      perPage: PER_PAGE,
     })
       .then((data) => {
         if (cancelled) return;
@@ -66,6 +79,10 @@ const Service = () => {
             raw,
           }))
         );
+        setPageMeta({
+          lastPage: data.meta?.lastPage || 1,
+          total: data.meta?.total ?? data.length,
+        });
         setError(null);
       })
       .catch(() => !cancelled && setError("Couldn't load activities right now."))
@@ -73,7 +90,7 @@ const Service = () => {
     return () => {
       cancelled = true;
     };
-  }, [location]);
+  }, [location, page]);
 
   // ---- Helpers to safely pull card fields, falling back to the raw API shape ----
   const getCategoryId = (item) => item.categoryId ?? item.raw?.category_id ?? item.raw?.category?.id ?? null;
@@ -236,7 +253,7 @@ const Service = () => {
               <p className="text-muted service-empty">No services matched "{query}". Try another keyword.</p>
             )}
 
-            {!loading && !error && (
+            {!loading && !error && filteredItems.length > 0 && (
               <div className="service-page-grid">
                 {filteredItems.map((item) => {
                   const categoryName = getCategoryName(item);
@@ -289,6 +306,30 @@ const Service = () => {
                     </Link>
                   );
                 })}
+              </div>
+            )}
+
+            {!loading && !error && filteredItems.length > 0 && (
+              <div className="service-pagination">
+                <button
+                  type="button"
+                  className="service-pagination-btn"
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page === 1 || loading}
+                >
+                  <ChevronLeft size={14} /> Prev
+                </button>
+                <span className="text-muted service-pagination-page">
+                  Page {page}{pageMeta.lastPage > 1 ? ` of ${pageMeta.lastPage}` : ""}
+                </span>
+                <button
+                  type="button"
+                  className="service-pagination-btn"
+                  onClick={() => setPage((p) => p + 1)}
+                  disabled={page >= pageMeta.lastPage || loading}
+                >
+                  Next <ChevronRight size={14} />
+                </button>
               </div>
             )}
           </div>

@@ -20,7 +20,15 @@ async function getJSON(path, params = {}) {
     if (!res.ok) throw new Error(`Request failed: ${path}`);
     const json = await res.json();
     if (!json.success) throw new Error(json.message || "Request failed");
-    return json.data || [];
+
+    const data = json.data || [];
+    data.meta = {
+        total: json.total,
+        currentPage: json.current_page,
+        perPage: json.per_page,
+        lastPage: json.last_page,
+    };
+    return data;
 }
 
 function buildLocationParams({ cityId, latitude, longitude, radius, page = 1, perPage = 20 } = {}) {
@@ -355,4 +363,3 @@ export const getInitials = (name) =>
         .toUpperCase();
 
 
-        

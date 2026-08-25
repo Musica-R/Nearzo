@@ -9,6 +9,8 @@ import {
   Radar,
   Filter,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import LocationBar from "../../components/LocationBar/LocationBar";
@@ -24,6 +26,8 @@ import {
 
 import "./Vendors.css";
 
+const PER_PAGE = 20;
+
 const Vendors = () => {
   const [vendors, setVendors] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -33,10 +37,17 @@ const Vendors = () => {
   const [location, setLocation] = useState(null);
   const [topRatedOnly, setTopRatedOnly] = useState(false);
   const [sortBy, setSortBy] = useState("relevance"); // "relevance" | "rating" | "price"
+  const [page, setPage] = useState(1);
+  const [pageMeta, setPageMeta] = useState({ lastPage: 1, total: 0 });
 
   useEffect(() => {
     fetchCategoriesByType("Home Services").then(setCategories).catch(() => setCategories([]));
   }, []);
+
+  // Any time the location filter changes, start back at page 1.
+  useEffect(() => {
+    setPage(1);
+  }, [location]);
 
   useEffect(() => {
     let cancelled = false;
@@ -47,10 +58,16 @@ const Vendors = () => {
       latitude: location?.latitude,
       longitude: location?.longitude,
       radius: location?.radius,
+      page,
+      perPage: PER_PAGE,
     })
       .then((data) => {
         if (cancelled) return;
         setVendors(data.map((raw) => normalizeProvider(raw, "vendor")));
+        setPageMeta({
+          lastPage: data.meta?.lastPage || 1,
+          total: data.meta?.total ?? data.length,
+        });
         setError(null);
       })
       .catch(() => !cancelled && setError("Couldn't load vendors right now."))
@@ -58,7 +75,7 @@ const Vendors = () => {
     return () => {
       cancelled = true;
     };
-  }, [location]);
+  }, [location, page]);
 
   const counts = useMemo(() => {
     const map = {};
@@ -157,7 +174,7 @@ const Vendors = () => {
               <p className="text-muted">No vendors listed yet.</p>
             )}
 
-            {!loading && !error && (
+            {!loading && !error && filteredVendors.length > 0 && (
               <div className="vendors-grid">
                 {filteredVendors.map((v) => (
                   <Link to={`/provider/vendor/${v.id}`} className="vendor-card" key={v.id}>
@@ -195,6 +212,30 @@ const Vendors = () => {
                     </div>
                   </Link>
                 ))}
+              </div>
+            )}
+
+            {!loading && !error && filteredVendors.length > 0 && (
+              <div className="nearby-pagination">
+                <button
+                  type="button"
+                  className="nearby-pagination-btn"
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page === 1 || loading}
+                >
+                  <ChevronLeft size={14} /> Prev
+                </button>
+                <span className="text-muted nearby-pagination-page">
+                  Page {page}{pageMeta.lastPage > 1 ? ` of ${pageMeta.lastPage}` : ""}
+                </span>
+                <button
+                  type="button"
+                  className="nearby-pagination-btn"
+                  onClick={() => setPage((p) => p + 1)}
+                  disabled={page >= pageMeta.lastPage || loading}
+                >
+                  Next <ChevronRight size={14} />
+                </button>
               </div>
             )}
           </div>
