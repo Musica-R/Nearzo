@@ -206,6 +206,7 @@ const BecomeVendor = () => {
     const fd = new FormData();
 
     if (form.type === "service") {
+      fd.append("role", "vendor");
       fd.append("full_name", form.full_name);
       fd.append("business_name", form.business_name);
       fd.append("phone_number", form.phone_number);
@@ -227,6 +228,7 @@ const BecomeVendor = () => {
     }
 
     if (form.type === "activity") {
+      fd.append("role", "vendor");
       fd.append("full_name", form.full_name);
       fd.append("shop_center_name", form.shop_center_name);
       fd.append("phone_number", form.phone_number);
@@ -246,6 +248,7 @@ const BecomeVendor = () => {
     }
 
     if (form.type === "stall") {
+      fd.append("role", "vendor");
       fd.append("shop_name", form.shop_name);
       fd.append("phone_number", form.phone_number);
       fd.append("whatsapp_number", form.whatsapp_number);

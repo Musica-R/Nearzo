@@ -49,6 +49,57 @@
   height: 34px;
 }
 
+/* ---------- Social icons (left side of top bar) ---------- */
+.lk-navbar-social {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lk-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.lk-social-link:hover {
+  background: rgba(255, 255, 255, 0.32);
+  transform: translateY(-1px);
+  color: #fff;
+}
+
+/* Drawer footer social row (mobile) */
+.lk-drawer-social {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  padding: 14px 16px 0;
+  flex-shrink: 0;
+}
+
+.lk-drawer-social .lk-social-link {
+  background: var(--lk-primary-tint);
+  color: var(--lk-primary-dark);
+}
+
+.lk-drawer-social .lk-social-link:hover {
+  background: var(--lk-primary);
+  color: #fff;
+}
+
+.lk-navbar-top-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 34px;
+}
+
 .lk-navbar-location {
   display: inline-flex;
   align-items: center;
@@ -70,6 +121,53 @@
 
 .lk-navbar-top-links a:hover {
   color: #fff;
+}
+
+.lk-navbar-connected-label {
+  color: #f3e6fb;
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+.lk-nav-item-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lk-navbar-search-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--lk-primary-tint);
+  color: var(--lk-primary-dark);
+  transition: background 0.15s ease;
+}
+
+.lk-navbar-search-btn:hover {
+  background: var(--lk-border);
+}
+
+.lk-navbar-login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--lk-gradient);
+  border-radius: var(--lk-radius-pill);
+  box-shadow: var(--lk-shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.lk-navbar-login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--lk-shadow-md);
 }
 
 .lk-dot {
@@ -496,6 +594,9 @@
 
   .lk-navbar-drawer {
     width: min(88vw, 300px);
+  }
+  .lk-navbar-top-links {
+    display: none;
   }
 }
 

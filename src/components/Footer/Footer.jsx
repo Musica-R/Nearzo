@@ -58,8 +58,9 @@ const exploreLinks = [
 const companyLinks = [
   { label: "Become a Vendor", to: "/become-vendor", icon: UserPlus },
   { label: "My Activity", to: "/activity", icon: FileText },
-  { label: "Help & Support", href: "#help", icon: HelpCircle },
-  { label: "Terms & Privacy", href: "#terms", icon: ShieldCheck },
+  // { label: "Help & Support", href: "#help", icon: HelpCircle },
+  { label: "Terms & Conditions", to: "/terms", icon: ShieldCheck },
+  { label: "Privacy Policy", to: "/privacy", icon: ShieldCheck },
 ];
 
 const Footer = () => (
@@ -85,12 +86,12 @@ const Footer = () => (
             Discover trusted service workers and local stalls near you — book,
             connect and get it done, all in one place.
           </p>
-          <div className="lf-social">
+          {/* <div className="lf-social">
             <a href="#facebook" aria-label="Facebook"><FacebookGlyph /></a>
             <a href="#instagram" aria-label="Instagram"><InstagramGlyph /></a>
             <a href="#youtube" aria-label="Youtube"><YoutubeGlyph /></a>
             <a href="#twitter" aria-label="Twitter"><TwitterGlyph /></a>
-          </div>
+          </div> */}
         </div>
 
         <div className="lf-col">
@@ -154,11 +155,11 @@ const Footer = () => (
             </li>
             <li>
               <span className="lf-contact-icon"><Phone size={16} /></span>
-              <span>+91 98448 03049</span>
+              <span>+919487812715</span>
             </li>
             <li>
               <span className="lf-contact-icon"><Mail size={16} /></span>
-              <span>support@lokal.app</span>
+              <span>mpeoplesofficial@gmail.com</span>
             </li>
             <li>
               <span className="lf-contact-icon"><Clock size={16} /></span>

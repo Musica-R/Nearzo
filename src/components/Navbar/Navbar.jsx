@@ -1,28 +1,44 @@
 import { useState } from "react";
-import { Link, NavLink} from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  Menu,
-  X,
-  ChevronDown,
-  LogOut,
-  User,
-  LogIn,
-  Home,
-  Wrench,
-  Activity,
-  Store,
-  Building2,
-} from "lucide-react";
+  FiMenu,
+  FiX,
+  FiChevronDown,
+  FiLogOut,
+  FiUser,
+  FiArrowRight,
+  FiHome,
+  FiGrid,
+  FiCalendar,
+  FiMapPin,
+  FiInfo,
+  FiPhone,
+  FiSearch,
+} from "react-icons/fi";
+import { HiOutlineOfficeBuilding } from "react-icons/hi";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaWhatsapp,
+  FaLinkedinIn,
+} from "react-icons/fa6";
 import { logout } from "../../redux/slices/authSlice";
 import "./Navbar.css";
-import logo from "../../assets/logo.jpg"
+import logo from "../../assets/logo.jpg";
 
 const navItems = [
-  { label: "Home", to: "/", icon: Home },
-  { label: "Service", to: "/vendors", icon: Wrench },
-  { label: "Activity", to: "/act", icon: Activity },
-  { label: "Nearby Stall", to: "/nearby-stall", icon: Store },
+  { label: "Home", to: "/", icon: FiHome },
+  { label: "Service", to: "/vendors", icon: FiGrid },
+  { label: "Activity", to: "/act", icon: FiCalendar },
+  { label: "Nearby Stall", to: "/nearby-stall", icon: FiMapPin },
+];
+
+const socialLinks = [
+  { label: "Facebook", href: "https://facebook.com", Icon: FaFacebookF },
+  { label: "Instagram", href: "https://instagram.com", Icon: FaInstagram },
+  { label: "WhatsApp", href: "https://wa.me/", Icon: FaWhatsapp },
+  { label: "LinkedIn", href: "https://linkedin.com", Icon: FaLinkedinIn },
 ];
 
 const Navbar = () => {
@@ -35,24 +51,39 @@ const Navbar = () => {
 
   return (
     <header className="lk-navbar">
+      {/* ---------- Top bar ---------- */}
       <div className="lk-navbar-top">
         <div className="lk-navbar-container lk-navbar-top-inner">
-          <span className="lk-navbar-location"></span>
+          <div className="lk-navbar-social">
+            <span className="lk-navbar-connected-label">Stay Connected:</span>
+            {socialLinks.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="lk-social-link"
+              >
+                <Icon />
+              </a>
+            ))}
+          </div>
+
           <div className="lk-navbar-top-links">
             <Link to="/become-vendor">Offer Your Services</Link>
             <span className="lk-dot">•</span>
-            <a href="#help">Find Trusted Services Nearby</a>
+            <Link to="/about">About Us</Link>
+            <span className="lk-dot">•</span>
+            <Link to="/contact">Contact Us</Link>
           </div>
         </div>
       </div>
 
+      {/* ---------- Main bar ---------- */}
       <div className="lk-navbar-container lk-navbar-main">
         <Link to="/" className="lk-navbar-logo">
-          <img
-            className="lk-navbar-logo-mark"
-            src={logo}
-            alt="Lokal"
-          />
+          <img className="lk-navbar-logo-mark" src={logo} alt="Lokal" />
           <span>
             Lokal
             <small>Find trusted help, nearby</small>
@@ -61,16 +92,36 @@ const Navbar = () => {
 
         {/* Desktop nav */}
         <nav className="lk-navbar-nav lk-navbar-nav-desktop">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-          <NavLink to="/become-vendor">Become Vendor</NavLink>
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                <span className="lk-nav-item-inner">
+                  <Icon size={16} />
+                  {item.label}
+                  {item.label === "Service" && <FiChevronDown size={14} />}
+                </span>
+              </NavLink>
+            );
+          })}
+          <NavLink to="/become-vendor">
+            <span className="lk-nav-item-inner">
+              <HiOutlineOfficeBuilding size={16} />
+              Become Vendor
+            </span>
+          </NavLink>
+
+          {/* <button
+            type="button"
+            className="lk-navbar-search-btn"
+            aria-label="Search"
+          >
+            <FiSearch size={17} />
+          </button> */}
 
           <div className="lk-navbar-account">
             {user ? (
@@ -84,20 +135,20 @@ const Navbar = () => {
                     alt={user.name}
                   />
                   {user.name}
-                  <ChevronDown size={14} />
+                  <FiChevronDown size={14} />
                 </Link>
                 <div className="lk-navbar-user-menu">
                   <Link to="/profile">
-                    <User size={14} /> My Profile
+                    <FiUser size={14} /> My Profile
                   </Link>
                   <button onClick={() => dispatch(logout())}>
-                    <LogOut size={14} /> Logout
+                    <FiLogOut size={14} /> Logout
                   </button>
                 </div>
               </div>
             ) : (
               <Link to="/login" className="lk-navbar-login-btn">
-                <LogIn size={14} />
+                <FiArrowRight size={16} />
                 Login
               </Link>
             )}
@@ -112,7 +163,7 @@ const Navbar = () => {
           aria-label="Toggle menu"
           aria-expanded={open}
         >
-          {open ? <X size={24} /> : <Menu size={24} />}
+          {open ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
       </div>
 
@@ -138,7 +189,7 @@ const Navbar = () => {
             </Link>
           ) : (
             <Link to="/login" className="lk-drawer-login" onClick={closeMenu}>
-              <LogIn size={16} />
+              <FiArrowRight size={16} />
               Login / Sign up
             </Link>
           )}
@@ -148,7 +199,7 @@ const Navbar = () => {
             onClick={closeMenu}
             aria-label="Close menu"
           >
-            <X size={20} />
+            <FiX size={20} />
           </button>
         </div>
 
@@ -168,8 +219,16 @@ const Navbar = () => {
             );
           })}
           <NavLink to="/become-vendor" onClick={closeMenu}>
-            <Building2 size={18} />
+            <HiOutlineOfficeBuilding size={18} />
             <span>Become Vendor</span>
+          </NavLink>
+          <NavLink to="/about" onClick={closeMenu}>
+            <FiInfo size={18} />
+            <span>About Us</span>
+          </NavLink>
+          <NavLink to="/contact" onClick={closeMenu}>
+            <FiPhone size={18} />
+            <span>Contact Us</span>
           </NavLink>
         </div>
 
@@ -182,9 +241,24 @@ const Navbar = () => {
               closeMenu();
             }}
           >
-            <LogOut size={16} /> Logout
+            <FiLogOut size={16} /> Logout
           </button>
         )}
+
+        <div className="lk-drawer-social">
+          {socialLinks.map(({ label, href, Icon }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="lk-social-link"
+            >
+              <Icon />
+            </a>
+          ))}
+        </div>
 
         <div className="lk-drawer-footer">
           <span>Find trusted help, nearby</span>

@@ -30,6 +30,10 @@ import {
 } from "../../api/lokalApi";
 import "./ProviderProfile.css";
 import image from "../../assets/location.jpg";
+import { useRef } from "react";
+import { QRCodeCanvas } from "qrcode.react";
+import { toPng } from "html-to-image";
+import { Download, Globe } from "lucide-react";
 
 const tabs = [
   { key: "Overview", icon: User },
@@ -55,6 +59,20 @@ const ProviderProfile = () => {
   const [similar, setSimilar] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const qrCardRef = useRef(null);
+
+  const handleDownloadCard = () => {
+    if (!qrCardRef.current) return;
+    toPng(qrCardRef.current, { pixelRatio: 3, backgroundColor: "#ffffff" })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = `${displayName.replace(/\s+/g, "_")}_lokal_profile.png`;
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => console.error("Could not generate image:", err));
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -449,6 +467,35 @@ const ProviderProfile = () => {
 
           {/* ---------- SIDEBAR ---------- */}
           <aside className="vp-sidebar">
+
+            <div className="vp-card vp-qr-card" ref={qrCardRef}>
+              <div className="vp-qr-left">
+                <div className="vp-qr-brand">
+                  <Globe size={14} /> Lokal
+                </div>
+                <strong className="vp-qr-name">{displayName}</strong>
+                {provider.subtitle && <span className="vp-qr-service">{provider.subtitle}</span>}
+                {/* {provider.phone && (
+                  <span className="vp-qr-phone">
+                    <Phone size={13} /> {provider.phone}
+                  </span>
+                )} */}
+              </div>
+
+              <div className="vp-qr-right">
+                <QRCodeCanvas
+                  value={window.location.href}
+                  size={92}
+                  bgColor="#ffffff"
+                  fgColor="#4c1d95"
+                  level="M"
+                />
+              </div>
+            </div>
+
+            <button className="btn btn-outline btn-block vp-qr-download-btn" onClick={handleDownloadCard}>
+              <Download size={15} /> Download Profile QR
+            </button>
             <div className="vp-card vp-cta-card">
               <h4>Interested?</h4>
               <p className="text-muted">Reach out directly to book or ask a question.</p>
@@ -456,7 +503,7 @@ const ProviderProfile = () => {
                 <a className="btn btn-primary btn-block" href={`tel:${provider.phone}`}>
                   <Phone size={15} /> Call Now
                 </a>
-              )}
+              )} 
               {whatsapp && (
                 <a className="btn btn-outline btn-block" href={whatsapp} target="_blank" rel="noreferrer">
                   <MessageCircle size={15} /> Message on WhatsApp

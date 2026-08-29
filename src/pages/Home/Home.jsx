@@ -28,7 +28,7 @@ import shopImg from "../../assets/near.png";
 import offerCleaningImg from "../../assets/home.png";
 import offerFitnessImg from "../../assets/fit.png";
 import offerFirstOrderImg from "../../assets/offer.png";
-import megaDealImg from "../../assets/mega.png";
+import megaDealImg from "../../assets/mega1.png";
 
 
 const GROUP_ORDER = ["home-services", "learning-training", "sports-fitness", "nearby-shop"];
@@ -212,7 +212,7 @@ const Home = () => {
           <aside className="lk-top-categories">
             <div className="lk-section-header-inline">
               <h4>Top Categories</h4>
-              <Link to="/service" className="lk-view-all-link">
+              <Link to="/vendors" className="lk-view-all-link">
                 View all <Icons.ArrowRight size={15} />
               </Link>
             </div>
@@ -239,9 +239,9 @@ const Home = () => {
                       className="lk-top-category-tile-media"
                       style={{ backgroundImage: meta.image ? `url(${meta.image})` : undefined }}
                     >
-                      <span className="lk-top-category-tile-arrow">
+                      {/* <span className="lk-top-category-tile-arrow">
                         <Icons.ArrowRight size={16} />
-                      </span>
+                      </span> */}
                     </div>
                   </Link>
                 );
@@ -256,8 +256,8 @@ const Home = () => {
         <div className="lk-container">
           <div className="lk-section-header-inline">
             <h3>Exclusive Offers For You</h3>
-            <Link to="/offers" className="lk-view-all-link">
-              View all offers <Icons.ArrowRight size={15} />
+            <Link to="/vendors" className="lk-view-all-link">
+              View all <Icons.ArrowRight size={15} />
             </Link>
           </div>
 
@@ -280,7 +280,7 @@ const Home = () => {
                   <div className="lk-offer-card-body">
                     <h5>{offer.title}</h5>
                     <p>{offer.description}</p>
-                    <span className="lk-offer-card-code">Code: {offer.code}</span>
+                    {/* <span className="lk-offer-card-code">Code: {offer.code}</span> */}
                   </div>
                 </div>
               ))}
@@ -292,10 +292,10 @@ const Home = () => {
 
             <div className="lk-mega-deal-panel">
               <div className="lk-mega-deal-content">
-                <span className="lk-mega-deal-chip">Flat 25% OFF</span>
-                <Link to="/service?group=home-services" className="lk-btn lk-btn-white">
+                {/* <span className="lk-mega-deal-chip">Flat 25% OFF</span> */}
+                {/* <Link to="/service?group=home-services" className="lk-btn lk-btn-white">
                   Book Now <Icons.ArrowRight size={15} />
-                </Link>
+                </Link> */}
               </div>
               {megaDealImg && <img src={megaDealImg} alt="Plumbing professional" className="lk-mega-deal-image" />}
             </div>

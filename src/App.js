@@ -13,6 +13,11 @@ import Vendors from "./components/Vendors/Vendors";
 import ProviderProfile from "./components/ProviderProfile/ProviderProfile";
 import CategoryListing from "./pages/CategoryListing/CategoryListing";
 import ScrollToTop from "./components/ScrollToTop";
+import TermsAndConditions from "./components/TermsAndConditions/TermsAndConditions";
+import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
+import About from "./pages/About/About";
+import Contact from "./pages/Contact/Contact";
+
 
 function App() {
   return (
@@ -34,6 +39,10 @@ function App() {
           <Route path="/vendors" element={<Vendors />} />
           <Route path="/nearby-stall" element={<NearbyStall />} />
           <Route path="/provider/:type/:id" element={<ProviderProfile />} />
+          <Route path="/terms" element={<TermsAndConditions />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
       <Footer />

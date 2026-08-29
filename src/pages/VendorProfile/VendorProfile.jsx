@@ -34,6 +34,11 @@ import {
 import "./VendorProfile.css";
 import image from "../../assets/location.jpg";
 
+import { useRef } from "react";
+import { QRCodeCanvas } from "qrcode.react";
+import { toPng } from "html-to-image";
+import { Download, Globe } from "lucide-react";
+
 const API_BASE = "https://booking.mpdatahub.com/api";
 
 const tabs = [
@@ -45,7 +50,7 @@ const tabs = [
 
 // Placeholder art — swap for your own. Search unsplash.com/s/photos for a
 // *free* (non Unsplash+) result and paste the images.unsplash.com/photo-… link in.
-const FALLBACK_ABOUT_ILLUSTRATION = image ;
+const FALLBACK_ABOUT_ILLUSTRATION = image;
 
 const VendorProfile = () => {
   const { type = "vendor", categoryId, vendorId } = useParams();
@@ -56,6 +61,20 @@ const VendorProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("Overview");
+
+  const qrCardRef = useRef(null);
+
+  const handleDownloadCard = () => {
+    if (!qrCardRef.current) return;
+    toPng(qrCardRef.current, { pixelRatio: 3, backgroundColor: "#ffffff" })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = `${name.replace(/\s+/g, "_")}_lokal_profile.png`;
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => console.error("Could not generate image:", err));
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -121,8 +140,8 @@ const VendorProfile = () => {
   const waNumber = vendor.whatsapp_number?.replace(/\D/g, "");
   const waHref = waNumber
     ? `https://wa.me/91${waNumber}?text=${encodeURIComponent(
-        `Hi, I found your listing "${name}" on Lokal and would like to know more.`
-      )}`
+      `Hi, I found your listing "${name}" on Lokal and would like to know more.`
+    )}`
     : null;
 
   const similar = allVendors.filter((v) => v.id !== vendor.id).slice(0, 3);
@@ -435,6 +454,32 @@ const VendorProfile = () => {
 
           {/* ---------- SIDEBAR ---------- */}
           <aside className="vp-sidebar">
+            <div className="vp-card vp-qr-card" ref={qrCardRef}>
+              <div className="vp-qr-left">
+                <div className="vp-qr-brand">
+                  <Globe size={14} /> Lokal
+                </div>
+                <strong className="vp-qr-name">{name}</strong>
+                <span className="vp-qr-service">{categoryName}</span>
+                {/* <span className="vp-qr-phone">
+                  <Phone size={13} /> +91 {vendor.phone_number}
+                </span> */}
+              </div>
+
+              <div className="vp-qr-right">
+                <QRCodeCanvas
+                  value={window.location.href}
+                  size={92}
+                  bgColor="#ffffff"
+                  fgColor="#3d0a5e"
+                  level="M"
+                />
+              </div>
+            </div>
+
+            <button className="btn btn-outline btn-block vp-qr-download-btn" onClick={handleDownloadCard}>
+              <Download size={15} /> Download Profile QR
+            </button>
             <div className="vp-card vp-cta-card">
               <h4>Interested?</h4>
               <p className="text-muted">Reach out directly to book or ask a question.</p>

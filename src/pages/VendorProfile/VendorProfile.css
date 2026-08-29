@@ -84,6 +84,7 @@
   font-weight: 700;
 }
 
+
 /* ---------- Hero ---------- */
 .vp-header {
   position: relative;
@@ -332,6 +333,8 @@
   color: rgba(255, 255, 255, 0.78);
   line-height: 1.35;
 }
+
+
 
 /* ---------- Safety notice ---------- */
 .vp-disclaimer {
@@ -785,6 +788,67 @@
   font-size: 0.78rem;
 }
 
+.vp-qr-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+}
+
+.vp-qr-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.vp-qr-brand {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--lk-primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.vp-qr-name {
+  font-family: var(--lk-font-display);
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+.vp-qr-service {
+  font-size: 0.82rem;
+  color: var(--lk-text-muted);
+}
+
+.vp-qr-phone {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--lk-ink);
+  font-weight: 600;
+}
+
+.vp-qr-right {
+  flex-shrink: 0;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid var(--lk-border);
+  border-radius: 12px;
+}
+
+.vp-qr-download-btn {
+  margin-top: -12px;
+  margin-bottom: 20px;
+}
+
+
+
 /* =========================================================
    RESPONSIVE
    Breakpoints: 1024px (tablet) / 768px (large mobile) /
@@ -1166,7 +1230,15 @@
   .vp-similar-info span {
     font-size: 0.72rem;
   }
+  .vp-qr-card {
+    padding: 14px 16px;
+  }
+  .vp-qr-right canvas {
+    width: 76px !important;
+    height: 76px !important;
+  }
 }
+
 
 /* ---------- ≤340px : Small mobile ---------- */
 @media (max-width: 340px) {

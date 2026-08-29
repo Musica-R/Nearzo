@@ -1,0 +1,332 @@
+.ct-page {
+    font-family: var(--lk-font-body);
+    color: var(--lk-ink);
+    background: var(--lk-bg);
+}
+
+.ct-container {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+/* ---------- Hero ---------- */
+.ct-hero {
+    background: var(--lk-gradient);
+    color: #fff;
+    padding: 72px 0 88px;
+}
+
+.ct-hero-inner {
+    max-width: 560px;
+}
+
+.ct-eyebrow {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.14);
+    padding: 6px 14px;
+    border-radius: var(--lk-radius-pill);
+    margin-bottom: 18px;
+}
+
+.ct-hero h1 {
+    font-family: var(--lk-font-display);
+    font-weight: 800;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    margin: 0 0 14px;
+    line-height: 1.15;
+    color: white;
+}
+
+.ct-hero p {
+    color: #f0dbfa;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* ---------- Sections ---------- */
+.ct-section {
+    padding: 124px 20px;
+}
+
+.ct-section-tint {
+    background: var(--lk-primary-tint);
+}
+
+/* ---------- Contact cards ---------- */
+.ct-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+.ct-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--lk-surface);
+    border: 1px solid var(--lk-border);
+    border-radius: var(--lk-radius-lg);
+    padding: 22px 20px;
+    box-shadow: var(--lk-shadow-md);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    color: var(--lk-ink);
+}
+
+.ct-card:hover {
+    transform: translateY(-3px);
+}
+
+.ct-card-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--lk-gradient);
+    color: #fff;
+}
+
+.ct-card-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--lk-text-muted);
+    margin-bottom: 4px;
+}
+
+.ct-card p {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin: 0 0 8px;
+    color: var(--lk-ink);
+    word-break: break-word;
+}
+
+.ct-card-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--lk-primary-dark);
+}
+
+/* ---------- Form + map split ---------- */
+.ct-split {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 32px;
+    align-items: start;
+}
+
+.ct-form {
+    background: var(--lk-surface);
+    border: 1px solid var(--lk-border);
+    border-radius: var(--lk-radius-lg);
+    padding: 34px 30px;
+    box-shadow: var(--lk-shadow-sm);
+}
+
+.ct-form h2 {
+    font-family: var(--lk-font-display);
+    font-weight: 800;
+    font-size: 1.4rem;
+    margin: 0 0 8px;
+}
+
+.ct-form-sub {
+    color: var(--lk-text-muted);
+    font-size: 0.88rem;
+    margin: 0 0 24px;
+}
+
+.ct-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.ct-field span {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--lk-ink);
+}
+
+.ct-field input,
+.ct-field textarea {
+    font-family: var(--lk-font-body);
+    font-size: 0.92rem;
+    padding: 12px 14px;
+    border-radius: var(--lk-radius-sm);
+    border: 1.5px solid var(--lk-border);
+    background: #fff;
+    color: var(--lk-ink);
+    resize: vertical;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ct-field input:focus,
+.ct-field textarea:focus {
+    outline: none;
+    border-color: var(--lk-primary);
+    box-shadow: 0 0 0 3px rgba(155, 32, 208, 0.12);
+}
+
+.ct-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: var(--lk-gradient);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 13px 26px;
+    border-radius: var(--lk-radius-pill);
+    box-shadow: var(--lk-shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ct-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--lk-shadow-md);
+}
+
+/* ---------- Side column ---------- */
+.ct-side {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.ct-map-wrap {
+    border-radius: var(--lk-radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--lk-border);
+    box-shadow: var(--lk-shadow-sm);
+    height: 240px;
+}
+
+.ct-map-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+.ct-hours {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--lk-surface);
+    border: 1px solid var(--lk-border);
+    border-radius: var(--lk-radius-md);
+    padding: 16px 18px;
+}
+
+.ct-hours-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--lk-primary-tint);
+    color: var(--lk-primary-dark);
+}
+
+.ct-hours p {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--lk-text-muted);
+}
+
+.ct-social {
+    background: var(--lk-surface);
+    border: 1px solid var(--lk-border);
+    border-radius: var(--lk-radius-md);
+    padding: 16px 18px;
+}
+
+.ct-social>span {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--lk-text-muted);
+    margin-bottom: 12px;
+}
+
+.ct-social-links {
+    display: flex;
+    gap: 10px;
+}
+
+.ct-social-links a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--lk-primary-tint);
+    color: var(--lk-primary-dark);
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ct-social-links a:hover {
+    background: var(--lk-gradient);
+    color: #fff;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 980px) {
+    .ct-cards-grid {
+        grid-template-columns: 1fr 1fr;
+        margin-top: -48px;
+    }
+
+    .ct-split {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .ct-container {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .ct-hero {
+        padding: 56px 0 80px;
+    }
+
+    .ct-cards-grid {
+        grid-template-columns: 1fr;
+        margin-top: -40px;
+    }
+
+    .ct-form {
+        padding: 26px 20px;
+    }
+
+    .ct-section {
+        padding: 48px 0;
+    }
+}

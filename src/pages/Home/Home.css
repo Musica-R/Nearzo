@@ -151,6 +151,7 @@
   min-height: 210px;
   text-decoration: none;
   transition: transform 0.15s ease;
+  cursor: default;
 }
 
 .lk-top-category-tile:hover {
@@ -607,22 +608,28 @@
   .lk-offers-row {
     display: none;
   }
-  .lk-top-category-tile{
+
+  .lk-top-category-tile {
     min-height: 0px;
   }
-  .lk-hero-row{
+
+  .lk-hero-row {
     padding-top: 0px;
   }
-  .lk-container{
+
+  .lk-container {
     padding: 0 8px;
   }
-  .lk-service-grid{
+
+  .lk-service-grid {
     gap: 2px;
   }
-  .lk-service-tile{
+
+  .lk-service-tile {
     border-radius: 0px;
   }
-  .lk-vendor-grid{
+
+  .lk-vendor-grid {
     grid-template-columns: 1fr 1fr;
     gap: 2px;
   }

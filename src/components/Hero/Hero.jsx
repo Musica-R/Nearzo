@@ -4,7 +4,7 @@ import { Star } from "lucide-react";
 import "./Hero.css";
 
 // --- TODO: point this at your real asset path ---
-import heroCleanerImg from "../../assets/bg.png";
+import heroCleanerImg from "../../assets/bg2.png";
 
 const trustedAvatars = [
   "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
