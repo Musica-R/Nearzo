@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+// Add FiGlobe to your existing react-icons/fi import at the top:
 import {
   FiMenu,
   FiX,
@@ -15,7 +16,9 @@ import {
   FiInfo,
   FiPhone,
   FiSearch,
+  FiGlobe,
 } from "react-icons/fi";
+
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
 import {
   FaFacebookF,
@@ -35,10 +38,10 @@ const navItems = [
 ];
 
 const socialLinks = [
-  { label: "Facebook", href: "https://facebook.com", Icon: FaFacebookF },
-  { label: "Instagram", href: "https://instagram.com", Icon: FaInstagram },
-  { label: "WhatsApp", href: "https://wa.me/", Icon: FaWhatsapp },
-  { label: "LinkedIn", href: "https://linkedin.com", Icon: FaLinkedinIn },
+  { label: "Facebook", href: "https://www.facebook.com/people/Readers-Menu/61563438916723/?rdid=FyqISX8POUA0Tag7&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1Ltt6HP6Rr%2F", Icon: FaFacebookF },
+  { label: "Instagram", href: "https://www.instagram.com/mpeoples_official/", Icon: FaInstagram },
+  { label: "WhatsApp", href: "https://wa.me/919487812715", Icon: FaWhatsapp },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/mpeoples-business-solutions-private-limited/", Icon: FaLinkedinIn },
 ];
 
 const Navbar = () => {
@@ -70,13 +73,23 @@ const Navbar = () => {
             ))}
           </div>
 
+
           <div className="lk-navbar-top-links">
             <Link to="/become-vendor">Offer Your Services</Link>
             <span className="lk-dot">•</span>
             <Link to="/about">About Us</Link>
             <span className="lk-dot">•</span>
             <Link to="/contact">Contact Us</Link>
+            <span className="lk-dot">•</span>
+
+            <Link to="/business-portfolio" className="lk-portfolio-btn">
+              <FiGlobe size={14} />
+              <span className="text">Your Business Portfolio</span>
+            </Link>
+
           </div>
+
+
         </div>
       </div>
 
@@ -229,6 +242,10 @@ const Navbar = () => {
           <NavLink to="/contact" onClick={closeMenu}>
             <FiPhone size={18} />
             <span>Contact Us</span>
+          </NavLink>
+          <NavLink to="/business-portfolio" onClick={closeMenu}>
+            <FiGlobe size={18} />
+            <span>Your Business Portfolio</span>
           </NavLink>
         </div>
 

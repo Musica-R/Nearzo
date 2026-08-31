@@ -17,6 +17,7 @@ import TermsAndConditions from "./components/TermsAndConditions/TermsAndConditio
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
+import BusinessPortfolio from "./pages/BusinessPortfolio/BusinessPortfolio";
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/business-portfolio" element={<BusinessPortfolio />} />
         </Routes>
       </main>
       <Footer />

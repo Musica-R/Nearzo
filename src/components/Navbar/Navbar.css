@@ -115,12 +115,8 @@
 }
 
 .lk-navbar-top-links a {
-  color: #ecdcfb;
+  /* color: #ecdcfb; */
   transition: color 0.15s ease;
-}
-
-.lk-navbar-top-links a:hover {
-  color: #fff;
 }
 
 .lk-navbar-connected-label {
@@ -518,6 +514,49 @@
   flex-shrink: 0;
 }
 
+.lk-portfolio-btn {
+  touch-action: manipulation;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #ffffff;
+  color: var(--lk-primary-dark);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  border: none;
+  padding: 9px 18px;
+  /* border-radius: var(--lk-radius-pill); */
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  box-shadow: 0 3px 0 rgba(90, 15, 130, 0.35),
+              0 6px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.lk-portfolio-btn svg {
+  color: var(--lk-primary);
+  flex-shrink: 0;
+}
+
+.lk-portfolio-btn:hover {
+  background: #fff;
+  color: var(--lk-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 rgba(90, 15, 130, 0.35),
+              0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.lk-portfolio-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 rgba(90, 15, 130, 0.35),
+              0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.lk-portfolio-btn:focus {
+  outline: none;
+}
 /* =========================================================
    RESPONSIVE
    ========================================================= */
