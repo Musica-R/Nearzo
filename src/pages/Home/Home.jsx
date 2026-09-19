@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import * as Icons from "lucide-react";
@@ -8,12 +8,15 @@ import HowItWorks from "../../components/HowItWorks/HowItWorks";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import ServiceCard from "../../components/ServiceCard/ServiceCard";
 import VendorCard from "../../components/VendorCard/VendorCard";
+import JobCard from "../../components/JobCard/JobCard";
 import { getCategories } from "../../redux/slices/categorySlice";
 import {
   fetchAllCategories,
   fetchNearStalls,
   fetchVendors,
+  fetchJobs,
   normalizeProvider,
+  normalizeJob,
   mapApiCategory,
   groupCategoriesByGroup,
   interleaveCategories,
@@ -24,6 +27,7 @@ import homeServicesImg from "../../assets/ser.png";
 import learningImg from "../../assets/learn.png";
 import fitnessImg from "../../assets/gyms.png";
 import shopImg from "../../assets/near.png";
+import careerImg from "../../assets/job.png";
 
 import offerCleaningImg from "../../assets/home.png";
 import offerFitnessImg from "../../assets/fit.png";
@@ -31,7 +35,7 @@ import offerFirstOrderImg from "../../assets/offer.png";
 import megaDealImg from "../../assets/mega1.png";
 
 
-const GROUP_ORDER = ["home-services", "learning-training", "sports-fitness", "nearby-shop"];
+const GROUP_ORDER = ["home-services", "learning-training", "sports-fitness", "nearby-shop", "career-opportunities"];
 
 const GROUP_META = {
   "home-services": {
@@ -65,6 +69,14 @@ const GROUP_META = {
     tint: "#DCEBFB",
     iconColor: "#2E7FE0",
     image: shopImg,
+  },
+  "career-opportunities": {
+    title: "Career Opportunities",
+    tagline: "Explore jobs, internships and career opportunities near you",
+    icon: "Briefcase",
+    tint: "#EDE7FB",
+    iconColor: "#6D28D9",
+    image: careerImg,
   },
 };
 
@@ -105,9 +117,21 @@ const trustBadges = [
   { Icon: Headphones, title: "24/7 Support", description: "We're here to help you anytime" },
 ];
 
+// Quick "why choose us" stats that fill the leftover space under the Hero,
+// left of the Top Categories column.
+const heroHighlightStats = [
+  { value: "10,000+", label: "Happy Customers" },
+  { value: "500+", label: "Verified Vendors" },
+  { value: "5", label: "Service Categories" },
+  { value: "4.8★", label: "Average Rating" },
+];
+
 // nearby-shop has no category endpoint — its homepage content comes from
 // the live near-stalls-all feed (see "Near You" below) instead.
-const SERVICE_GROUPS = GROUP_ORDER.filter((g) => g !== "nearby-shop");
+const SERVICE_GROUPS = GROUP_ORDER.filter((g) => g !== "nearby-shop" && g !== "career-opportunities");
+
+// How far each arrow-click scrolls the row, in px.
+const SCROLL_STEP = 640;
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -121,6 +145,24 @@ const Home = () => {
 
   const [topVendors, setTopVendors] = useState([]);
   const [vendorsLoading, setVendorsLoading] = useState(true);
+
+  // Latest Job Openings — live from /jobs, capped to 6.
+  const [latestJobs, setLatestJobs] = useState([]);
+  const [jobsLoading, setJobsLoading] = useState(true);
+
+  // One scroll ref per group, so each row's arrows scroll only that row.
+  const scrollRefs = useRef({});
+  const getScrollRef = (groupId) => {
+    if (!scrollRefs.current[groupId]) {
+      scrollRefs.current[groupId] = { current: null };
+    }
+    return scrollRefs.current[groupId];
+  };
+  const scrollGroup = (groupId, direction) => {
+    const el = scrollRefs.current[groupId]?.current;
+    if (!el) return;
+    el.scrollBy({ left: direction * SCROLL_STEP, behavior: "smooth" });
+  };
 
   useEffect(() => {
     dispatch(getCategories());
@@ -195,6 +237,28 @@ const Home = () => {
     };
   }, []);
 
+  // Latest Job Openings — live from /jobs, capped to 6.
+  useEffect(() => {
+    let ignore = false;
+    setJobsLoading(true);
+
+    fetchJobs({ perPage: 6 })
+      .then((data) => {
+        if (ignore) return;
+        setLatestJobs((data || []).slice(0, 6).map(normalizeJob));
+      })
+      .catch(() => {
+        if (!ignore) setLatestJobs([]);
+      })
+      .finally(() => {
+        if (!ignore) setJobsLoading(false);
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
   // Mixes categories across all 3 groups (round-robin) so the bento grid
   // isn't dominated by whichever type the API returns first.
   const exploreCategories = useMemo(
@@ -207,7 +271,30 @@ const Home = () => {
       {/* ---------- Hero + Top Categories ---------- */}
       <div className="lk-hero-row">
         <div className="lk-container lk-hero-grid">
-          <Hero />
+          <div className="lk-hero-left">
+            <Hero />
+
+            {/* Fills the leftover space under the Hero so it lines up with
+                the taller Top Categories column on the right. */}
+            <div className="lk-hero-highlights">
+              <div className="lk-hero-highlights-text">
+                <h4>Why Choose Lokal?</h4>
+                <p>
+                Your trusted platform for finding verified professionals across home services, learning, fitness, sports, jobs, 
+                and local services. Discover the right professionals near you, explore their services — all in one place.
+
+                </p>
+              </div>
+              <div className="lk-hero-highlights-stats">
+                {heroHighlightStats.map((stat) => (
+                  <div className="lk-hero-stat" key={stat.label}>
+                    <strong>{stat.value}</strong>
+                    <span>{stat.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
 
           <aside className="lk-top-categories">
             <div className="lk-section-header-inline">
@@ -224,8 +311,8 @@ const Home = () => {
                 return (
                   <Link
                     key={groupId}
-                    to={`/service?group=${groupId}`}
-                    className="lk-top-category-tile"
+                    to={groupId === "career-opportunities" ? "/careers" : `/service?group=${groupId}`}
+                    className={`lk-top-category-tile${groupId === "career-opportunities" ? " lk-top-category-tile-wide" : ""}`}
                     style={{ background: meta.tint }}
                   >
                     <div className="lk-top-category-tile-body">
@@ -235,14 +322,20 @@ const Home = () => {
                       <h5>{meta.title}</h5>
                       <p>{meta.tagline}</p>
                     </div>
-                    <div
-                      className="lk-top-category-tile-media"
-                      style={{ backgroundImage: meta.image ? `url(${meta.image})` : undefined }}
-                    >
-                      {/* <span className="lk-top-category-tile-arrow">
-                        <Icons.ArrowRight size={16} />
-                      </span> */}
-                    </div>
+                    {groupId === "career-opportunities" ? (
+                      <div className="lk-top-category-tile-media lk-top-category-tile-media-img">
+                        <img src={meta.image} alt={meta.title} />
+                      </div>
+                    ) : (
+                      <div
+                        className="lk-top-category-tile-media"
+                        style={{ backgroundImage: meta.image ? `url(${meta.image})` : undefined }}
+                      >
+                        {/* <span className="lk-top-category-tile-arrow">
+                          <Icons.ArrowRight size={16} />
+                        </span> */}
+                      </div>
+                    )}
                   </Link>
                 );
               })}
@@ -320,20 +413,45 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ---------- Per-group service listings — live API data ---------- */}
+      {/* ---------- Per-group service listings — live API data, horizontally scrollable, shows ALL items ---------- */}
       {SERVICE_GROUPS.map((groupId) => {
         const meta = GROUP_META[groupId];
         const items = categoriesByGroup[groupId] || [];
         if (!categoriesLoading && items.length === 0) return null;
 
+        const scrollRef = getScrollRef(groupId);
+
         return (
           <section className="lk-section" key={groupId}>
             <div className="lk-container">
               <SectionHeader title={meta.title} subtitle={meta.tagline} linkTo={`/service?group=${groupId}`} />
-              <div className="lk-service-grid">
-                {categoriesLoading
-                  ? Array.from({ length: 6 }).map((_, i) => <div key={i} className="lk-service-skeleton" aria-hidden="true" />)
-                  : items.slice(0, 6).map((item) => <ServiceCard key={item.id} item={item} />)}
+
+              <div className="lk-service-scroll-row">
+                <button
+                  className="lk-service-scroll-nav lk-service-scroll-nav-left"
+                  aria-label={`Scroll ${meta.title} left`}
+                  type="button"
+                  onClick={() => scrollGroup(groupId, -1)}
+                >
+                  <Icons.ChevronLeft size={18} />
+                </button>
+
+                <div className="lk-service-grid-scroll" ref={(el) => (scrollRef.current = el)}>
+                  {categoriesLoading
+                    ? Array.from({ length: 6 }).map((_, i) => (
+                      <div key={i} className="lk-service-skeleton" aria-hidden="true" />
+                    ))
+                    : items.map((item) => <ServiceCard key={item.id} item={item} />)}
+                </div>
+
+                <button
+                  className="lk-service-scroll-nav lk-service-scroll-nav-right"
+                  aria-label={`Scroll ${meta.title} right`}
+                  type="button"
+                  onClick={() => scrollGroup(groupId, 1)}
+                >
+                  <Icons.ChevronRight size={18} />
+                </button>
               </div>
             </div>
           </section>
@@ -342,7 +460,7 @@ const Home = () => {
 
       {/* <HowItWorks /> */}
 
-      {/* ---------- Near You — live from /near-stalls-all, capped at 6 ---------- */}
+      {/* ---------- Near You — live from /near-stalls-all, capped at 6 (unchanged) ---------- */}
       {!stallsLoading && nearStalls.length > 0 && (
         <section className="lk-section">
           <div className="lk-container">
@@ -361,7 +479,28 @@ const Home = () => {
         </section>
       )}
 
-      {/* ---------- Top Rated Providers — live from /all-vendors ---------- */}
+      {/* ---------- Latest Job Openings — live from /jobs, capped at 6 ---------- */}
+      {(jobsLoading || latestJobs.length > 0) && (
+        <section className="lk-section">
+          <div className="lk-container">
+            <SectionHeader
+              eyebrow="Careers"
+              title="Latest Job Openings"
+              subtitle="Fresh opportunities from companies near you."
+              linkTo="/careers"
+            />
+            <div className="lk-job-grid">
+              {jobsLoading
+                ? Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="lk-service-skeleton" aria-hidden="true" />
+                ))
+                : latestJobs.map((job) => <JobCard key={job.id} job={job} />)}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ---------- Top Rated Providers — live from /all-vendors (unchanged) ---------- */}
       <section className="lk-section">
         <div className="lk-container">
           <SectionHeader

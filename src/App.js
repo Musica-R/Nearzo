@@ -18,6 +18,8 @@ import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
 import BusinessPortfolio from "./pages/BusinessPortfolio/BusinessPortfolio";
+import JobListing from "./pages/JobListing/JobListing";
+import JobDetail from "./pages/JobListing/JobDetail";
 
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/business-portfolio" element={<BusinessPortfolio />} />
+          <Route path="/careers" element={<JobListing />} />
+          <Route path="/careers/:id" element={<JobDetail/>} />
         </Routes>
       </main>
       <Footer />

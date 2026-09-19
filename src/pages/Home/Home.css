@@ -40,6 +40,84 @@
   padding: 0 24px;
 }
 
+/* ---------------- Hero left column + fill highlights ---------------- */
+
+.lk-hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.lk-hero-highlights {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--lk-surface);
+  border: 1px solid var(--lk-border);
+  border-radius: var(--lk-radius-lg);
+  box-shadow: var(--lk-shadow-sm);
+  padding: 24px 28px;
+}
+
+.lk-hero-highlights-text h4 {
+  font-family: var(--lk-font-display);
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+  color: var(--lk-ink);
+}
+
+.lk-hero-highlights-text p {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--lk-text-muted);
+  margin: 0 0 20px;
+  max-width: 480px;
+}
+
+.lk-hero-highlights-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.lk-hero-stat {
+  text-align: center;
+  padding: 10px 6px;
+  border-radius: var(--lk-radius-sm);
+  background: var(--lk-primary-tint);
+}
+
+.lk-hero-stat strong {
+  display: block;
+  font-family: var(--lk-font-display);
+  font-size: 1.15rem;
+  color: var(--lk-primary-dark);
+  margin-bottom: 2px;
+}
+
+.lk-hero-stat span {
+  font-size: 0.7rem;
+  color: var(--lk-text-muted);
+}
+
+@media (max-width: 980px) {
+  .lk-hero-highlights-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .lk-hero-highlights {
+    display: none;
+  }
+
+  .lk-hero-highlights-text p {
+    margin-bottom: 14px;
+  }
+}
+
 /* ---------------- Buttons ---------------- */
 
 .lk-btn {
@@ -211,6 +289,130 @@
   align-items: center;
   justify-content: center;
   box-shadow: var(--lk-shadow-sm);
+}
+
+/* ---------------- Top Categories: wide "Career Opportunities" banner tile ----------------
+   NOTE: combined with .lk-top-category-tile (two classes) on purpose — this raises
+   specificity above the plain .lk-top-category-tile rule above, so flex-direction: row
+   always wins regardless of where each rule sits in the file. Do not split these back
+   into a single class selector or the row layout will silently break again. */
+
+.lk-top-category-tile.lk-top-category-tile-wide {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: stretch;
+  height: 180px;      /* fixed height (not min-height) — box can no longer grow taller than this */
+}
+
+.lk-top-category-tile.lk-top-category-tile-wide .lk-top-category-tile-body {
+  flex: 0 0 50%;             /* equal 50/50 split with the image side */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 18px 20px 18px 24px;
+}
+
+.lk-top-category-tile.lk-top-category-tile-wide .lk-top-category-tile-body p {
+  max-width: none;
+}
+
+/* Real <img> + object-fit, used only for the career tile — this is what
+   guarantees no empty gap and no overflow, regardless of job.png's own
+   dimensions or padding. */
+.lk-top-category-tile-media-img {
+  flex: 1;
+  margin-top: 0;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.lk-top-category-tile-media-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;         /* always fills the box exactly, cropping only if needed */
+  object-position: center;
+}
+
+@media (max-width: 640px) {
+  .lk-top-category-tile.lk-top-category-tile-wide {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .lk-top-category-tile.lk-top-category-tile-wide .lk-top-category-tile-body {
+    flex: none;
+    justify-content: flex-start;
+    padding: 16px 16px 10px;
+  }
+
+  .lk-top-category-tile-media-img {
+    height: 130px;            /* explicit height needed on mobile since the column is auto-height */
+    flex: none;
+  }
+}
+
+/* ---------------- Per-group service row: horizontal scroller ---------------- */
+
+.lk-service-scroll-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lk-service-scroll-nav {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--lk-surface);
+  color: var(--lk-primary-dark);
+  box-shadow: var(--lk-shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.lk-service-grid-scroll {
+  flex: 1;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;         /* Firefox */
+  -ms-overflow-style: none;      /* IE/Edge */
+  padding-bottom: 2px;
+}
+
+.lk-service-grid-scroll::-webkit-scrollbar {
+  display: none;                 /* Chrome/Safari */
+}
+
+.lk-service-grid-scroll > * {
+  flex: 0 0 auto;
+  width: calc((100% - 5 * 16px) / 6); /* same card width as the old 6-col grid */
+  min-width: 170px;
+}
+
+@media (max-width: 1100px) {
+  .lk-service-grid-scroll > * {
+    width: calc((100% - 2 * 16px) / 3);
+    min-width: 160px;
+  }
+}
+
+@media (max-width: 640px) {
+  .lk-service-scroll-nav {
+    display: none;
+  }
+
+  .lk-service-grid-scroll > * {
+    width: calc((100% - 16px) / 2);
+    min-width: 140px;
+  }
 }
 
 /* ---------------- Sections spacing ---------------- */
@@ -480,6 +682,14 @@
   gap: 20px;
 }
 
+/* ---------------- Latest Job Openings grid (mirrors lk-vendor-grid) ---------------- */
+
+.lk-job-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+}
+
 .lk-cta-banner {
   display: flex;
   align-items: center;
@@ -514,6 +724,10 @@
   }
 
   .lk-vendor-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lk-job-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -571,6 +785,11 @@
 
   .lk-vendor-grid {
     grid-template-columns: 1fr;
+  }
+
+  .lk-job-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
   }
 
   .lk-stats-bar {

@@ -6,6 +6,7 @@ const ENDPOINTS = {
   service: `${BASE_URL}/vendor/services`,
   activity: `${BASE_URL}/activities-register`,
   stall: `${BASE_URL}/near-stalls`,
+  job: `${BASE_URL}/jobs-store`,
 };
 
 export const registerVendor = (type, formData) => {

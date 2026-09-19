@@ -17,6 +17,7 @@ import {
   FiPhone,
   FiSearch,
   FiGlobe,
+  FiBriefcase,
 } from "react-icons/fi";
 
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
@@ -35,6 +36,7 @@ const navItems = [
   { label: "Service", to: "/vendors", icon: FiGrid },
   { label: "Activity", to: "/act", icon: FiCalendar },
   { label: "Nearby Stall", to: "/nearby-stall", icon: FiMapPin },
+  { label: "Career Opportunities", to: "/careers", icon: FiBriefcase },
 ];
 
 const socialLinks = [

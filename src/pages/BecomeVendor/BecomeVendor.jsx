@@ -1,45 +1,24 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
-  CheckCircle2,
-  Check,
-  X,
-  Store,
-  Sparkles,
-  MapPin,
-  ImagePlus,
-  IndianRupee,
-  Users,
-  ShieldCheck,
-  Zap,
-  User,
-  Phone,
-  MessageCircle,
-  Tag,
-  Briefcase,
-  CalendarDays,
-  Clock,
-  Building2,
-  Hash,
-  Link2,
-  Award,
-  ListChecks,
+  CheckCircle2, Check, X, Store, Sparkles, MapPin, ImagePlus, IndianRupee, Users, ShieldCheck, Zap, User, Phone, MessageCircle, Tag, Briefcase,
+  CalendarDays, Clock, Building2, Hash, Link2, Award, ListChecks, GraduationCap
 } from "lucide-react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
-import { getCategories } from "../../redux/slices/categorySlice";
-import { getCities } from "../../redux/slices/citySlice";
-import {
-  getActivityCategories,
-  clearActivityCategories,
-} from "../../redux/slices/activityCategorySlice";
-import { submitVendorRegistration, resetVendorState } from "../../redux/slices/vendorSlice";
 import "./BecomeVendor.css";
 import customerpic from "../../assets/customer.jpg"
+
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "../../redux/slices/categorySlice";
+import { getCities } from "../../redux/slices/citySlice";
+import { getActivityCategories, clearActivityCategories, } from "../../redux/slices/activityCategorySlice";
+import { submitVendorRegistration, resetVendorState } from "../../redux/slices/vendorSlice";
+
 
 const TABS = [
   { key: "service", label: "Service Vendor", icon: Store },
   { key: "activity", label: "Activity Provider", icon: Sparkles },
   { key: "stall", label: "Nearby Stall", icon: MapPin },
+  { key: "job", label: "Post a Job", icon: Briefcase },
 ];
 
 const ACTIVITY_TYPES = ["Learning & Training", "Sports & Fitness"];
@@ -62,6 +41,10 @@ const HERO_COPY = {
   stall: {
     title: "List Your Stall",
     sub: "List your stall under your account — it's free and goes live after a quick review.",
+  },
+  job: {
+    title: "Post a Job",
+    sub: "Post a job opening under your account — it's free and goes live after a quick review.",
   },
 };
 
@@ -95,6 +78,30 @@ const initialState = {
   shop_photo: null,
   shop_photo2: null,
   shop_photo3: null,
+
+  company_name: "",
+  job_title: "",
+  job_email: "",
+  job_mobile: "",
+  job_logo: null,
+  job_description: "",
+  job_type: "",
+  experience_min: "",
+  experience_max: "",
+  salary_min: "",
+  salary_max: "",
+  salary_type: "",
+  location: "",
+  work_mode: "",
+  skills: "",
+  qualification: "",
+  vacancies: "",
+  application_deadline: "",
+  gender: "",
+  shift: "",
+  benefits: "",
+  responsibilities: "",
+  requirements: "",
 };
 
 /* Small wrapper: icon-prefixed input/select "pill" field */
@@ -266,6 +273,35 @@ const BecomeVendor = () => {
       if (form.shop_photo3) fd.append("shop_photo3", form.shop_photo3);
     }
 
+    if (form.type === "job") {
+      fd.append("role", "vendor");
+      fd.append("company_name", form.company_name);
+      fd.append("job_title", form.job_title);
+      fd.append("email", form.job_email);
+      fd.append("mobile", form.job_mobile);
+      if (form.job_logo) fd.append("logo", form.job_logo);
+      fd.append("job_description", form.job_description);
+      fd.append("job_type", form.job_type);
+      if (form.experience_min !== "") fd.append("experience_min", form.experience_min);
+      if (form.experience_max !== "") fd.append("experience_max", form.experience_max);
+      if (form.salary_min !== "") fd.append("salary_min", form.salary_min);
+      if (form.salary_max !== "") fd.append("salary_max", form.salary_max);
+      fd.append("salary_type", form.salary_type);
+      fd.append("location", form.location);
+      fd.append("city_id", form.city_id);
+      fd.append("work_mode", form.work_mode);
+      fd.append("skills", form.skills);
+      fd.append("qualification", form.qualification);
+      if (form.vacancies !== "") fd.append("vacancies", form.vacancies);
+      if (form.application_deadline) fd.append("application_deadline", form.application_deadline);
+      fd.append("gender", form.gender);
+      fd.append("shift", form.shift);
+      fd.append("benefits", form.benefits);
+      fd.append("responsibilities", form.responsibilities);
+      fd.append("requirements", form.requirements);
+      fd.append("google_map_link", form.google_map_link);
+    }
+
     return fd;
   };
 
@@ -336,6 +372,7 @@ const BecomeVendor = () => {
                       {form.type === "service" && "Business Details"}
                       {form.type === "activity" && "Activity Details"}
                       {form.type === "stall" && "Stall Details"}
+                      {form.type === "job" && "Job Details"}
                     </span>
                   </div>
 
@@ -658,44 +695,247 @@ const BecomeVendor = () => {
                       </>
                     )}
 
-                    {/* ---------------- SHARED ADDRESS BLOCK ---------------- */}
-                    <label className="bv-span-2">
-                      <span className="bv-label-text">Address Line<span className="req">*</span></span>
-                      <Field icon={MapPin}>
-                        <input name="address_line1" value={form.address_line1} onChange={handleChange} required placeholder="Address" />
-                      </Field>
-                    </label>
-                    {/* <label className="bv-span-2">
-                      <span className="bv-label-text">Address Line 2</span>
-                      <Field icon={MapPin}>
-                        <input name="address_line2" value={form.address_line2} onChange={handleChange} placeholder="Taluk / Landmark" />
-                      </Field>
-                    </label> */}
 
-                    <label>
-                      <span className="bv-label-text">City <span className="req">*</span></span>
-                      <Field icon={Building2}>
-                        <select name="city_id" value={form.city_id} onChange={handleChange} required>
-                          <option value="">Select city</option>
-                          {cities.map((c) => (
-                            <option key={c.id} value={c.id}>{c.name}</option>
-                          ))}
-                        </select>
-                      </Field>
-                    </label>
-                    <label>
-                      <span className="bv-label-text">Pincode <span className="req">*</span></span>
-                      <Field icon={Hash}>
-                        <input name="pincode" value={form.pincode} onChange={handleChange} required placeholder="637102" />
-                      </Field>
-                    </label>
+                    {form.type !== "job" && (
+                      <>
+                        <label className="bv-span-2">
+                          <span className="bv-label-text">Address Line<span className="req">*</span></span>
+                          <Field icon={MapPin}>
+                            <input name="address_line1" value={form.address_line1} onChange={handleChange} required placeholder="Address" />
+                          </Field>
+                        </label>
 
-                    <label className="bv-span-2">
-                      <span className="bv-label-text">Google Map Link</span>
-                      <Field icon={Link2}>
-                        <input name="google_map_link" value={form.google_map_link} onChange={handleChange} placeholder="https://maps.google.com/..." />
-                      </Field>
-                    </label>
+                        <label>
+                          <span className="bv-label-text">City <span className="req">*</span></span>
+                          <Field icon={Building2}>
+                            <select name="city_id" value={form.city_id} onChange={handleChange} required>
+                              <option value="">Select city</option>
+                              {cities.map((c) => (
+                                <option key={c.id} value={c.id}>{c.name}</option>
+                              ))}
+                            </select>
+                          </Field>
+                        </label>
+
+                        <label>
+                          <span className="bv-label-text">Pincode <span className="req">*</span></span>
+                          <Field icon={Hash}>
+                            <input name="pincode" value={form.pincode} onChange={handleChange} required placeholder="637102" />
+                          </Field>
+                        </label>
+
+                        <label className="bv-span-2">
+                          <span className="bv-label-text">Google Map Link</span>
+                          <Field icon={Link2}>
+                            <input name="google_map_link" value={form.google_map_link} onChange={handleChange} placeholder="https://maps.google.com/..." />
+                          </Field>
+                        </label>
+                      </>
+                    )}
+
+
+                    {/* ---------------- JOB ---------------- */}
+                    {form.type === "job" && (
+                      <>
+                        <label>
+                          <span className="bv-label-text">Company Name <span className="req">*</span></span>
+                          <Field icon={Building2}>
+                            <input name="company_name" value={form.company_name} onChange={handleChange} required placeholder="e.g. Kavin Electronics" />
+                          </Field>
+                        </label>
+
+                        <label>
+                          <span className="bv-label-text">Job Title <span className="req">*</span></span>
+                          <Field icon={Briefcase}>
+                            <input name="job_title" value={form.job_title} onChange={handleChange} required placeholder="e.g. Sales Executive" />
+                          </Field>
+                        </label>
+
+                        <label>
+                          <span className="bv-label-text">Email</span>
+                          <Field icon={Phone}>
+                            <input type="email" name="job_email" value={form.job_email} onChange={handleChange} placeholder="e.g. hr@company.com" />
+                          </Field>
+                        </label>
+                        <label>
+                          <span className="bv-label-text">Mobile Number</span>
+                          <Field icon={Phone}>
+                            <input name="job_mobile" value={form.job_mobile} onChange={handleChange} placeholder="9876543210" />
+                          </Field>
+                        </label>
+                        <label className="bv-file">
+                          <span className="bv-label-text"><ImagePlus size={14} /> Company Logo (optional)</span>
+                          <input type="file" name="job_logo" accept="image/jpeg,image/png,image/jpg,image/webp" onChange={handleFileChange} />
+                        </label>
+
+                        <label className="bv-span-2">
+                          <span className="bv-label-text">Job Description <span className="req">*</span></span>
+                          <textarea
+                            className="bv-textarea"
+                            name="job_description"
+                            value={form.job_description}
+                            onChange={handleChange}
+                            required
+                            rows={4}
+                            placeholder="Describe the role, day-to-day tasks, etc."
+                          />
+                        </label>
+
+                        <label>
+                          <span className="bv-label-text">Job Type <span className="req">*</span></span>
+                          <Field icon={Tag}>
+                            <select name="job_type" value={form.job_type} onChange={handleChange} required>
+                              <option value="">Select job type</option>
+                              <option value="Full-time">Full-time</option>
+                              <option value="Part-time">Part-time</option>
+                              <option value="Internship">Internship</option>
+                              <option value="Contract">Contract</option>
+                              <option value="Freelance">Freelance</option>
+                            </select>
+                          </Field>
+                        </label>
+                        <label>
+                          <span className="bv-label-text">Work Mode</span>
+                          <Field icon={MapPin}>
+                            <select name="work_mode" value={form.work_mode} onChange={handleChange}>
+                              <option value="">Select work mode</option>
+                              <option value="On-site">On-site</option>
+                              <option value="Remote">Remote</option>
+                              <option value="Hybrid">Hybrid</option>
+                            </select>
+                          </Field>
+                        </label>
+
+                        <label>
+                          <span className="bv-label-text">Experience Min (years)</span>
+                          <Field icon={Briefcase}>
+                            <input type="number" min="0" step="1" name="experience_min" value={form.experience_min} onChange={handleChange} placeholder="e.g. 1" />
+                          </Field>
+                        </label>
+                        <label>
+                          <span className="bv-label-text">Experience Max (years)</span>
+                          <Field icon={Briefcase}>
+                            <input type="number" min="0" step="1" name="experience_max" value={form.experience_max} onChange={handleChange} placeholder="e.g. 5" />
+                          </Field>
+                        </label>
+
+                        <label>
+                          <span className="bv-label-text">Salary Min</span>
+                          <Field icon={IndianRupee}>
+                            <input type="number" min="0" step="1" name="salary_min" value={form.salary_min} onChange={handleChange} placeholder="e.g. 15000" />
+                          </Field>
+                        </label>
+                        <label>
+                          <span className="bv-label-text">Salary Max</span>
+                          <Field icon={IndianRupee}>
+                            <input type="number" min="0" step="1" name="salary_max" value={form.salary_max} onChange={handleChange} placeholder="e.g. 25000" />
+                          </Field>
+                        </label>
+
+                        <label>
+                          <span className="bv-label-text">Salary Type</span>
+                          <Field icon={IndianRupee}>
+                            <select name="salary_type" value={form.salary_type} onChange={handleChange}>
+                              <option value="">Select salary type</option>
+                              <option value="Monthly">Monthly</option>
+                              <option value="Yearly">Yearly</option>
+                              <option value="Hourly">Hourly</option>
+                              <option value="Negotiable">Negotiable</option>
+                            </select>
+                          </Field>
+                        </label>
+                        <label>
+                          <span className="bv-label-text">Qualification</span>
+                          <Field icon={GraduationCap}>
+                            <input name="qualification" value={form.qualification} onChange={handleChange} placeholder="e.g. Any Degree" />
+                          </Field>
+                        </label>
+
+                        <label>
+                          <span className="bv-label-text">Skills</span>
+                          <Field icon={Tag}>
+                            <input name="skills" value={form.skills} onChange={handleChange} placeholder="e.g. Communication, MS Excel" />
+                          </Field>
+                        </label>
+                        <label>
+                          <span className="bv-label-text">Vacancies</span>
+                          <Field icon={Users}>
+                            <input type="number" min="1" step="1" name="vacancies" value={form.vacancies} onChange={handleChange} placeholder="e.g. 2" />
+                          </Field>
+                        </label>
+
+                        <label>
+                          <span className="bv-label-text">Application Deadline</span>
+                          <Field icon={CalendarDays}>
+                            <input type="date" name="application_deadline" value={form.application_deadline} onChange={handleChange} />
+                          </Field>
+                        </label>
+                        <label>
+                          <span className="bv-label-text">Gender Preference</span>
+                          <Field icon={User}>
+                            <select name="gender" value={form.gender} onChange={handleChange}>
+                              <option value="">Any</option>
+                              <option value="Male">Male</option>
+                              <option value="Female">Female</option>
+                            </select>
+                          </Field>
+                        </label>
+
+                        <label>
+                          <span className="bv-label-text">Shift</span>
+                          <Field icon={Clock}>
+                            <select name="shift" value={form.shift} onChange={handleChange}>
+                              <option value="">Select shift</option>
+                              <option value="Day">Day</option>
+                              <option value="Night">Night</option>
+                              <option value="Rotational">Rotational</option>
+                            </select>
+                          </Field>
+                        </label>
+                        <div />{/* spacer to keep the grid even */}
+
+                        <label className="bv-span-2">
+                          <span className="bv-label-text">Benefits</span>
+                          <textarea className="bv-textarea" name="benefits" value={form.benefits} onChange={handleChange} rows={3} placeholder="e.g. PF, Health Insurance, Incentives" />
+                        </label>
+                        <label className="bv-span-2">
+                          <span className="bv-label-text">Responsibilities</span>
+                          <textarea className="bv-textarea" name="responsibilities" value={form.responsibilities} onChange={handleChange} rows={3} placeholder="Key responsibilities for this role" />
+                        </label>
+                        <label className="bv-span-2">
+                          <span className="bv-label-text">Requirements</span>
+                          <textarea className="bv-textarea" name="requirements" value={form.requirements} onChange={handleChange} rows={3} placeholder="Must-have requirements for applicants" />
+                        </label>
+
+                        <label className="bv-span-2">
+                          <span className="bv-label-text">Location <span className="req">*</span></span>
+                          <Field icon={MapPin}>
+                            <input name="location" value={form.location} onChange={handleChange} required placeholder="e.g. Anna Nagar, Chennai" />
+                          </Field>
+                        </label>
+
+                        <label>
+                          <span className="bv-label-text">City <span className="req">*</span></span>
+                          <Field icon={Building2}>
+                            <select name="city_id" value={form.city_id} onChange={handleChange} required>
+                              <option value="">Select city</option>
+                              {cities.map((c) => (
+                                <option key={c.id} value={c.id}>{c.name}</option>
+                              ))}
+                            </select>
+                          </Field>
+                        </label>
+                        <div />
+
+                        <label className="bv-span-2">
+                          <span className="bv-label-text">Google Map Link</span>
+                          <Field icon={Link2}>
+                            <input name="google_map_link" value={form.google_map_link} onChange={handleChange} placeholder="https://maps.google.com/..." />
+                          </Field>
+                        </label>
+                      </>
+                    )}
+
                   </div>
 
                   {error && <p className="bv-error">{error}</p>}

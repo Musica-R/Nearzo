@@ -443,6 +443,26 @@
     color: white;
 }
 
+.lk-home .bv-textarea {
+  border: 1.5px solid var(--lk-border);
+  border-radius: var(--lk-radius-sm);
+  background: #fbfaff;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  font-family: var(--lk-font-body);
+  color: var(--lk-ink);
+  font-weight: 500;
+  resize: vertical;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.lk-home .bv-textarea:focus {
+  outline: none;
+  border-color: var(--lk-primary);
+  background: var(--lk-surface);
+  box-shadow: 0 0 0 4px var(--lk-primary-tint);
+}
+
 .bp-final-cta-inner p {
     color: #f0dbfa;
     margin-bottom: 24px;

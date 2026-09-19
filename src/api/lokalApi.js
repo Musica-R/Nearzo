@@ -56,6 +56,87 @@ export const searchActivities = (opts) => getJSON("activityList", buildLocationP
 export const searchVendors = (opts) => getJSON("vendor-list", buildLocationParams(opts));
 export const searchNearStalls = (opts) => getJSON("near-stalls", buildLocationParams(opts));
 
+
+// ---- Jobs ----
+export const fetchJobs = (opts) => getJSON("jobs", buildLocationParams(opts));
+
+
+// No single-job endpoint exists, so fetch a large page and find the match —
+// same pattern as fetchProviderById() below for vendor/activity/stall.
+export async function fetchJobById(id) {
+    const list = await fetchJobs({ perPage: 100 });
+    const normalized = (list || []).map(normalizeJob);
+    return normalized.find((j) => j.id === String(id)) || null;
+}
+
+// Jobs come back in their own shape (see /jobs response) — separate from
+// normalizeProvider, which is built for vendor/activity/stall only.
+export function normalizeJob(raw) {
+    return {
+        id: String(raw.id),
+        companyName: raw.company_name || "",
+        jobTitle: raw.job_title || "",
+        email: raw.email || "",
+        mobile: raw.mobile || "",
+        logo: raw.logo || null,
+        description: raw.job_description || "",
+        jobType: raw.job_type || "",
+        experienceMin: raw.experience_min,
+        experienceMax: raw.experience_max,
+        salaryMin: raw.salary_min,
+        salaryMax: raw.salary_max,
+        salaryType: raw.salary_type || "",
+        location: raw.location || "",
+        cityId: raw.city_id ?? null,
+        cityName: raw.city_name || "",
+        workMode: raw.work_mode || "",
+        skills: raw.skills || "",
+        qualification: raw.qualification || "",
+        vacancies: raw.vacancies ?? null,
+        applicationDeadline: raw.application_deadline || null,
+        gender: raw.gender || "",
+        shift: raw.shift || "",
+        benefits: raw.benefits || "",
+        responsibilities: raw.responsibilities || "",
+        requirements: raw.requirements || "",
+        mapLink: raw.google_map_link || null,
+        lat: raw.latitude || null,
+        lng: raw.longitude || null,
+    };
+}
+
+// Update this to wherever your uploaded logos are actually served from.
+export const UPLOADS_URL = "https://booking.mpdatahub.com/uploads";
+export const getLogoUrl = (logo) => {
+  if (!logo) return null;
+  // API sometimes returns a full URL already, sometimes just a filename
+  if (/^https?:\/\//i.test(logo)) return logo;
+  return `${UPLOADS_URL}/${logo}`;
+};
+
+export function formatSalary(job) {
+    if (!job.salaryMin && !job.salaryMax) return null;
+    const min = job.salaryMin ? Number(job.salaryMin).toLocaleString("en-IN") : null;
+    const max = job.salaryMax ? Number(job.salaryMax).toLocaleString("en-IN") : null;
+    const range = min && max ? `₹${min} - ₹${max}` : `₹${min || max}`;
+    return job.salaryType ? `${range} / ${job.salaryType}` : range;
+}
+
+export function formatExperience(job) {
+    if (job.experienceMin == null && job.experienceMax == null) return null;
+    const min = job.experienceMin != null ? Number(job.experienceMin) : null;
+    const max = job.experienceMax != null ? Number(job.experienceMax) : null;
+    if (min != null && max != null) return `${min}-${max} yrs`;
+    return `${min ?? max} yrs`;
+}
+
+export function formatDeadline(dateStr) {
+    if (!dateStr) return null;
+    const d = new Date(dateStr);
+    if (Number.isNaN(d.getTime())) return null;
+    return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+}
+
 export const fetchCategories = () => getJSON("categories");
 
 // type: "Home Services" | "Learning & Training" | "Sports & Fitness"
