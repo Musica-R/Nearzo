@@ -1,11 +1,11 @@
 /* ---- Lokal brand palette ---- */
 :root {
-    --lk-primary: #9b20d0;
-    --lk-primary-dark: #7920b4;
-    --lk-primary-light: #c02de5;
-    --lk-primary-tint: #f7ebfc;
+    --lk-primary: #FF6B35;
+    --lk-primary-dark: #E85A2A;
+    --lk-primary-light: #FF8F66;
+    --lk-primary-tint: #FFF0E9;
 
-    --lk-gradient: linear-gradient(145deg, #7920b4 0%, #9b20d0 50%, #c02de5 100%);
+    --lk-gradient: linear-gradient(145deg, #14213D 0%, #1B2C52 50%, #223864 100%);
 }
 
 .vendors-filter-row {
@@ -149,8 +149,8 @@
 }
 
 .vendor-card-tag {
-    background: var(--lk-primary-tint);
-    color: var(--lk-primary-dark);
+    background:#f1f6fc;
+    color: #14213D;
     font-size: 0.74rem;
     font-weight: 600;
     padding: 5px 10px;

@@ -140,7 +140,7 @@ const VendorProfile = () => {
   const waNumber = vendor.whatsapp_number?.replace(/\D/g, "");
   const waHref = waNumber
     ? `https://wa.me/91${waNumber}?text=${encodeURIComponent(
-      `Hi, I found your listing "${name}" on Lokal and would like to know more.`
+      `Hi, I found your listing "${name}" on Thozhaa and would like to know more.`
     )}`
     : null;
 
@@ -203,7 +203,7 @@ const VendorProfile = () => {
             )} */}
 
             <span className="vp-badge vp-badge-listed">
-              <ShieldCheck size={13} /> Listed on Lokal
+              <ShieldCheck size={13} /> Listed on Thozhaa
             </span>
           </div>
 
@@ -264,7 +264,7 @@ const VendorProfile = () => {
             <Bell size={14} />
           </span>
           <span>
-            <strong>Safety Notice:</strong> Lokal is an advertising and discovery platform
+            <strong>Safety Notice:</strong> Thozhaa is an advertising and discovery platform
             only. Please independently verify all information before booking.
           </span>
         </p>
@@ -447,7 +447,7 @@ const VendorProfile = () => {
                   <ThumbsUp size={20} />
                 </span>
                 <strong>Trusted by Thousands</strong>
-                <p>trust Lokal</p>
+                <p>trust Thozhaa</p>
               </div>
             </section>
           </div>
@@ -457,7 +457,7 @@ const VendorProfile = () => {
             <div className="vp-card vp-qr-card" ref={qrCardRef}>
               <div className="vp-qr-left">
                 <div className="vp-qr-brand">
-                  <Globe size={14} /> Lokal
+                  <Globe size={14} /> Thozhaa
                 </div>
                 <strong className="vp-qr-name">{name}</strong>
                 <span className="vp-qr-service">{categoryName}</span>

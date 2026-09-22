@@ -1,9 +1,9 @@
 .vendor-profile {
-  --lk-primary: #7c3aed;
-  --lk-primary-dark: #4c1d95;
-  --lk-primary-tint: #ede9fe;
-  --lk-primary-tint-2: #f5f3ff;
-  --lk-gradient: linear-gradient(120deg, #2e1065 0%, #5b21b6 48%, #7c3aed 100%);
+  --lk-primary: #FF6B35;
+  --lk-primary-dark: #C4460F;
+  --lk-primary-tint: #FFF0E9;
+  --lk-primary-tint-2: #FFF9F6;
+  --lk-gradient: linear-gradient(120deg, #0D1730 0%, #14213D 48%, #1B2C52 100%);
   --lk-green: #10b981;
   --lk-green-tint: #d1fae5;
   --lk-pink: #fda4af;
@@ -11,14 +11,14 @@
   --lk-blue-tint: #dbeafe;
   --lk-blue: #2563eb;
   --lk-star: #f59e0b;
-  --lk-text: #1e1b3a;
+  --lk-text: #14213D;
   --lk-text-muted: #6b7280;
-  --lk-border: #ece7fb;
+  --lk-border: #E3E7EF;
   --lk-radius-lg: 22px;
   --lk-radius-md: 16px;
   --lk-radius-sm: 10px;
   --lk-radius-pill: 999px;
-  --lk-shadow: 0 2px 10px rgba(76, 29, 149, 0.06);
+  --lk-shadow: 0 2px 10px rgba(20, 33, 61, 0.08);
   --lk-font-display: "Sora", "Poppins", system-ui, sans-serif;
   --lk-font-body: "Inter", system-ui, sans-serif;
 
@@ -732,7 +732,7 @@
 }
 
 .vendor-profile .btn-outline:hover {
-  background: #e6dbfa;
+  background: #FFE1D0;
 }
 
 .vendor-profile .btn-block {

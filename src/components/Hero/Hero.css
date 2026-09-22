@@ -1,12 +1,12 @@
 .lk-hero {
-  --lk-primary: #7C3AED;
-  --lk-primary-dark: #5B21B6;
-  --lk-ink: #1A1533;
+  --lk-primary: #FF6B35;
+  --lk-primary-dark: #E85A2A;
+  --lk-ink: #14213D;
   --lk-text-muted: #6B7280;
   --lk-surface: #FFFFFF;
   --lk-radius-md: 14px;
   --lk-radius-lg: 22px;
-  --lk-shadow-sm: 0 4px 14px rgba(124, 58, 237, 0.08);
+  --lk-shadow-sm: 0 4px 14px rgba(255, 107, 53, 0.12);
   --lk-font-display: "Sora", "Poppins", system-ui, sans-serif;
 
   display: flex;
@@ -108,7 +108,7 @@
   align-items: center;
   gap: 10px;
   background: var(--lk-surface);
-  border: 1px solid #ECE6FB;
+  border: 1px solid #F3E4DC;
   border-radius: var(--lk-radius-md);
   box-shadow: var(--lk-shadow-sm);
   padding: 8px 8px 8px 16px;
@@ -227,7 +227,7 @@
 
 @media (max-width: 640px) {
   .lk-hero-image-col {
-    height: 220px;
+    height: auto;
   }
 
   .lk-hero-content {

@@ -31,7 +31,7 @@ const LegalPage = ({ title, lastUpdated, intro, sections, contact }) => {
         <div className="legal-hero-inner">
           <span className="legal-hero-badge">
             <FileText size={14} />
-            Lokal
+            Thozhaa
           </span>
           <h1>{title}</h1>
           <p className="legal-updated">Last Updated: {lastUpdated}</p>

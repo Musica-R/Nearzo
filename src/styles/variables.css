@@ -1,21 +1,21 @@
 :root {
-  /* Brand violet palette - medium, not too dark */
-  --color-primary: #7c4fe0;
-  --color-primary-dark: #5f36c2;
-  --color-primary-darker: #4527a0;
-  --color-primary-light: #a683ec;
-  --color-primary-tint: #f2edfd;
-  --color-primary-tint-2: #e8ddfb;
+  /* Brand navy x orange palette */
+  --color-primary: #FF6B35;
+  --color-primary-dark: #E85A2A;
+  --color-primary-darker: #C4460F;
+  --color-primary-light: #FF8F66;
+  --color-primary-tint: #FFF1EA;
+  --color-primary-tint-2: #FFE1D0;
 
-  /* Near-black with violet undertone, used sparingly */
-  --color-ink: #1c1626;
-  --color-ink-soft: #352b47;
+  /* Deep navy, used for ink / dark elements */
+  --color-ink: #14213D;
+  --color-ink-soft: #1F2F55;
 
-  --color-text: #2c2438;
-  --color-text-muted: #6f6580;
-  --color-border: #e7e1f4;
+  --color-text: #14213D;
+  --color-text-muted: #5B6478;
+  --color-border: #E4E8F0;
 
-  --color-bg: #fbfaff;
+  --color-bg: white;
   --color-surface: #ffffff;
 
   --color-success: #22b07d;
@@ -30,9 +30,9 @@
   --radius-lg: 22px;
   --radius-pill: 999px;
 
-  --shadow-sm: 0 2px 8px rgba(60, 30, 110, 0.06);
-  --shadow-md: 0 8px 24px rgba(60, 30, 110, 0.1);
-  --shadow-lg: 0 16px 40px rgba(60, 30, 110, 0.16);
+  --shadow-sm: 0 2px 8px rgba(20, 33, 61, 0.08);
+  --shadow-md: 0 8px 24px rgba(20, 33, 61, 0.12);
+  --shadow-lg: 0 16px 40px rgba(20, 33, 61, 0.18);
 
   --container-width: 1200px;
 }

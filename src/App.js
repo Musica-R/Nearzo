@@ -20,6 +20,7 @@ import Contact from "./pages/Contact/Contact";
 import BusinessPortfolio from "./pages/BusinessPortfolio/BusinessPortfolio";
 import JobListing from "./pages/JobListing/JobListing";
 import JobDetail from "./pages/JobListing/JobDetail";
+import VerifyOtp from "./pages/Verifyotp/Verifyotp";
 
 
 function App() {
@@ -48,7 +49,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/business-portfolio" element={<BusinessPortfolio />} />
           <Route path="/careers" element={<JobListing />} />
-          <Route path="/careers/:id" element={<JobDetail/>} />
+          <Route path="/careers/:id" element={<JobDetail />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
         </Routes>
       </main>
       <Footer />

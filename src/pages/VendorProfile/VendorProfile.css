@@ -2,32 +2,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap");
 
 .vendor-profile {
-  --lk-primary: #9b20d0;
-  --lk-primary-dark: #7920b4;
-  --lk-primary-light: #c02de5;
-  --lk-primary-tint: #f7ebfc;
-  --lk-gradient: linear-gradient(135deg, #3d0a5e 0%, #7920b4 52%, #9b20d0 100%);
+  --lk-primary: #FF6B35;
+  --lk-primary-dark: #E85A2A;
+  --lk-primary-light: #FF8F66;
+  --lk-primary-tint: #FFF0E9;
+  --lk-gradient: linear-gradient(135deg, #0D1730 0%, #14213D 52%, #1B2C52 100%);
   --lk-green-tint: #d1fae5;
   --lk-green: #047857;
   --lk-pink-tint: #ffe4e6;
   --lk-pink: #e11d48;
   --lk-blue-tint: #dbeafe;
   --lk-blue: #2563eb;
-  --lk-ink: #241329;
-  --lk-text-muted: #7a6a83;
-  --lk-border: #ecdff5;
+  --lk-ink: #14213D;
+  --lk-text-muted: #5B6478;
+  --lk-border: #E3E7EF;
   --lk-surface: #ffffff;
   --lk-radius-sm: 10px;
   --lk-radius-md: 18px;
   --lk-radius-lg: 24px;
   --lk-radius-pill: 999px;
-  --lk-shadow: 0 8px 24px rgba(121, 32, 180, 0.08);
+  --lk-shadow: 0 8px 24px rgba(20, 33, 61, 0.1);
   --lk-font-display: "Sora", "Poppins", system-ui, sans-serif;
   --lk-font-body: "Inter", system-ui, sans-serif;
 
   font-family: var(--lk-font-body);
   color: var(--lk-ink);
-  background: #faf6fd;
+  background: #FFFBF8;
   padding-block: 4px 40px;
 }
 
@@ -615,10 +615,10 @@
   border-radius: var(--lk-radius-md);
   background: repeating-linear-gradient(
     135deg,
-    #f3edf9,
-    #f3edf9 10px,
-    #ece0f7 10px,
-    #ece0f7 20px
+    #EEF0F6,
+    #EEF0F6 10px,
+    #E7E9F2 10px,
+    #E7E9F2 20px
   );
   text-decoration: none;
   overflow: hidden;
@@ -728,7 +728,7 @@
 }
 
 .vp-cta-card .btn-outline:hover {
-  background: #f0dcf8;
+  background: #FFE1D0;
 }
 
 /* ---------- Sidebar similar providers ---------- */

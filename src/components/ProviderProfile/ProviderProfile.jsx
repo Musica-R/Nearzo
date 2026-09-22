@@ -130,8 +130,6 @@ const ProviderProfile = () => {
       ? provider.subcategories.filter(Boolean)
       : []);
 
-  console.log("PROVIDER:", provider);
-  console.log("SUBCATEGORY NAMES:", provider?.subcategory_names);
 
   return (
     <div className="vendor-profile section">
@@ -253,7 +251,7 @@ const ProviderProfile = () => {
             <Bell size={14} />
           </span>
           <span>
-            <strong>Safety Notice:</strong> Lokal is an advertising and discovery platform
+            <strong>Safety Notice:</strong> Thozhaa is an advertising and discovery platform
             only. Please independently verify all information before booking.
           </span>
         </p>
@@ -293,7 +291,7 @@ const ProviderProfile = () => {
                       </li>
                     )}
                     <li className="pill pill-pink">
-                      <ShieldCheck size={13} /> Listed on Lokal
+                      <ShieldCheck size={13} /> Listed on Thozhaa
                     </li>
                     {provider.availabilityType && (
                       <li className="pill pill-blue">
@@ -460,7 +458,7 @@ const ProviderProfile = () => {
                   <ThumbsUp size={20} />
                 </span>
                 <strong>Trusted by Thousands</strong>
-                <p>trust Lokal</p>
+                <p>trust Thozhaa</p>
               </div>
             </section>
           </div>
@@ -471,7 +469,7 @@ const ProviderProfile = () => {
             <div className="vp-card vp-qr-card" ref={qrCardRef}>
               <div className="vp-qr-left">
                 <div className="vp-qr-brand">
-                  <Globe size={14} /> Lokal
+                  <Globe size={14} /> Thozhaa
                 </div>
                 <strong className="vp-qr-name">{displayName}</strong>
                 {provider.subtitle && <span className="vp-qr-service">{provider.subtitle}</span>}

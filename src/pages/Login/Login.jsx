@@ -36,7 +36,7 @@ const Login = () => {
             alt="Local service provider"
           />
           <div className="auth-visual-copy">
-            <h2>Welcome back to Lokal</h2>
+            <h2>Welcome back to Thozhaa</h2>
             <p>Book trusted local help in a few taps.</p>
           </div>
         </div>
@@ -71,7 +71,7 @@ const Login = () => {
           </button>
 
           <p className="auth-switch">
-            New to Lokal? <Link to="/register">Create an account</Link>
+            New to Thozhaa? <Link to="/register">Create an account</Link>
           </p>
         </form>
       </div>

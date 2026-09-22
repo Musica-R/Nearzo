@@ -5,18 +5,18 @@
 =================================================================== */
 
 .lk-home {
-  --lk-primary: #9b20d0;
-  --lk-primary-dark: #7920b4;
-  --lk-primary-light: #c02de5;
-  --lk-primary-tint: #f7ebfc;
+  --lk-primary: #FF6B35;
+  --lk-primary-dark: #E85A2A;
+  --lk-primary-light: #FF8F66;
+  --lk-primary-tint: #FFF0E9;
 
-  --lk-gradient: linear-gradient(145deg, #7920b4 0%, #9b20d0 50%, #c02de5 100%);
+  --lk-gradient: linear-gradient(145deg, #14213D 0%, #1B2C52 50%, #223864 100%);
 
   --lk-bg: #ffffff;
   --lk-surface: #ffffff;
-  --lk-ink: #3d2e5a;
+  --lk-ink: #14213D;
   --lk-text-muted: #6b7280;
-  --lk-border: #e6e1f5;
+  --lk-border: #E3E7EF;
   --lk-success: #15803d;
   --lk-danger: #dc2626;
 
@@ -24,8 +24,8 @@
   --lk-radius-md: 14px;
   --lk-radius-lg: 22px;
 
-  --lk-shadow-sm: 0 4px 14px rgba(155, 32, 208, 0.1);
-  --lk-shadow-md: 0 12px 30px rgba(121, 32, 180, 0.16);
+  --lk-shadow-sm: 0 4px 14px rgba(255, 107, 53, 0.12);
+  --lk-shadow-md: 0 12px 30px rgba(20, 33, 61, 0.18);
 
   --lk-font-display: "Sora", "Poppins", system-ui, sans-serif;
   --lk-font-body: "Inter", system-ui, sans-serif;
@@ -284,13 +284,13 @@
   height: 17px;
   border: none;
   border-radius: 50%;
-  background: rgba(121, 32, 180, 0.15);
+  background: rgba(232, 90, 42, 0.15);
   color: var(--lk-primary-dark);
   cursor: pointer;
 }
 
 .lk-home .bv-tag button:hover {
-  background: rgba(121, 32, 180, 0.28);
+  background: rgba(232, 90, 42, 0.28);
 }
 
 /* ---------------- Sub-category: row list with tick ---------------- */

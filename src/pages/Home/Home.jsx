@@ -278,7 +278,7 @@ const Home = () => {
                 the taller Top Categories column on the right. */}
             <div className="lk-hero-highlights">
               <div className="lk-hero-highlights-text">
-                <h4>Why Choose Lokal?</h4>
+                <h4>Why Choose Thozhaa?</h4>
                 <p>
                 Your trusted platform for finding verified professionals across home services, learning, fitness, sports, jobs, 
                 and local services. Discover the right professionals near you, explore their services — all in one place.

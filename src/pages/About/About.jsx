@@ -64,14 +64,14 @@ const About = () => {
       {/* ---------- Hero ---------- */}
       <section className="ab-hero">
         <div className="ab-container ab-hero-inner">
-          <span className="ab-eyebrow">About Lokal</span>
+          <span className="ab-eyebrow">About Thozhaa</span>
           <h1>
             Discover local.
             <br />
             Connect easily.
           </h1>
           <p className="ab-hero-sub">
-            Lokal is a local business discovery platform built to help people
+            Thozhaa is a local business discovery platform built to help people
             find the right businesses, services, shops and professionals in
             and around their area — and help those businesses get found.
           </p>
@@ -114,9 +114,9 @@ const About = () => {
       <section className="ab-section ab-section-tint">
         <div className="ab-container">
           <div className="ab-section-head">
-            <span className="ab-tag">Explore Lokal</span>
+            <span className="ab-tag">Explore Thozhaa</span>
             <h2>A wide range of local businesses</h2>
-            <p>As Lokal grows, we're bringing more categories onto the platform.</p>
+            <p>As Thozhaa grows, we're bringing more categories onto the platform.</p>
           </div>
 
           <div className="ab-category-grid">
@@ -201,7 +201,7 @@ const About = () => {
         <div className="ab-container">
           <div className="ab-cta">
             <h2>Discover Nearby. Connect Easily. Live Locally.</h2>
-            <p>Welcome to Lokal — your local business discovery platform.</p>
+            <p>Welcome to Thozhaa — your local business discovery platform.</p>
             <div className="ab-hero-actions ab-cta-actions">
               <Link to="/vendors" className="ab-btn ab-btn-primary">
                 <FiSearch size={16} />

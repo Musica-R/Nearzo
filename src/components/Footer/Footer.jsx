@@ -67,20 +67,13 @@ const Footer = () => (
   <footer className="lf-footer">
     <div className="lf-glow" aria-hidden="true" />
     <div className="lf-dots" aria-hidden="true" />
-    <svg className="lf-india" viewBox="0 0 200 220" fill="none" aria-hidden="true">
-      <path
-        d="M96 6c4 0 7 3 10 4 4 1 8-2 11 1 2 2 1 6 3 8 3 3 8 1 11 4 2 2 1 6 3 8 4 4 10 3 13 7 2 3 0 7 2 10 3 4 9 4 11 8 2 4-1 9 1 13 2 5 8 6 9 11 1 4-2 8-1 12 1 5 6 8 6 13 0 4-3 8-5 12-2 5-1 10-4 14-2 4-7 5-10 8-3 3-3 8-6 11-3 3-8 3-11 6-3 3-2 8-6 10-4 2-9-1-13 1-4 2-5 7-9 8-4 1-8-2-12-1-4 1-6 5-10 5-4 0-7-4-11-4-4 0-7 4-11 4-4 0-6-4-10-5-4-1-8 2-12 1-4-1-5-6-9-8-4-2-9 1-13-1-4-2-3-7-6-10-3-3-8-3-11-6-3-3-3-8-6-11-3-3-8-4-10-8-3-4-2-9-4-14-2-4-5-8-5-12 0-5 5-8 6-13 1-4-2-8-1-12 1-5 7-6 9-11 2-4-1-9 1-13 2-4 8-4 11-8 2-3 0-7 2-10 3-4 9-3 13-7 2-2 1-6 3-8 3-3 8-1 11-4 2-2 1-6 3-8 3-3 7 0 11-1 3-1 6-4 10-4z"
-        stroke="rgba(255,255,255,0.35)"
-        strokeWidth="1.4"
-      />
-    </svg>
 
     <div className="lf-wrap">
       <div className="lf-grid">
         <div className="lf-brand">
           <div className="lf-brand-mark">
-            <span className="lf-brand-mark-letter">L</span>
-            <span className="lf-brand-mark-name">Lokal</span>
+            <span className="lf-brand-mark-letter">T</span>
+            <span className="lf-brand-mark-name">Thozhaa</span>
           </div>
           <p className="lf-brand-copy">
             Discover trusted service workers and local stalls near you — book,
@@ -159,7 +152,7 @@ const Footer = () => (
             </li>
             <li>
               <span className="lf-contact-icon"><Mail size={16} /></span>
-              <span>mpeoplesofficial@gmail.com</span>
+              <span>info.mpeoples@gmail.com</span>
             </li>
             <li>
               <span className="lf-contact-icon"><Clock size={16} /></span>
@@ -169,11 +162,11 @@ const Footer = () => (
         </div>
       </div>
 
-      <div className="lf-divider">
+      {/* <div className="lf-divider">
         <span className="lf-divider-line" />
         <span className="lf-divider-heart"><Heart size={14} /></span>
         <span className="lf-divider-line" />
-      </div>
+      </div> */}
 
       <div className="lf-bottom">
         <div className="lf-trust">
@@ -183,8 +176,8 @@ const Footer = () => (
             <p className="lf-trust-sub">Safe payments • Verified professionals • 24/7 Support</p>
           </div>
         </div>
-        <span className="lf-copyright">© {new Date().getFullYear()} Lokal. All rights reserved.</span>
-        <span className="lf-tagline">Made for local communities, by Lokal.</span>
+        <span className="lf-copyright">© {new Date().getFullYear()} Thozhaa. All rights reserved.</span>
+        <span className="lf-tagline">Powered by MPeoples</span>
       </div>
     </div>
   </footer>

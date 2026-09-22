@@ -9,10 +9,6 @@
 
 html {
   scroll-behavior: smooth;
-  /* Base for every rem value in the app. Media queries below scale this
-     down on smaller screens so ALL rem-sized text/spacing (cards, sidebar,
-     badges, buttons, etc.) shrinks together instead of staying desktop-size
-     on mobile. */
   font-size: 16px;
 }
 

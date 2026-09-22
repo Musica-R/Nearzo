@@ -4,19 +4,23 @@ import { FaWhatsapp, FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/
 import "./Contact.css";
 
 const ADDRESS =
-  "1/248, Raja Ganapathy Complex, 2nd Floor, Opposite BSNL Office, Meyyanur Main Road, Salem – 636004, Tamil Nadu, India";
-const EMAIL = "mpeoplesofficial@gmail.com";
+  "No 56, 3-1, 3rd Cross St, Ranga Nagar, Mullai Nagar, Suramangalam, Salem, Tamil Nadu 636005";
+const EMAIL = "info.mpeoples@gmail.com";
 const PHONE_DISPLAY = "+91 94878 12715";
 const PHONE_TEL = "+919487812715";
+
+// Google Maps link supplied for the office location
+const MAPS_LINK = "https://maps.app.goo.gl/9KkfvKc257UsYDE7A";
+// Resolved coordinates from the link above, used for the embedded map
+const MAPS_EMBED_SRC =
+  "https://www.google.com/maps?q=11.6684234,78.1169469&z=17&output=embed";
 
 const contactCards = [
   {
     icon: FiMapPin,
     label: "Visit us",
     lines: [ADDRESS],
-    href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      ADDRESS
-    )}`,
+    href: MAPS_LINK,
     linkLabel: "Get directions",
   },
   {
@@ -59,11 +63,15 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`New message from ${form.name || "Lokal visitor"}`);
-    const body = encodeURIComponent(
-      `${form.message}\n\n— ${form.name}\n${form.email}`
-    );
-    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+
+    const text = `New message from Thozhaa website\n\nName: ${form.name}\nEmail: ${form.email}\nMessage: ${form.message}`;
+
+    const whatsappUrl = `https://wa.me/${PHONE_TEL.replace(
+      "+",
+      ""
+    )}?text=${encodeURIComponent(text)}`;
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -74,7 +82,7 @@ const Contact = () => {
           <span className="ct-eyebrow">Contact Us</span>
           <h1>We'd love to hear from you</h1>
           <p>
-            Questions about using Lokal, listing your business, or anything
+            Questions about using Thozhaa, listing your business, or anything
             else — reach out and our team will get back to you.
           </p>
         </div>
@@ -114,8 +122,8 @@ const Contact = () => {
           <form className="ct-form" onSubmit={handleSubmit}>
             <h2>Send us a message</h2>
             <p className="ct-form-sub">
-              Fill in the form and it'll open your email app with everything
-              ready to send.
+              Fill in the form and it'll open WhatsApp with your message
+              ready to send to us.
             </p>
 
             <label className="ct-field">
@@ -155,18 +163,16 @@ const Contact = () => {
             </label>
 
             <button type="submit" className="ct-submit">
-              <FiSend size={16} />
-              Send message
+              <FaWhatsapp size={16} />
+              Send via WhatsApp
             </button>
           </form>
 
           <div className="ct-side">
             <div className="ct-map-wrap">
               <iframe
-                title="Lokal office location"
-                src={`https://www.google.com/maps?q=${encodeURIComponent(
-                  ADDRESS
-                )}&output=embed`}
+                title="Thozhaa office location"
+                src={MAPS_EMBED_SRC}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 allowFullScreen
@@ -179,7 +185,7 @@ const Contact = () => {
               </div>
               <div>
                 <span className="ct-card-label">Office hours</span>
-                <p>Monday – Saturday, 10:00 AM – 6:30 PM</p>
+                <p>Monday – Saturday, 9:30 AM – 6:30 PM</p>
               </div>
             </div>
 

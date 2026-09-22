@@ -1,16 +1,16 @@
 :root {
-  --lk-primary: #9b20d0;
-  --lk-primary-dark: #7920b4;
-  --lk-primary-light: #c02de5;
-  --lk-primary-tint: #f7ebfc;
+  --lk-primary: #FF6B35;
+  --lk-primary-dark: #E85A2A;
+  --lk-primary-light: #FF8F66;
+  --lk-primary-tint: #FFF0E9;
 
-  --lk-gradient: linear-gradient(145deg, #7920b4 0%, #9b20d0 50%, #c02de5 100%);
+  --lk-gradient: linear-gradient(145deg, #14213D 0%, #1B2C52 50%, #223864 100%);
 
   --lk-bg: #ffffff;
   --lk-surface: #ffffff;
-  --lk-ink: #3d2e5a;
+  --lk-ink: #14213D;
   --lk-text-muted: #6b7280;
-  --lk-border: #e6e1f5;
+  --lk-border: #E3E7EF;
   --lk-success: #15803d;
   --lk-danger: #dc2626;
 
@@ -19,8 +19,8 @@
   --lk-radius-lg: 22px;
   --lk-radius-pill: 999px;
 
-  --lk-shadow-sm: 0 4px 14px rgba(155, 32, 208, 0.1);
-  --lk-shadow-md: 0 12px 30px rgba(121, 32, 180, 0.16);
+  --lk-shadow-sm: 0 4px 14px rgba(255, 107, 53, 0.12);
+  --lk-shadow-md: 0 12px 30px rgba(20, 33, 61, 0.18);
 
   --lk-font-display: "Sora", "Poppins", system-ui, sans-serif;
   --lk-font-body: "Inter", system-ui, sans-serif;
@@ -37,7 +37,7 @@
 
 .lk-navbar-top {
   background: var(--lk-gradient);
-  color: #f3e6fb;
+  color: #E7ECF5;
   font-size: 0.78rem;
   padding: 10px 0px;
 }
@@ -93,13 +93,6 @@
   color: #fff;
 }
 
-.lk-navbar-top-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 34px;
-}
-
 .lk-navbar-location {
   display: inline-flex;
   align-items: center;
@@ -115,12 +108,11 @@
 }
 
 .lk-navbar-top-links a {
-  /* color: #ecdcfb; */
   transition: color 0.15s ease;
 }
 
 .lk-navbar-connected-label {
-  color: #f3e6fb;
+  color: #E7ECF5;
   font-weight: 500;
   margin-right: 4px;
 }
@@ -147,6 +139,7 @@
   background: var(--lk-border);
 }
 
+/* ---------- Top-bar login button (filled pill) ---------- */
 .lk-navbar-login-btn {
   display: inline-flex;
   align-items: center;
@@ -155,9 +148,8 @@
   font-size: 0.9rem;
   font-weight: 700;
   color: #fff;
-  background: var(--lk-gradient);
+  background: var(--lk-primary);
   border-radius: var(--lk-radius-pill);
-  box-shadow: var(--lk-shadow-sm);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -198,8 +190,8 @@
 }
 
 .lk-navbar-logo-mark {
-  width: 38px;
-  height: 38px;
+  width: 98px;
+  height: 58px;
   border-radius: 12px;
   object-fit: cover;
   flex-shrink: 0;
@@ -251,21 +243,22 @@
   margin-left: 6px;
 }
 
-.lk-navbar-login-btn {
-  padding: 9px 20px;
-  font-size: 0.85rem;
+/* ---------- Desktop nav login button (outline) ---------- */
+.lk-navbar-login-btn--outline {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  border-radius: 10px;
-  border: 1.5px solid var(--lk-primary);
-  color: var(--lk-primary-dark);
+  padding: 9px 20px;
+  font-size: 0.85rem;
   font-weight: 700;
+  color: var(--lk-primary-dark);
   background: transparent;
+  border: 1.5px solid var(--lk-primary);
+  border-radius: 10px;
   transition: all 0.15s ease;
 }
 
-.lk-navbar-login-btn:hover {
+.lk-navbar-login-btn--outline:hover {
   background: var(--lk-primary-tint);
 }
 
@@ -348,7 +341,7 @@
 .lk-navbar-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(30, 12, 46, 0.5);
+  background: rgba(20, 33, 61, 0.55);
   z-index: 199;
 }
 
@@ -360,7 +353,7 @@
   bottom: 0;
   width: min(84vw, 320px);
   background: var(--lk-surface);
-  box-shadow: -12px 0 36px rgba(60, 20, 90, 0.18);
+  box-shadow: -12px 0 36px rgba(20, 33, 61, 0.2);
   transform: translateX(100%);
   transition: transform 0.3s ease;
   z-index: 200;
@@ -418,7 +411,7 @@
 
 .lk-drawer-user span {
   font-size: 0.72rem;
-  color: #f0dbfa;
+  color: #E7ECF5;
 }
 
 .lk-drawer-login {
@@ -526,11 +519,10 @@
   letter-spacing: 0.01em;
   border: none;
   padding: 9px 18px;
-  /* border-radius: var(--lk-radius-pill); */
   cursor: pointer;
   position: relative;
   white-space: nowrap;
-  box-shadow: 0 3px 0 rgba(90, 15, 130, 0.35),
+  box-shadow: 0 3px 0 rgba(196, 74, 20, 0.35),
               0 6px 14px rgba(0, 0, 0, 0.25);
   transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
 }
@@ -544,24 +536,24 @@
   background: #fff;
   color: var(--lk-primary);
   transform: translateY(-2px);
-  box-shadow: 0 5px 0 rgba(90, 15, 130, 0.35),
+  box-shadow: 0 5px 0 rgba(196, 74, 20, 0.35),
               0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .lk-portfolio-btn:active {
   transform: translateY(1px);
-  box-shadow: 0 1px 0 rgba(90, 15, 130, 0.35),
+  box-shadow: 0 1px 0 rgba(196, 74, 20, 0.35),
               0 3px 8px rgba(0, 0, 0, 0.2);
 }
 
 .lk-portfolio-btn:focus {
   outline: none;
 }
+
 /* =========================================================
    RESPONSIVE
    ========================================================= */
 
-/* ---------- ≤1024px : Mobile mode kicks in ---------- */
 @media (max-width: 1024px) {
   .lk-navbar-container {
     padding-left: 18px;
@@ -577,7 +569,6 @@
   }
 }
 
-/* ---------- >1024px : Drawer/backdrop never render on desktop ---------- */
 @media (min-width: 1025px) {
   .lk-navbar-drawer,
   .lk-navbar-backdrop {
@@ -585,7 +576,6 @@
   }
 }
 
-/* ---------- ≤768px : Large mobile ---------- */
 @media (max-width: 768px) {
   .lk-navbar-top {
     padding: 8px 0;
@@ -634,12 +624,12 @@
   .lk-navbar-drawer {
     width: min(88vw, 300px);
   }
+
   .lk-navbar-top-links {
     display: none;
   }
 }
 
-/* ---------- ≤420px : Standard mobile ---------- */
 @media (max-width: 420px) {
   .lk-navbar-top {
     padding: 6px 0;
@@ -654,25 +644,21 @@
     padding-left: 12px;
     padding-right: 10%;
   }
- 
+
   .lk-navbar-main {
     padding: 8px 15px;
     gap: 8px;
   }
 
   .lk-navbar-logo {
-    font-size: 1rem;
+    font-size: 2rem;
     gap: 6px;
   }
 
   .lk-navbar-logo-mark {
-    width: 48px;
+    width: 68px;
     height: 48px;
     border-radius: 8px;
-  }
-
-  .lk-navbar-logo{
-    font-size: 2rem;
   }
 
   .lk-navbar-logo small {
@@ -698,7 +684,6 @@
   }
 }
 
-/* ---------- ≤340px : Small mobile ---------- */
 @media (max-width: 340px) {
   .lk-navbar-top {
     font-size: 0.58rem;

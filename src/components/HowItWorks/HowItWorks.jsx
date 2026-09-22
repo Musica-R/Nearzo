@@ -17,7 +17,7 @@ const HowItWorks = () => (
           How It <span className="hero-highlight">Works</span>
         </h2>
         <p className="text-muted">
-          Finding the right local help is simple with Lokal.
+          Finding the right local help is simple with Thozhaa.
         </p>
       </div>
 

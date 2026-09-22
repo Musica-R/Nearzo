@@ -317,7 +317,7 @@ const BecomeVendor = () => {
     <div className="lk-home section become-vendor-page">
       <div className="container">
         <SectionHeader
-          eyebrow="Grow with Lokal"
+          eyebrow="Grow with Thozhaa"
           title="Become a Vendor"
           subtitle="List your service, activity, or stall and get discovered by thousands of nearby customers."
         />
@@ -959,7 +959,7 @@ const BecomeVendor = () => {
             <div className="bv-promo-image">
               <img
                 src={customerpic}
-                alt="Happy customer discovering local businesses on Lokal"
+                alt="Happy customer discovering local businesses on Thozhaa"
               />
             </div>
 

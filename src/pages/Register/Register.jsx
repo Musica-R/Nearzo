@@ -5,10 +5,14 @@ import { User, Mail, Phone, Lock, MapPin, UploadCloud, UserPlus } from "lucide-r
 import { register, clearAuthError } from "../../redux/slices/authSlice";
 import "./Auth.css";
 
+// Small helper to pull the first message for a field out of the
+// Laravel-style { field: ["msg", ...] } errors object.
+const fieldError = (fieldErrors, field) => fieldErrors?.[field]?.[0];
+
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((s) => s.auth);
+  const { loading, error, fieldErrors } = useSelector((s) => s.auth);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -31,6 +35,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitted(false);
     const data = new FormData();
     Object.entries(form).forEach(([key, value]) => data.append(key, value));
     if (profileImage) data.append("profile_image", profileImage);
@@ -38,7 +43,11 @@ const Register = () => {
     const result = await dispatch(register(data));
     if (register.fulfilled.match(result)) {
       setSubmitted(true);
-      setTimeout(() => navigate("/login"), 1200);
+      // Send the user to OTP verification instead of straight to login.
+      // Email is passed via route state so the OTP page can pre-fill it.
+      setTimeout(() => {
+        navigate("/verify-otp", { state: { email: form.email } });
+      }, 900);
     }
   };
 
@@ -48,15 +57,15 @@ const Register = () => {
         <div className="auth-visual">
           <img
             src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=650&q=80&auto=format&fit=crop"
-            alt="Join Lokal"
+            alt="Join Thozhaa"
           />
           <div className="auth-visual-copy">
-            <h2>Join the Lokal community</h2>
+            <h2>Join the Thozhaa community</h2>
             <p>Discover verified providers around you.</p>
           </div>
         </div>
 
-        <form className="auth-card" onSubmit={handleSubmit}>
+        <form className="auth-card" onSubmit={handleSubmit} noValidate>
           <span className="eyebrow">
             <UserPlus size={12} /> Register
           </span>
@@ -65,51 +74,69 @@ const Register = () => {
 
           <label>
             Full Name
-            <div className="auth-input">
+            <div className={`auth-input${fieldError(fieldErrors, "name") ? " has-error" : ""}`}>
               <User size={16} />
               <input name="name" required value={form.name} onChange={handleChange} placeholder="Kavin" />
             </div>
+            {fieldError(fieldErrors, "name") && (
+              <span className="field-error">{fieldError(fieldErrors, "name")}</span>
+            )}
           </label>
 
           <label>
             Email
-            <div className="auth-input">
+            <div className={`auth-input${fieldError(fieldErrors, "email") ? " has-error" : ""}`}>
               <Mail size={16} />
               <input type="email" name="email" required value={form.email} onChange={handleChange} placeholder="you@example.com" />
             </div>
+            {fieldError(fieldErrors, "email") && (
+              <span className="field-error">{fieldError(fieldErrors, "email")}</span>
+            )}
           </label>
 
           <label>
             Mobile Number
-            <div className="auth-input">
+            <div className={`auth-input${fieldError(fieldErrors, "mobile_number") ? " has-error" : ""}`}>
               <Phone size={16} />
               <input name="mobile_number" required value={form.mobile_number} onChange={handleChange} placeholder="9944803049" />
             </div>
+            {fieldError(fieldErrors, "mobile_number") && (
+              <span className="field-error">{fieldError(fieldErrors, "mobile_number")}</span>
+            )}
           </label>
 
           <div className="auth-row">
             <label>
               Password
-              <div className="auth-input">
+              <div className={`auth-input${fieldError(fieldErrors, "password") ? " has-error" : ""}`}>
                 <Lock size={16} />
                 <input type="password" name="password" required value={form.password} onChange={handleChange} placeholder="••••••••" />
               </div>
+              {fieldError(fieldErrors, "password") && (
+                <span className="field-error">{fieldError(fieldErrors, "password")}</span>
+              )}
             </label>
             <label>
               Confirm Password
-              <div className="auth-input">
+              <div className={`auth-input${fieldError(fieldErrors, "password_confirmation") ? " has-error" : ""}`}>
                 <Lock size={16} />
                 <input type="password" name="password_confirmation" required value={form.password_confirmation} onChange={handleChange} placeholder="••••••••" />
               </div>
+              {fieldError(fieldErrors, "password_confirmation") && (
+                <span className="field-error">{fieldError(fieldErrors, "password_confirmation")}</span>
+              )}
             </label>
           </div>
 
           <label>
             Location
-            <div className="auth-input">
+            <div className={`auth-input${fieldError(fieldErrors, "location") ? " has-error" : ""}`}>
               <MapPin size={16} />
               <input name="location" required value={form.location} onChange={handleChange} placeholder="Salem" />
             </div>
+            {fieldError(fieldErrors, "location") && (
+              <span className="field-error">{fieldError(fieldErrors, "location")}</span>
+            )}
           </label>
 
           <label>
@@ -119,10 +146,17 @@ const Register = () => {
               <span>{profileImage ? profileImage.name : "Choose a photo"}</span>
               <input type="file" accept="image/*" onChange={(e) => setProfileImage(e.target.files[0])} />
             </div>
+            {fieldError(fieldErrors, "profile_image") && (
+              <span className="field-error">{fieldError(fieldErrors, "profile_image")}</span>
+            )}
           </label>
 
-          {error && <p className="bv-error">{error}</p>}
-          {submitted && <p className="auth-success">Account created! Redirecting to login...</p>}
+          {/* General/top-level error only shows when there are no field-specific ones,
+              so the person isn't shown a vague message alongside the precise ones. */}
+          {error && Object.keys(fieldErrors || {}).length === 0 && (
+            <p className="bv-error">{error}</p>
+          )}
+          {submitted && <p className="auth-success">Account created! Redirecting to verify your email...</p>}
 
           <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
             {loading ? "Creating account..." : "Create Account"}

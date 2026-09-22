@@ -29,7 +29,7 @@ import {
 } from "react-icons/fa6";
 import { logout } from "../../redux/slices/authSlice";
 import "./Navbar.css";
-import logo from "../../assets/logo.jpg";
+import logo from "../../assets/logo1.jpeg";
 
 const navItems = [
   { label: "Home", to: "/", icon: FiHome },
@@ -98,9 +98,9 @@ const Navbar = () => {
       {/* ---------- Main bar ---------- */}
       <div className="lk-navbar-container lk-navbar-main">
         <Link to="/" className="lk-navbar-logo">
-          <img className="lk-navbar-logo-mark" src={logo} alt="Lokal" />
+          <img className="lk-navbar-logo-mark" src={logo} alt="Thozhaa" />
           <span>
-            Lokal
+            Thozhaa
             <small>Find trusted help, nearby</small>
           </span>
         </Link>

@@ -17,7 +17,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  background: var(--color-primary);
+  background:  #14213d;;
   color: #fff;
   border: none;
   border-radius: var(--radius-sm);
@@ -89,7 +89,7 @@
 }
 
 .category-sidebar-item.active {
-  background: var(--color-primary);
+  background: #14213d;
   color: #fff;
 }
 
@@ -169,7 +169,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--color-primary);
+  background: #14213d;
   color: #fff;
   font-size: 0.8rem;
   font-weight: 700;
