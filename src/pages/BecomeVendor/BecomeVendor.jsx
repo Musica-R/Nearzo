@@ -112,6 +112,37 @@ const Field = ({ icon: Icon, children }) => (
   </div>
 );
 
+/* ---------------------------------------------------------------
+   Validation helper for the Job form's Min/Max range fields.
+   Rule: Max must be strictly greater than Min whenever both are
+   filled in (applies to Experience years and Salary amount).
+=================================================================== */
+const validateJobRanges = ({ experience_min, experience_max, salary_min, salary_max }) => {
+  const errors = { experience: "", salary: "" };
+
+  if (experience_min !== "" && experience_max !== "") {
+    const min = Number(experience_min);
+    const max = Number(experience_max);
+    if (Number.isNaN(min) || Number.isNaN(max)) {
+      errors.experience = "Enter valid numbers for experience.";
+    } else if (max <= min) {
+      errors.experience = `Max experience must be greater than min (${min}).`;
+    }
+  }
+
+  if (salary_min !== "" && salary_max !== "") {
+    const min = Number(salary_min);
+    const max = Number(salary_max);
+    if (Number.isNaN(min) || Number.isNaN(max)) {
+      errors.salary = "Enter valid numbers for salary.";
+    } else if (max <= min) {
+      errors.salary = `Max salary must be greater than min (${min}).`;
+    }
+  }
+
+  return errors;
+};
+
 const BecomeVendor = () => {
   const dispatch = useDispatch();
   const { list: categories } = useSelector((s) => s.category);
@@ -122,6 +153,7 @@ const BecomeVendor = () => {
   );
   const { loading, success, error } = useSelector((s) => s.vendor);
   const [form, setForm] = useState(initialState);
+  const [fieldErrors, setFieldErrors] = useState({ experience: "", salary: "" });
 
   useEffect(() => {
     dispatch(getCategories());
@@ -134,6 +166,7 @@ const BecomeVendor = () => {
 
   const handleTypeChange = (type) => {
     setForm((prev) => ({ ...initialState, type, city_id: prev.city_id }));
+    setFieldErrors({ experience: "", salary: "" });
     dispatch(resetVendorState());
     dispatch(clearActivityCategories());
   };
@@ -146,7 +179,16 @@ const BecomeVendor = () => {
       return;
     }
 
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => {
+      const updated = { ...prev, [name]: value };
+
+      // Live-validate the job min/max range fields as the user types.
+      if (["experience_min", "experience_max", "salary_min", "salary_max"].includes(name)) {
+        setFieldErrors(validateJobRanges(updated));
+      }
+
+      return updated;
+    });
   };
 
   const handleSubcategoryToggle = (id) => {
@@ -307,6 +349,16 @@ const BecomeVendor = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (form.type === "job") {
+      const errors = validateJobRanges(form);
+      setFieldErrors(errors);
+      if (errors.experience || errors.salary) {
+        // Stop submission — min/max ranges are invalid.
+        return;
+      }
+    }
+
     dispatch(submitVendorRegistration({ type: form.type, formData: buildFormData() }));
   };
 
@@ -350,7 +402,7 @@ const BecomeVendor = () => {
                 </p>
                 <button
                   className="btn btn-primary"
-                  onClick={() => { setForm(initialState); dispatch(resetVendorState()); dispatch(clearActivityCategories()); }}
+                  onClick={() => { setForm(initialState); setFieldErrors({ experience: "", salary: "" }); dispatch(resetVendorState()); dispatch(clearActivityCategories()); }}
                 >
                   Register another
                 </button>
@@ -809,28 +861,66 @@ const BecomeVendor = () => {
                         <label>
                           <span className="bv-label-text">Experience Min (years)</span>
                           <Field icon={Briefcase}>
-                            <input type="number" min="0" step="1" name="experience_min" value={form.experience_min} onChange={handleChange} placeholder="e.g. 1" />
+                            <input
+                              type="number"
+                              min="0"
+                              step="1"
+                              name="experience_min"
+                              value={form.experience_min}
+                              onChange={handleChange}
+                              placeholder="e.g. 1"
+                            />
                           </Field>
                         </label>
                         <label>
                           <span className="bv-label-text">Experience Max (years)</span>
                           <Field icon={Briefcase}>
-                            <input type="number" min="0" step="1" name="experience_max" value={form.experience_max} onChange={handleChange} placeholder="e.g. 5" />
+                            <input
+                              type="number"
+                              min="0"
+                              step="1"
+                              name="experience_max"
+                              value={form.experience_max}
+                              onChange={handleChange}
+                              placeholder="e.g. 5"
+                            />
                           </Field>
                         </label>
+                        {fieldErrors.experience && (
+                          <p className="bv-field-error bv-span-2">{fieldErrors.experience}</p>
+                        )}
 
                         <label>
                           <span className="bv-label-text">Salary Min</span>
                           <Field icon={IndianRupee}>
-                            <input type="number" min="0" step="1" name="salary_min" value={form.salary_min} onChange={handleChange} placeholder="e.g. 15000" />
+                            <input
+                              type="number"
+                              min="0"
+                              step="1"
+                              name="salary_min"
+                              value={form.salary_min}
+                              onChange={handleChange}
+                              placeholder="e.g. 15000"
+                            />
                           </Field>
                         </label>
                         <label>
                           <span className="bv-label-text">Salary Max</span>
                           <Field icon={IndianRupee}>
-                            <input type="number" min="0" step="1" name="salary_max" value={form.salary_max} onChange={handleChange} placeholder="e.g. 25000" />
+                            <input
+                              type="number"
+                              min="0"
+                              step="1"
+                              name="salary_max"
+                              value={form.salary_max}
+                              onChange={handleChange}
+                              placeholder="e.g. 25000"
+                            />
                           </Field>
                         </label>
+                        {fieldErrors.salary && (
+                          <p className="bv-field-error bv-span-2">{fieldErrors.salary}</p>
+                        )}
 
                         <label>
                           <span className="bv-label-text">Salary Type</span>

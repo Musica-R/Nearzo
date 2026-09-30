@@ -6,7 +6,7 @@ import Service from "./pages/Service/Service";
 import VendorProfile from "./pages/VendorProfile/VendorProfile";
 import NearbyStall from "./pages/NearbyStall/NearbyStall";
 import BecomeVendor from "./pages/BecomeVendor/BecomeVendor";
-import Profile from "./pages/Profile/Profile";
+import ProfileRouter from "./pages/Profile/ProfileRouter";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Vendors from "./components/Vendors/Vendors";
@@ -22,8 +22,10 @@ import JobListing from "./pages/JobListing/JobListing";
 import JobDetail from "./pages/JobListing/JobDetail";
 import VerifyOtp from "./pages/Verifyotp/Verifyotp";
 
-
 function App() {
+
+  
+
   return (
     <div className="app-shell">
       <Navbar />
@@ -33,7 +35,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/service/:slug/:vendorId" element={<VendorProfile />} />
           <Route path="/become-vendor" element={<BecomeVendor />} />
-          <Route path="/profile" element={<Profile />} />
+          {/* <Route path="/profile" element={<Profile />} /> */}
+          <Route path="/profile" element={<ProfileRouter />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<Home />} />

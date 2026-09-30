@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-// Add FiGlobe to your existing react-icons/fi import at the top:
 import {
   FiMenu,
   FiX,
@@ -15,7 +14,6 @@ import {
   FiMapPin,
   FiInfo,
   FiPhone,
-  FiSearch,
   FiGlobe,
   FiBriefcase,
 } from "react-icons/fi";
@@ -28,6 +26,8 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa6";
 import { logout } from "../../redux/slices/authSlice";
+import { useEffectiveRole } from "../../utils/role";
+import RolePopup from "../RolePopup/RolePopup";
 import "./Navbar.css";
 import logo from "../../assets/logo1.jpeg";
 
@@ -50,6 +50,14 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  // Logged-in user's role (from the login response) wins; otherwise the
+  // guest's popup choice. "Become Vendor" is shown ONLY for vendors.
+  const { role, type } = useEffectiveRole(user);
+  const showVendorLink = role === "vendor";
+  const vendorTo = type
+    ? `/become-vendor?type=${encodeURIComponent(type)}`
+    : "/become-vendor";
 
   const closeMenu = () => setOpen(false);
   const toggleMenu = () => setOpen((prev) => !prev);
@@ -75,10 +83,13 @@ const Navbar = () => {
             ))}
           </div>
 
-
           <div className="lk-navbar-top-links">
-            <Link to="/become-vendor">Offer Your Services</Link>
-            <span className="lk-dot">•</span>
+            {showVendorLink && (
+              <>
+                <Link to={vendorTo}>Offer Your Services</Link>
+                <span className="lk-dot">•</span>
+              </>
+            )}
             <Link to="/about">About Us</Link>
             <span className="lk-dot">•</span>
             <Link to="/contact">Contact Us</Link>
@@ -88,10 +99,7 @@ const Navbar = () => {
               <FiGlobe size={14} />
               <span className="text">Your Business Portfolio</span>
             </Link>
-
           </div>
-
-
         </div>
       </div>
 
@@ -123,20 +131,15 @@ const Navbar = () => {
               </NavLink>
             );
           })}
-          <NavLink to="/become-vendor">
-            <span className="lk-nav-item-inner">
-              <HiOutlineOfficeBuilding size={16} />
-              Become Vendor
-            </span>
-          </NavLink>
 
-          {/* <button
-            type="button"
-            className="lk-navbar-search-btn"
-            aria-label="Search"
-          >
-            <FiSearch size={17} />
-          </button> */}
+          {showVendorLink && (
+            <NavLink to={vendorTo}>
+              <span className="lk-nav-item-inner">
+                <HiOutlineOfficeBuilding size={16} />
+                Become Vendor
+              </span>
+            </NavLink>
+          )}
 
           <div className="lk-navbar-account">
             {user ? (
@@ -233,10 +236,12 @@ const Navbar = () => {
               </NavLink>
             );
           })}
-          <NavLink to="/become-vendor" onClick={closeMenu}>
-            <HiOutlineOfficeBuilding size={18} />
-            <span>Become Vendor</span>
-          </NavLink>
+          {showVendorLink && (
+            <NavLink to={vendorTo} onClick={closeMenu}>
+              <HiOutlineOfficeBuilding size={18} />
+              <span>Become Vendor</span>
+            </NavLink>
+          )}
           <NavLink to="/about" onClick={closeMenu}>
             <FiInfo size={18} />
             <span>About Us</span>
@@ -283,6 +288,9 @@ const Navbar = () => {
           <span>Find trusted help, nearby</span>
         </div>
       </nav>
+
+      {/* Customer / Vendor chooser — appears once, ~1 min into browsing */}
+      <RolePopup />
     </header>
   );
 };

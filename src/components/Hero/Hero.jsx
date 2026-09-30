@@ -3,14 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Star } from "lucide-react";
 import "./Hero.css";
 
-// --- TODO: point this at your real asset path ---
-import heroCleanerImg from "../../assets/nearzo2.png";
-
 const trustedAvatars = [
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
-  "https://images.unsplash.com/photo-1534528741775-53994a69daeb",
+  "/assets/pro1.jpg",
+  "/assets/pro2.jpg",
+  "/assets/pro3.jpg",
+  "/assets/pro4.jpg",
 ];
 
 const Hero = () => {
@@ -27,15 +24,16 @@ const Hero = () => {
       {/* ---------- Left: photo column ---------- */}
       <div className="lk-hero-image-col">
         <img
-          src={heroCleanerImg}
+          src="/assets/nearzo2.webp"
           alt="Professional cleaner at work"
           className="lk-hero-image"
+          fetchPriority="high"
         />
 
         {/* floating rating card, overlapping the photo's bottom edge */}
         <div className="lk-hero-rating-card">
           <img
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb"
+            src="/assets/pro5.jpg"
             alt="Professional cleaner"
           />
           <div>
@@ -62,21 +60,7 @@ const Hero = () => {
           in just a few taps.
         </p>
 
-        {/* <form className="lk-hero-search-bar" onSubmit={handleSearch}>
-          <MapPin size={18} className="lk-hero-search-icon" />
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="Enter your location"
-          />
-          <button type="button" className="lk-hero-locate-btn" aria-label="Use current location">
-            <LocateFixed size={16} />
-          </button>
-          <button type="submit" className="lk-hero-search-btn">
-            Search Services
-          </button>
-        </form> */}
+       
 
         <div className="lk-hero-trusted">
           <div className="lk-hero-trusted-avatars">

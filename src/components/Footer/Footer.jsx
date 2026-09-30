@@ -1,52 +1,7 @@
 import { Link } from "react-router-dom";
-import {
-  MapPin,
-  Phone,
-  Mail,
-  Clock,
-  Heart,
-  ChevronRight,
-  Send,
-  Grid2X2,
-  Users,
-  Home,
-  GraduationCap,
-  Dumbbell,
-  Store,
-  UserPlus,
-  FileText,
-  HelpCircle,
-  ShieldCheck,
-} from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Heart, ChevronRight, Send, Grid2X2, Users, Home, GraduationCap, Dumbbell, Store, UserPlus, FileText, HelpCircle, ShieldCheck } from "lucide-react";
 import "./Footer.css";
 
-// lucide-react no longer ships brand/social icons, so these are small
-// inline SVGs kept local to this file (no extra dependency needed).
-const FacebookGlyph = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5H16.7V3.6C16.4 3.56 15.4 3.5 14.24 3.5c-2.4 0-4.04 1.47-4.04 4.16V9.9H7.5V13h2.7v8h3.3Z" />
-  </svg>
-);
-
-const InstagramGlyph = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-    <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
-    <circle cx="12" cy="12" r="4" />
-    <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
-  </svg>
-);
-
-const YoutubeGlyph = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M21.6 7.7a2.7 2.7 0 0 0-1.9-1.9C18 5.3 12 5.3 12 5.3s-6 0-7.7.5A2.7 2.7 0 0 0 2.4 7.7 28 28 0 0 0 2 12a28 28 0 0 0 .4 4.3 2.7 2.7 0 0 0 1.9 1.9c1.7.5 7.7.5 7.7.5s6 0 7.7-.5a2.7 2.7 0 0 0 1.9-1.9A28 28 0 0 0 22 12a28 28 0 0 0-.4-4.3ZM10 15V9l5.2 3-5.2 3Z" />
-  </svg>
-);
-
-const TwitterGlyph = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.4 22H1.2l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L7.4 3.9H5.6L17.7 20Z" />
-  </svg>
-);
 
 const exploreLinks = [
   { label: "Home Services", to: "/service", icon: Home },

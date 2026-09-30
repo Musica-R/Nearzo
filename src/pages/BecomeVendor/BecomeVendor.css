@@ -372,6 +372,15 @@
   font-size: 0.85rem;
 }
 
+/* ---------------- Min/Max range validation message ---------------- */
+
+.lk-home .bv-field-error {
+  margin: -8px 0 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--lk-danger);
+}
+
 .lk-home .bv-submit {
   margin-top: 28px;
   width: 100%;

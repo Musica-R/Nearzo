@@ -1,30 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Filter,
-  ChevronDown,
-  LayoutGrid,
-  Zap,
-  Wrench,
-  Fan,
-  PaintRoller,
-  Sparkles,
-  Car,
-  Droplet,
-  Camera,
-  Bug,
-  Settings,
-  BookOpen,
-  Trophy,
-  Dumbbell,
-  Music2,
-  Palette,
-  Mic,
-  Brain,
-  Waves,
-  Users,
-  ArrowRight,
-} from "lucide-react";
+import { Filter, ChevronDown, LayoutGrid, Zap, Wrench, Fan, PaintRoller, Sparkles, Car, Droplet, Camera, Bug, Settings,
+  BookOpen, Trophy, Dumbbell, Music2, Palette, Mic, Brain, Waves, Users, ArrowRight,} from "lucide-react";
 import "./CategorySidebar.css";
 
 const CATEGORY_VISUALS = [

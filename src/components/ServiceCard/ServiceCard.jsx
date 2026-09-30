@@ -9,7 +9,11 @@ const ServiceCard = ({ item }) => {
   const providerType = GROUP_TO_PROVIDER_TYPE[item.groupId] || "vendor";
 
   return (
-    <Link to={`/category/${providerType}/${item.id}`} className="lk-service-tile">
+    <Link
+      to={`/category/${providerType}/${item.id}`}
+      className="lk-service-tile"
+      style={{ cursor: "pointer" }}
+    >
       <div className="lk-service-tile-media">
         <img src={item.image} alt={item.name} loading="lazy" />
         <span className="lk-service-tile-tag">{item.groupTitle}</span>

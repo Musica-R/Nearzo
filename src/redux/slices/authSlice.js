@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { registerUser, loginUser, verifyOtpUser, resendOtpUser } from "../../api/authApi";
+import { clearRoleChoice } from "../../utils/role";
 
 const storedUser = localStorage.getItem("lokal_user");
 const storedToken = localStorage.getItem("lokal_token");
 
 // Normalizes Laravel-style validation error responses:
 // { success:false, message:"Validation Error.", errors:{ field:["msg"] } }
-// Falls back gracefully if the API only sends a plain message string.
 const parseError = (err, fallback) => {
   const data = err.response?.data;
   if (!data) return { message: fallback, errors: {} };
@@ -16,6 +16,12 @@ const parseError = (err, fallback) => {
   };
 };
 
+/**
+ * formData must be a FormData (or object) containing:
+ *   role: "user" | "vendor"
+ *   type: "user" for customers, the selected vendor type (e.g. "Home Services") for vendors
+ *   name, email, mobile_number, password, password_confirmation, [profile_image, location, latitude, longitude]
+ */
 export const register = createAsyncThunk(
   "auth/register",
   async (formData, { rejectWithValue }) => {
@@ -34,6 +40,8 @@ export const login = createAsyncThunk(
     try {
       const res = await loginUser(payload);
       if (res.data?.token) {
+        // The whole login response user (incl. role / type) is what drives
+        // the navbar and the profile page, so persist it as-is.
         localStorage.setItem("lokal_token", res.data.token);
         localStorage.setItem("lokal_user", JSON.stringify(res.data.user));
       }
@@ -74,8 +82,8 @@ const authSlice = createSlice({
     user: storedUser ? JSON.parse(storedUser) : null,
     token: storedToken || null,
     loading: false,
-    error: null,       // general/top-level message string
-    fieldErrors: {},   // { fieldName: ["message", ...] }
+    error: null,
+    fieldErrors: {},
     otpVerified: false,
   },
   reducers: {
@@ -84,6 +92,7 @@ const authSlice = createSlice({
       state.token = null;
       localStorage.removeItem("lokal_token");
       localStorage.removeItem("lokal_user");
+      clearRoleChoice();
     },
     clearAuthError: (state) => {
       state.error = null;

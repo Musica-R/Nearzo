@@ -1,0 +1,59 @@
+.reg-role-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  margin: 4px 0 14px;
+  background: #f3f4f8;
+  border-radius: 12px;
+}
+
+.reg-role-toggle button {
+  padding: 10px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.reg-role-toggle button.is-active {
+  background: #fff;
+  color: #e85a2a;
+  box-shadow: 0 2px 8px rgba(20, 33, 61, 0.12);
+}
+
+.auth-input select {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+}
+
+.reg-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.reg-chips span {
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #fff0e9;
+  color: #b9631a;
+}
+
+.reg-link-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #e85a2a;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}

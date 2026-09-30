@@ -10,7 +10,7 @@ const SectionHeader = ({ eyebrow, title, subtitle, linkTo, linkLabel = "View all
       {subtitle && <p className="text-muted">{subtitle}</p>}
     </div>
     {linkTo && (
-      <Link to={linkTo} className="link-arrow">
+      <Link to={linkTo} className="link-arrow" style={{ cursor: "pointer" }}>
         {linkLabel} <ArrowRight size={15} />
       </Link>
     )}

@@ -1,15 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  FiHome,
-  FiBookOpen,
-  FiActivity,
-  FiShoppingBag,
-  FiSearch,
-  FiTarget,
-  FiCompass,
-  FiUsers,
-  FiTrendingUp,
-} from "react-icons/fi";
+import { FiHome, FiBookOpen, FiActivity, FiShoppingBag, FiSearch, FiTarget, FiCompass, FiUsers, FiTrendingUp } from "react-icons/fi";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
 import "./About.css";
 

@@ -23,19 +23,11 @@ import {
 } from "../../api/lokalApi";
 import "./Home.css";
 
-import homeServicesImg from "../../assets/ser.png";
-import learningImg from "../../assets/learn.png";
-import fitnessImg from "../../assets/gyms.png";
-import shopImg from "../../assets/near.png";
-import careerImg from "../../assets/job.png";
 
-import offerCleaningImg from "../../assets/home.png";
-import offerFitnessImg from "../../assets/fit.png";
-import offerFirstOrderImg from "../../assets/offer.png";
-import megaDealImg from "../../assets/mega1.png";
 
 
 const GROUP_ORDER = ["home-services", "learning-training", "sports-fitness", "nearby-shop", "career-opportunities"];
+
 
 const GROUP_META = {
   "home-services": {
@@ -44,7 +36,8 @@ const GROUP_META = {
     icon: "Home",
     tint: "#F1EAFB",
     iconColor: "#7C3AED",
-    image: homeServicesImg,
+    image: "/assets/ser.webp",
+    to: "/vendors",
   },
   "learning-training": {
     title: "Learning & Training",
@@ -52,7 +45,8 @@ const GROUP_META = {
     icon: "GraduationCap",
     tint: "#FDEBD8",
     iconColor: "#E07B1D",
-    image: learningImg,
+    image: "/assets/learn.webp",
+    to: "/act",
   },
   "sports-fitness": {
     title: "Sports & Fitness",
@@ -60,7 +54,8 @@ const GROUP_META = {
     icon: "Dumbbell",
     tint: "#DDF2E4",
     iconColor: "#1AA260",
-    image: fitnessImg,
+    image: "/assets/gyms.webp",
+    to: "/act",
   },
   "nearby-shop": {
     title: "Nearby Shop",
@@ -68,7 +63,8 @@ const GROUP_META = {
     icon: "Store",
     tint: "#DCEBFB",
     iconColor: "#2E7FE0",
-    image: shopImg,
+    image: "/assets/near.webp",
+    to: "/nearby-stall",
   },
   "career-opportunities": {
     title: "Career Opportunities",
@@ -76,7 +72,8 @@ const GROUP_META = {
     icon: "Briefcase",
     tint: "#EDE7FB",
     iconColor: "#6D28D9",
-    image: careerImg,
+    image: "/assets/job.webp",
+    to: "/careers",
   },
 };
 
@@ -88,7 +85,7 @@ const exclusiveOffers = [
     badgeColor: "#5B21B6",
     title: "Home Cleaning Services",
     description: "On all home cleaning bookings",
-    image: offerCleaningImg,
+    image: "/assets/home.webp",
   },
   {
     code: "FIT15",
@@ -97,7 +94,7 @@ const exclusiveOffers = [
     badgeColor: "#B9631A",
     title: "Fitness Sessions",
     description: "Get up to 15% off on personal training",
-    image: offerFitnessImg,
+    image: "/assets/fit.webp",
   },
   {
     code: "FIRST10",
@@ -106,7 +103,7 @@ const exclusiveOffers = [
     badgeColor: "#217A46",
     title: "First Order Offer",
     description: "On your first booking with us",
-    image: offerFirstOrderImg,
+    image: "/assets/offer.webp",
   },
 ];
 
@@ -299,7 +296,7 @@ const Home = () => {
           <aside className="lk-top-categories">
             <div className="lk-section-header-inline">
               <h4>Top Categories</h4>
-              <Link to="/vendors" className="lk-view-all-link">
+              <Link to="/vendors" className="lk-view-all-link" style={{ cursor: "pointer" }}>
                 View all <Icons.ArrowRight size={15} />
               </Link>
             </div>
@@ -311,9 +308,9 @@ const Home = () => {
                 return (
                   <Link
                     key={groupId}
-                    to={groupId === "career-opportunities" ? "/careers" : `/service?group=${groupId}`}
+                    to={meta.to}
                     className={`lk-top-category-tile${groupId === "career-opportunities" ? " lk-top-category-tile-wide" : ""}`}
-                    style={{ background: meta.tint }}
+                    style={{ background: meta.tint, cursor: "pointer" }}
                   >
                     <div className="lk-top-category-tile-body">
                       <span className="lk-top-category-tile-icon" style={{ color: meta.iconColor }}>
@@ -329,7 +326,7 @@ const Home = () => {
                     ) : (
                       <div
                         className="lk-top-category-tile-media"
-                        style={{ backgroundImage: meta.image ? `url(${meta.image})` : undefined }}
+                        style={{ backgroundImage: meta.image ? `url(${meta.image})` : undefined, cursor: "pointer" }}
                       >
                         {/* <span className="lk-top-category-tile-arrow">
                           <Icons.ArrowRight size={16} />
@@ -349,7 +346,7 @@ const Home = () => {
         <div className="lk-container">
           <div className="lk-section-header-inline">
             <h3>Exclusive Offers For You</h3>
-            <Link to="/vendors" className="lk-view-all-link">
+            <Link to="/vendors" className="lk-view-all-link" style={{ cursor: "pointer" }}>
               View all <Icons.ArrowRight size={15} />
             </Link>
           </div>
@@ -385,12 +382,8 @@ const Home = () => {
 
             <div className="lk-mega-deal-panel">
               <div className="lk-mega-deal-content">
-                {/* <span className="lk-mega-deal-chip">Flat 25% OFF</span> */}
-                {/* <Link to="/service?group=home-services" className="lk-btn lk-btn-white">
-                  Book Now <Icons.ArrowRight size={15} />
-                </Link> */}
               </div>
-              {megaDealImg && <img src={megaDealImg} alt="Plumbing professional" className="lk-mega-deal-image" />}
+              <img src="/assets/mega1.webp" alt="Plumbing professional" className="lk-mega-deal-image" />
             </div>
           </div>
         </div>
@@ -424,7 +417,7 @@ const Home = () => {
         return (
           <section className="lk-section" key={groupId}>
             <div className="lk-container">
-              <SectionHeader title={meta.title} subtitle={meta.tagline} linkTo={`/service?group=${groupId}`} />
+              <SectionHeader title={meta.title} subtitle={meta.tagline} linkTo={meta.to} />
 
               <div className="lk-service-scroll-row">
                 <button
@@ -468,7 +461,7 @@ const Home = () => {
               eyebrow="Nearby"
               title="Near You"
               subtitle="Stalls and shops close to your location."
-              linkTo="/service?group=nearby-shop"
+              linkTo="/nearby-stall"
             />
             <div className="lk-vendor-grid">
               {nearStalls.map((stall) => (
