@@ -7,6 +7,8 @@ import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import "./BecomeVendor.css";
 import customerpic from "../../assets/customer.jpg"
 
+import { useMemo } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../redux/slices/categorySlice";
 import { getCities } from "../../redux/slices/citySlice";
@@ -22,6 +24,77 @@ const TABS = [
 ];
 
 const ACTIVITY_TYPES = ["Learning & Training", "Sports & Fitness"];
+
+/* ---------------------------------------------------------------
+   Which form(s) to show comes from the vendor's own type in
+   localStorage ("lokal_user"), e.g. type: ["Home Services", "Activity"]
+     Home Services -> Service Vendor form
+     Activity      -> Activity Provider form
+     jobs          -> Post a Job form
+     nearbystall   -> Nearby Stall form
+   Type names are matched loosely (case / spaces / symbols ignored).
+=================================================================== */
+const TYPE_TO_TAB = {
+  homeservices: "service",
+  activity: "activity",
+  activities: "activity",
+  learningtraining: "activity",
+  sportsfitness: "activity",
+  jobs: "job",
+  job: "job",
+  nearbystall: "stall",
+  nearbystalls: "stall",
+  nearstalls: "stall",
+  stall: "stall",
+  stalls: "stall",
+};
+
+// The type name sent to the backend for each form
+const TAB_API_TYPE = {
+  service: "Home Services",
+  activity: "Activity",
+  job: "jobs",
+  stall: "nearbystall",
+};
+
+// user.type can be an array, a JSON string, or "A|B" / "A,B"
+const normalizeTypes = (raw) => {
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw.map((t) => String(t).trim()).filter(Boolean);
+  const text = String(raw).trim();
+  if (text.startsWith("[")) {
+    try {
+      return normalizeTypes(JSON.parse(text));
+    } catch {
+      /* fall through to the plain split */
+    }
+  }
+  return text.split(/[|,]/).map((t) => t.trim()).filter(Boolean);
+};
+
+const readStoredUser = () => {
+  try {
+    return JSON.parse(localStorage.getItem("lokal_user") || "null");
+  } catch {
+    return null;
+  }
+};
+
+const tabKeysForTypes = (types) => {
+  const keys = new Set();
+  types.forEach((t) => {
+    const key = TYPE_TO_TAB[String(t).toLowerCase().replace(/[^a-z0-9]/g, "")];
+    if (key) keys.add(key);
+  });
+  return keys;
+};
+
+// No (known) type -> show every form, so the page never ends up empty
+const tabsForTypes = (types) => {
+  const keys = tabKeysForTypes(types);
+  const tabs = TABS.filter((t) => keys.has(t.key));
+  return tabs.length ? tabs : TABS;
+};
 
 const PROMO_POINTS = [
   { icon: Users, text: "Get discovered by thousands of nearby customers" },
@@ -152,7 +225,15 @@ const BecomeVendor = () => {
     (s) => s.activityCategory
   );
   const { loading, success, error } = useSelector((s) => s.vendor);
-  const [form, setForm] = useState(initialState);
+  const authUser = useSelector((s) => s.auth.user);
+
+  // Vendor account from localStorage ("lokal_user"): id + type(s)
+  const vendorUser = authUser || readStoredUser();
+  const allowedTypes = useMemo(() => normalizeTypes(vendorUser?.type), [vendorUser]);
+
+  const visibleTabs = useMemo(() => tabsForTypes(allowedTypes), [allowedTypes]);
+
+  const [form, setForm] = useState(() => ({ ...initialState, type: visibleTabs[0].key }));
   const [fieldErrors, setFieldErrors] = useState({ experience: "", salary: "" });
 
   useEffect(() => {
@@ -163,6 +244,12 @@ const BecomeVendor = () => {
       dispatch(clearActivityCategories());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!visibleTabs.some((t) => t.key === form.type)) {
+      setForm((prev) => ({ ...initialState, type: visibleTabs[0].key, city_id: prev.city_id }));
+    }
+  }, [visibleTabs, form.type]);
 
   const handleTypeChange = (type) => {
     setForm((prev) => ({ ...initialState, type, city_id: prev.city_id }));
@@ -253,6 +340,10 @@ const BecomeVendor = () => {
 
   const buildFormData = () => {
     const fd = new FormData();
+
+    // Vendor id from localStorage ("lokal_user") + the type of the form being submitted
+    if (vendorUser?.id != null) fd.append("user_id", vendorUser.id);
+    fd.append("type", TAB_API_TYPE[form.type]);
 
     if (form.type === "service") {
       fd.append("role", "vendor");
@@ -374,8 +465,9 @@ const BecomeVendor = () => {
           subtitle="List your service, activity, or stall and get discovered by thousands of nearby customers."
         />
 
+        {visibleTabs.length > 1 && (
         <div className="bv-tabs">
-          {TABS.map(({ key, label, icon: Icon }) => (
+          {visibleTabs.map(({ key, label, icon: Icon }) => (
             <button
               key={key}
               type="button"
@@ -387,6 +479,7 @@ const BecomeVendor = () => {
             </button>
           ))}
         </div>
+        )}
 
         <div className="bv-layout">
           {/* ---------------- FORM CARD ---------------- */}
@@ -402,7 +495,7 @@ const BecomeVendor = () => {
                 </p>
                 <button
                   className="btn btn-primary"
-                  onClick={() => { setForm(initialState); setFieldErrors({ experience: "", salary: "" }); dispatch(resetVendorState()); dispatch(clearActivityCategories()); }}
+                  onClick={() => { setForm({ ...initialState, type: visibleTabs[0].key }); setFieldErrors({ experience: "", salary: "" }); dispatch(resetVendorState()); dispatch(clearActivityCategories()); }}
                 >
                   Register another
                 </button>

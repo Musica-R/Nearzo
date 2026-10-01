@@ -13,6 +13,7 @@ import Vendors from "./components/Vendors/Vendors";
 import ProviderProfile from "./components/ProviderProfile/ProviderProfile";
 import CategoryListing from "./pages/CategoryListing/CategoryListing";
 import ScrollToTop from "./components/ScrollToTop";
+import RequireAuth from "./components/Requireauth";
 import TermsAndConditions from "./components/TermsAndConditions/TermsAndConditions";
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import About from "./pages/About/About";
@@ -23,8 +24,10 @@ import JobDetail from "./pages/JobListing/JobDetail";
 import VerifyOtp from "./pages/Verifyotp/Verifyotp";
 
 function App() {
+  // NOTE: the old `localStorage.removeItem("lokal_location")` line is removed.
+  // It ran on every render and wiped the saved location.
 
-  
+  // localStorage.removeItem("thozhaa_role_choice");
 
   return (
     <div className="app-shell">
@@ -34,12 +37,21 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/service/:slug/:vendorId" element={<VendorProfile />} />
-          <Route path="/become-vendor" element={<BecomeVendor />} />
-          {/* <Route path="/profile" element={<Profile />} /> */}
+
+          {/* Only for logged-in users. Guests are sent to /login first. */}
+          <Route
+            path="/become-vendor"
+            element={
+              <RequireAuth>
+                <BecomeVendor />
+              </RequireAuth>
+            }
+          />
+
           <Route path="/profile" element={<ProfileRouter />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="*" element={<Home />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/category/:type/:categoryId" element={<CategoryListing />} />
           <Route path="/vendor/:type/:categoryId/:vendorId" element={<VendorProfile />} />
           <Route path="/act" element={<Service />} />
@@ -53,7 +65,9 @@ function App() {
           <Route path="/business-portfolio" element={<BusinessPortfolio />} />
           <Route path="/careers" element={<JobListing />} />
           <Route path="/careers/:id" element={<JobDetail />} />
-          <Route path="/verify-otp" element={<VerifyOtp />} />
+
+          {/* keep the catch-all LAST */}
+          <Route path="*" element={<Home />} />
         </Routes>
       </main>
       <Footer />

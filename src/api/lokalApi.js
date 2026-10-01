@@ -294,6 +294,7 @@ function fallbackImage(type, categoryLabel) {
 export function normalizeProvider(raw, type) {
     const base = {
         id: String(raw.id),
+        userId: raw.user_id ?? null, // vendor's user account id (used by create-Booking)
         type,
         categoryId: raw.category_id ?? raw.category?.id ?? null, // NEW — needed for VendorProfile route
         phone: raw.phone_number || "",
@@ -442,5 +443,3 @@ export const getInitials = (name) =>
         .map((w) => w[0])
         .join("")
         .toUpperCase();
-
-

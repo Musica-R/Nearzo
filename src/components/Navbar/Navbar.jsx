@@ -27,7 +27,7 @@ import {
 } from "react-icons/fa6";
 import { logout } from "../../redux/slices/authSlice";
 import { useEffectiveRole } from "../../utils/role";
-import RolePopup from "../RolePopup/RolePopup";
+import PopupManager from "../popups/PopupManager";
 import "./Navbar.css";
 import logo from "../../assets/logo1.jpeg";
 
@@ -51,10 +51,11 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  // Logged-in user's role (from the login response) wins; otherwise the
-  // guest's popup choice. "Become Vendor" is shown ONLY for vendors.
+  // "Become Vendor" appears ONLY after the user has registered and logged in
+  // with a vendor account. Guests never see it, even if they picked "vendor"
+  // in the welcome popup.
   const { role, type } = useEffectiveRole(user);
-  const showVendorLink = role === "vendor";
+  const showVendorLink = !!user && role === "vendor";
   const vendorTo = type
     ? `/become-vendor?type=${encodeURIComponent(type)}`
     : "/become-vendor";
@@ -289,8 +290,8 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Customer / Vendor chooser — appears once, ~1 min into browsing */}
-      <RolePopup />
+      {/* Guest: role popup (5s) and login popup (5 min).  Logged in: location popup (10s after login). */}
+      <PopupManager />
     </header>
   );
 };

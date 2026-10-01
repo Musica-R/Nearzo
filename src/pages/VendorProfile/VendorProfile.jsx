@@ -1,5 +1,5 @@
 // VendorProfile.js
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   ChevronRight,
@@ -19,7 +19,10 @@ import {
   ArrowRight,
   User,
   IndianRupee,
+  Download,
 } from "lucide-react";
+import { QRCodeCanvas } from "qrcode.react";
+import { toPng } from "html-to-image";
 import {
   getProviderName,
   getContactPerson,
@@ -33,11 +36,9 @@ import {
 } from "../../api/lokalApi";
 import "./VendorProfile.css";
 import image from "../../assets/location.jpg";
-
-import { useRef } from "react";
-import { QRCodeCanvas } from "qrcode.react";
-import { toPng } from "html-to-image";
-import { Download, Globe } from "lucide-react";
+import thozhaaLogo from "../../assets/logo1.jpeg";
+import BookNowButton from "../../components/Booknowbutton/Booknowbutton";
+import { THOZHAA_PHONE_DISPLAY, formatPhone, toTelHref, toWhatsAppUrl } from "../../utils/booking";
 
 const API_BASE = "https://booking.mpdatahub.com/api";
 
@@ -48,8 +49,6 @@ const tabs = [
   { key: "Contact", icon: Phone },
 ];
 
-// Placeholder art — swap for your own. Search unsplash.com/s/photos for a
-// *free* (non Unsplash+) result and paste the images.unsplash.com/photo-… link in.
 const FALLBACK_ABOUT_ILLUSTRATION = image;
 
 const VendorProfile = () => {
@@ -62,14 +61,14 @@ const VendorProfile = () => {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("Overview");
 
-  const qrCardRef = useRef(null);
+  const cardRef = useRef(null);
 
   const handleDownloadCard = () => {
-    if (!qrCardRef.current) return;
-    toPng(qrCardRef.current, { pixelRatio: 3, backgroundColor: "#ffffff" })
+    if (!cardRef.current) return;
+    toPng(cardRef.current, { pixelRatio: 4, backgroundColor: "#ffffff" })
       .then((dataUrl) => {
         const link = document.createElement("a");
-        link.download = `${name.replace(/\s+/g, "_")}_lokal_profile.png`;
+        link.download = `${(vendor ? getProviderName(vendor) : "vendor").replace(/\s+/g, "_")}_thozhaa_card.png`;
         link.href = dataUrl;
         link.click();
       })
@@ -137,12 +136,15 @@ const VendorProfile = () => {
   const categoryName = getProviderCategoryName(vendor) || vendor.category_name;
   const subcategories = getProviderSubcategories(vendor);
   const address = getProviderAddress(vendor);
-  const waNumber = vendor.whatsapp_number?.replace(/\D/g, "");
-  const waHref = waNumber
-    ? `https://wa.me/91${waNumber}?text=${encodeURIComponent(
-      `Hi, I found your listing "${name}" on Thozhaa and would like to know more.`
-    )}`
-    : null;
+  const waHref = toWhatsAppUrl(
+    vendor.whatsapp_number || vendor.phone_number,
+    `Hi, I found your listing "${name}" on Thozhaa and would like to know more.`
+  );
+  const telHref = toTelHref(vendor.phone_number);
+
+  // Booking type comes from the API response (`type`: "Home Services"); activities -> "Activity".
+  // BookNowButton shows only for Home Services / Activity.
+  const bookingType = isActivity ? "Activity" : vendor.type || "Home Services";
 
   const similar = allVendors.filter((v) => v.id !== vendor.id).slice(0, 3);
 
@@ -196,12 +198,6 @@ const VendorProfile = () => {
               </div>
             )}
 
-            {/* {address && (
-              <p className="vp-address">
-                <MapPin size={14} /> {address}
-              </p>
-            )} */}
-
             <span className="vp-badge vp-badge-listed">
               <ShieldCheck size={13} /> Listed on Thozhaa
             </span>
@@ -214,7 +210,7 @@ const VendorProfile = () => {
             </div>
 
             <div className="vp-action-circles">
-              <a className="vp-action-circle" href={`tel:+91${vendor.phone_number}`}>
+              <a className="vp-action-circle" href={telHref}>
                 <span className="vp-action-icon">
                   <Phone size={18} />
                 </span>
@@ -454,36 +450,56 @@ const VendorProfile = () => {
 
           {/* ---------- SIDEBAR ---------- */}
           <aside className="vp-sidebar">
-            <div className="vp-card vp-qr-card" ref={qrCardRef}>
-              <div className="vp-qr-left">
-                <div className="vp-qr-brand">
-                  <Globe size={14} /> Thozhaa
-                </div>
-                <strong className="vp-qr-name">{name}</strong>
-                <span className="vp-qr-service">{categoryName}</span>
-                {/* <span className="vp-qr-phone">
-                  <Phone size={13} /> +91 {vendor.phone_number}
-                </span> */}
+            {/* Business card (downloadable) */}
+            <div className="bz-card" ref={cardRef}>
+              <div className="bz-left">
+                <strong className="bz-name">{name}</strong>
+                <span className="bz-role">{categoryName}</span>
+                <span className="bz-rule" />
+                <ul className="bz-list">
+                  <li>
+                    <span className="bz-ico">
+                      <Phone size={11} />
+                    </span>
+                    <span>{formatPhone(vendor.phone_number)}</span>
+                  </li>
+                  {address && (
+                    <li>
+                      <span className="bz-ico">
+                        <MapPin size={11} />
+                      </span>
+                      <span className="bz-addr">{address}</span>
+                    </li>
+                  )}
+                </ul>
               </div>
 
-              <div className="vp-qr-right">
-                <QRCodeCanvas
-                  value={window.location.href}
-                  size={92}
-                  bgColor="#ffffff"
-                  fgColor="#3d0a5e"
-                  level="M"
-                />
+              <div className="bz-right">
+                <img className="bz-logo" src={thozhaaLogo} alt="Thozhaa" crossOrigin="anonymous" />
+                <span className="bz-qr">
+                  <QRCodeCanvas
+                    value={window.location.href}
+                    size={78}
+                    bgColor="#ffffff"
+                    fgColor="#14213d"
+                    level="M"
+                  />
+                </span>
+                <span className="bz-phone">
+                  <Phone size={10} /> {THOZHAA_PHONE_DISPLAY}
+                </span>
               </div>
             </div>
 
             <button className="btn btn-outline btn-block vp-qr-download-btn" onClick={handleDownloadCard}>
-              <Download size={15} /> Download Profile QR
+              <Download size={15} /> Download Card
             </button>
+
             <div className="vp-card vp-cta-card">
               <h4>Interested?</h4>
-              <p className="text-muted">Reach out directly to book or ask a question.</p>
-              <a className="btn btn-primary btn-block" href={`tel:+91${vendor.phone_number}`}>
+              <p className="text-muted">Reach out directly, or book now.</p>
+
+              <a className="btn btn-primary btn-block" href={telHref}>
                 <Phone size={15} /> Call Now
               </a>
               {waHref && (
@@ -496,6 +512,17 @@ const VendorProfile = () => {
                   <MessageCircle size={15} /> Message on WhatsApp
                 </a>
               )}
+
+              {/* Book Now at the bottom (+ success popup -> WhatsApp). Only Home Services / Activity. */}
+              <BookNowButton
+                className="vp-book-wrap"
+                vendorUserId={vendor.id}
+                bookingType={bookingType}
+                name={name}
+                category={categoryName}
+                phone={vendor.phone_number}
+                whatsapp={vendor.whatsapp_number}
+              />
             </div>
 
             {similar.length > 0 && (

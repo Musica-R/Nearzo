@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Mail, Lock, User, Phone, MapPin, UserPlus, LogIn } from "lucide-react";
+import { Mail, Lock, User, Phone, MapPin, UserPlus, LogIn, Check } from "lucide-react";
 import {
   register,
   login,
@@ -9,9 +9,15 @@ import {
   clearAuthError,
 } from "../../redux/slices/authSlice";
 import useVendorTypes from "../../hooks/useVendorTypes";
-import { getRoleChoice, saveRoleChoice } from "../../utils/role";
+import { saveRoleChoice } from "../../utils/role";
+import { joinTypes, splitTypes } from "../../utils/vendorTypes";
 import "../Login/Auth.css";
 import "./Register.css";
+import "./RegisterVendorType.css";
+
+// list-category?type=vendor returns plain names: ["Home Services", "jobs", ...]
+// (an object like { type: "Home Services" } is also tolerated)
+const typeName = (item) => String(typeof item === "string" ? item : item?.type ?? item?.name ?? "");
 
 const isAlreadyVerified = (msg = "") => /already verified/i.test(msg);
 const looksLikeExistingEmail = (payload) =>
@@ -24,16 +30,16 @@ const Register = () => {
   const [params] = useSearchParams();
   const { loading, error, fieldErrors, user } = useSelector((s) => s.auth);
 
-  // Priority: URL (?role=&type=) → what was picked in the popup → customer
-  const saved = getRoleChoice();
-  const initialRole = params.get("role") || saved?.role || "user";
-  const initialType =
-    params.get("type") || (saved?.role === "vendor" ? saved.type : "") || "";
+  // Only the URL from the welcome popup pre-fills this page (?role=&type=).
+  // Nothing is read from localStorage: the vendor can change the types here,
+  // and what they finally submit is what gets stored (after a successful register).
+  const initialRole = params.get("role") || "user";
+  const initialTypes = splitTypes(params.get("type"));
 
   // "register" = normal form, "verified" = email already verified → password only
   const [mode, setMode] = useState("register");
   const [role, setRole] = useState(initialRole === "vendor" ? "vendor" : "user");
-  const [vendorType, setVendorType] = useState(initialType);
+  const [selectedTypes, setSelectedTypes] = useState(initialTypes); // multi-select
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -46,10 +52,17 @@ const Register = () => {
   const [loginPassword, setLoginPassword] = useState("");
   const [localError, setLocalError] = useState("");
 
+  const vendorType = joinTypes(selectedTypes); // only for the local role choice: "Home Services|Sports & Fitness"
+
   const { types, loading: typesLoading, error: typesError } = useVendorTypes(
     role === "vendor" && mode === "register"
   );
-  const activeGroup = types.find((t) => t.type === vendorType);
+
+  // Tick to add, tick again to remove
+  const toggleType = (type) =>
+    setSelectedTypes((current) =>
+      current.includes(type) ? current.filter((t) => t !== type) : [...current, type]
+    );
 
   useEffect(() => {
     dispatch(clearAuthError());
@@ -76,15 +89,18 @@ const Register = () => {
     e.preventDefault();
     setLocalError("");
 
-    if (role === "vendor" && !vendorType) {
-      setLocalError("Please select your vendor type.");
+    if (role === "vendor" && !selectedTypes.length) {
+      setLocalError("Please select at least one vendor type.");
       return;
     }
 
     const fd = new FormData();
     fd.append("role", role);
-    // customers send "user"; vendors send the type they selected
-    fd.append("type", role === "vendor" ? vendorType : "user");
+    // customers send type = "user"; vendors send the selected types as an ARRAY:
+    //   type[] = Home Services
+    //   type[] = Sports & Fitness
+    const typesToSend = role === "vendor" ? selectedTypes : ["user"];
+    typesToSend.forEach((t) => fd.append("type[]", t));
     Object.entries(form).forEach(([k, v]) => v && fd.append(k, v));
     if (image) fd.append("profile_image", image);
 
@@ -223,26 +239,39 @@ const Register = () => {
           </div>
 
           {role === "vendor" && (
-            <label>
-              Vendor type
-              <div className="auth-input">
-                <select value={vendorType} onChange={(e) => setVendorType(e.target.value)} required>
-                  <option value="">{typesLoading ? "Loading…" : "Select your type"}</option>
-                  {types.map((t) => (
-                    <option key={t.type} value={t.type}>{t.type}</option>
-                  ))}
-                </select>
-              </div>
+            <div className="reg-vt" role="group" aria-label="Vendor types">
+              <span className="reg-vt-title">
+                Vendor type <small className="text-muted">(select one or more)</small>
+              </span>
+
+              {typesLoading && <span className="reg-vt-note">Loading types…</span>}
               {typesError && <span className="bv-error">{typesError}</span>}
-              {fieldError("type") && <span className="bv-error">{fieldError("type")}</span>}
-              {activeGroup && (
-                <span className="reg-chips">
-                  {activeGroup.categories.map((c) => (
-                    <span key={c}>{c}</span>
-                  ))}
-                </span>
+              {(fieldError("type") || fieldError("type.0")) && (
+                <span className="bv-error">{fieldError("type") || fieldError("type.0")}</span>
               )}
-            </label>
+
+              <div className="reg-vt-list">
+                {types.map((item) => {
+                  const name = typeName(item);
+                  const active = selectedTypes.includes(name);
+                  return (
+                    <label key={name} className={`reg-vt-item ${active ? "is-active" : ""}`}>
+                      <input
+                        type="checkbox"
+                        checked={active}
+                        onChange={() => toggleType(name)}
+                      />
+                      <span className="reg-vt-box" aria-hidden="true">
+                        {active && <Check size={13} strokeWidth={3} />}
+                      </span>
+                      <span className="reg-vt-text">
+                        <strong>{name}</strong>
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
           )}
 
           <label>

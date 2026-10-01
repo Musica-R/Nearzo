@@ -1,0 +1,829 @@
+/* =====================================================================
+   Popups: role, location  |  strictly black & white, clean "profile" look
+   Desktop: centered dialog.  Phones (<= 600px): bottom sheet.
+   ===================================================================== */
+
+.pp-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(17, 17, 17, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    animation: pp-fade 0.18s ease-out;
+}
+
+.pp-modal {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 440px;
+    max-height: 88vh;
+    max-height: min(88dvh, 720px);
+    overflow: hidden;
+    background: #fff;
+    color: #000;
+    border: 1px solid #e5e5e5;
+    border-radius: 24px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    font-family: "Sora", "Poppins", system-ui, sans-serif;
+    animation: pp-pop 0.22s ease-out;
+    outline: none;
+}
+
+@keyframes pp-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pp-pop {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes pp-sheet {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: none;
+    }
+}
+
+.pp-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5e5e5;
+    border-radius: 50%;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.pp-close:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* ---- layout: scrolling body + pinned footer ---- */
+.pp-form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.pp-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 34px 26px 18px;
+}
+
+.pp-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 26px 22px;
+    border-top: 1px solid #ededed;
+    background: #fff;
+}
+
+.pp-footer-center {
+    align-items: center;
+}
+
+/* ---- type ---- */
+.pp-title {
+    margin: 0 36px 6px 0;
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #000;
+}
+
+.pp-sub {
+    margin: 0 0 22px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #525252;
+}
+
+.pp-error {
+    margin: 14px 0 0;
+    padding: 10px 12px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    background: #f5f5f5;
+    font-size: 0.84rem;
+    color: #000;
+}
+
+/* ---- buttons ---- */
+.pp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 18px;
+    border: 1.5px solid #000;
+    border-radius: 12px;
+    font: inherit;
+    font-size: 0.93rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, opacity 0.15s;
+}
+
+.pp-btn-primary {
+    background: #000;
+    color: #fff;
+}
+
+.pp-btn-primary:hover:not(:disabled) {
+    background: #262626;
+}
+
+.pp-btn-outline {
+    background: #fff;
+    color: #000;
+}
+
+.pp-btn-outline:hover:not(:disabled) {
+    background: #000;
+    color: #fff;
+}
+
+.pp-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.pp-link {
+    padding: 6px;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 0.86rem;
+    color: #525252;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.pp-link:hover {
+    color: #000;
+}
+
+.pp-link-strong {
+    font-weight: 700;
+    color: #000;
+    padding: 0;
+}
+
+.pp-skip {
+    align-self: center;
+}
+
+.pp-switch {
+    margin: 0;
+    text-align: center;
+    font-size: 0.86rem;
+    color: #525252;
+}
+
+.pp-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0 0 12px;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 0.85rem;
+    color: #525252;
+    cursor: pointer;
+}
+
+.pp-back:hover {
+    color: #000;
+}
+
+/* ---- step 1: role options ---- */
+.pp-options {
+    display: grid;
+    gap: 12px;
+}
+
+.pp-option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 16px;
+    text-align: left;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 14px;
+    background: #fff;
+    color: #000;
+    font: inherit;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.pp-option-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid #000;
+    border-radius: 12px;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.pp-option-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.pp-option-text strong {
+    display: block;
+    font-size: 1rem;
+}
+
+.pp-option-text small {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.8rem;
+    color: #737373;
+}
+
+.pp-option-go {
+    flex-shrink: 0;
+    transition: transform 0.15s;
+}
+
+.pp-option:hover,
+.pp-option:focus-visible {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+    outline: none;
+}
+
+.pp-option:hover .pp-option-icon,
+.pp-option:focus-visible .pp-option-icon {
+    border-color: #fff;
+}
+
+.pp-option:hover .pp-option-text small,
+.pp-option:focus-visible .pp-option-text small {
+    color: #d4d4d4;
+}
+
+.pp-option:hover .pp-option-go {
+    transform: translateX(3px);
+}
+
+/* ---- step 2: checkbox list of vendor types ---- */
+.pp-types {
+    display: grid;
+    gap: 10px;
+}
+
+.pp-check {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 14px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.pp-check:hover {
+    border-color: #737373;
+}
+
+.pp-check.is-active {
+    border-color: #000;
+    box-shadow: inset 0 0 0 1px #000;
+}
+
+/* real checkbox stays in the DOM for keyboards and screen readers */
+.pp-check input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.pp-box {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid #000;
+    border-radius: 6px;
+    background: #fff;
+    color: #fff;
+    transition: background 0.15s;
+}
+
+.pp-check.is-active .pp-box {
+    background: #000;
+}
+
+.pp-check input:focus-visible+.pp-box {
+    outline: 2px solid #000;
+    outline-offset: 3px;
+}
+
+.pp-check-body {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+}
+
+.pp-check-body strong {
+    font-size: 0.97rem;
+}
+
+.pp-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.pp-chip {
+    padding: 3px 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 999px;
+    background: #fafafa;
+    font-size: 0.74rem;
+    color: #404040;
+}
+
+.pp-check.is-active .pp-chip {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+}
+
+.pp-chip-more {
+    background: #fff;
+    border-style: dashed;
+}
+
+.pp-check.is-active .pp-chip-more {
+    background: #fff;
+    color: #000;
+}
+
+.pp-skeletons {
+    display: grid;
+    gap: 10px;
+}
+
+.pp-skeletons span {
+    height: 82px;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #fafafa 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: pp-shimmer 1.2s linear infinite;
+}
+
+@keyframes pp-shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+/* ---- login form ---- */
+.pp-label {
+    display: block;
+    margin: 16px 0 7px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #000;
+}
+
+.pp-label-flush {
+    margin: 0;
+}
+
+.pp-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    min-height: 48px;
+    border: 1.5px solid #d4d4d4;
+    border-radius: 12px;
+    background: #fff;
+    color: #525252;
+    transition: border-color 0.15s;
+}
+
+.pp-field:focus-within {
+    border-color: #000;
+    color: #000;
+}
+
+.pp-field input,
+.pp-field select {
+    flex: 1;
+    min-width: 0;
+    height: 46px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font: inherit;
+    font-size: 16px;
+    /* 16px stops iOS from zooming the page on focus */
+    color: #000;
+}
+
+.pp-field input::placeholder {
+    color: #a3a3a3;
+}
+
+.pp-eye {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-right: -6px;
+    border: none;
+    border-radius: 8px;
+    background: none;
+    color: #525252;
+    cursor: pointer;
+}
+
+.pp-eye:hover {
+    background: #f5f5f5;
+    color: #000;
+}
+
+/* ---- location popup ---- */
+.pp-or {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0;
+    font-size: 0.8rem;
+    color: #737373;
+}
+
+.pp-or::before,
+.pp-or::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e5e5e5;
+}
+
+.pp-coords {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1.5px solid #000;
+    border-radius: 12px;
+}
+
+.pp-coords-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #000;
+    color: #fff;
+}
+
+.pp-coords-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.pp-coords-text strong {
+    display: block;
+    font-size: 0.92rem;
+}
+
+.pp-coords-text small {
+    display: block;
+    font-size: 0.78rem;
+    color: #525252;
+    font-variant-numeric: tabular-nums;
+}
+
+.pp-coords-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: #f5f5f5;
+    color: #000;
+    cursor: pointer;
+}
+
+.pp-coords-clear:hover {
+    background: #000;
+    color: #fff;
+}
+
+.pp-select select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 22px;
+}
+
+.pp-select-caret {
+    position: absolute;
+    right: 14px;
+    pointer-events: none;
+}
+
+.pp-radius-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 22px 0 10px;
+    font-size: 0.9rem;
+}
+
+.pp-radii {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.pp-radius {
+    min-height: 44px;
+    border: 1.5px solid #d4d4d4;
+    border-radius: 10px;
+    background: #fff;
+    color: #000;
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.pp-radius:hover {
+    border-color: #000;
+}
+
+.pp-radius.is-active {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+}
+
+/* ---- keyboard focus (everything) ---- */
+.pp-modal button:focus-visible,
+.pp-radius:focus-visible,
+.pp-field:has(:focus-visible) {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+.pp-option:focus-visible {
+    outline-color: #fff;
+}
+
+/* ---- navbar location chip ---- */
+.lc-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    max-width: 220px;
+    min-height: 38px;
+    padding: 0 14px;
+    border: 1.5px solid #000;
+    border-radius: 999px;
+    background: #fff;
+    color: #000;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.lc-chip:hover {
+    background: #000;
+    color: #fff;
+}
+
+.lc-chip-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.lc-chip-radius {
+    flex-shrink: 0;
+    padding-left: 7px;
+    border-left: 1px solid currentColor;
+    font-weight: 500;
+    opacity: 0.75;
+}
+
+.lc-chip:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+/* ---- profile look: avatar header + step label ---- */
+.pp-avatar {
+    width: 64px;
+    height: 64px;
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5e5e5;
+    border-radius: 50%;
+    background: #f5f5f5;
+    color: #111;
+    box-shadow: 0 0 0 5px #fafafa;
+}
+
+.pp-eyebrow {
+    margin: 0 0 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #737373;
+}
+
+.pp-title {
+    font-size: 1.35rem;
+}
+
+/* option cards read like profile rows: soft border, quiet hover */
+.pp-option {
+    border-color: #e5e5e5;
+    border-radius: 16px;
+}
+
+.pp-option-icon {
+    border: none;
+    border-radius: 50%;
+    background: #f5f5f5;
+}
+
+.pp-option:hover .pp-option-icon,
+.pp-option:focus-visible .pp-option-icon {
+    background: #262626;
+}
+
+.pp-check {
+    border-radius: 16px;
+}
+
+/* =====================================================================
+   Phones: bottom sheet
+   ===================================================================== */
+@media (max-width: 600px) {
+    .pp-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .pp-modal {
+        max-width: none;
+        max-height: 92vh;
+        max-height: 92dvh;
+        border-width: 1px 0 0;
+        border-radius: 24px 24px 0 0;
+        animation: pp-sheet 0.26s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    /* grab handle */
+    .pp-modal::before {
+        content: "";
+        flex-shrink: 0;
+        align-self: center;
+        width: 40px;
+        height: 4px;
+        margin-top: 10px;
+        border-radius: 999px;
+        background: #d4d4d4;
+    }
+
+    .pp-close {
+        top: 18px;
+        right: 16px;
+    }
+
+    .pp-scroll {
+        padding: 22px 20px 16px;
+    }
+
+    .pp-footer {
+        padding: 12px 20px calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .pp-title {
+        font-size: 1.3rem;
+    }
+
+    .pp-btn,
+    .pp-option,
+    .pp-radius {
+        min-height: 52px;
+    }
+
+    /* comfortable thumb targets */
+    .lc-chip {
+        max-width: 150px;
+        padding: 0 11px;
+    }
+
+    .lc-chip-radius {
+        display: none;
+    }
+}
+
+@media (max-width: 360px) {
+    .pp-scroll {
+        padding: 20px 16px 14px;
+    }
+
+    .pp-footer {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .pp-radii {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .pp-overlay,
+    .pp-modal,
+    .pp-skeletons span {
+        animation: none;
+    }
+
+    .pp-option-go {
+        transition: none;
+    }
+}

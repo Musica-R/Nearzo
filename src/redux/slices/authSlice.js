@@ -1,18 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { registerUser, loginUser, verifyOtpUser, resendOtpUser } from "../../api/authApi";
 import { clearRoleChoice } from "../../utils/role";
+import { writeLocation } from "../../utils/location";
 
 const storedUser = localStorage.getItem("lokal_user");
 const storedToken = localStorage.getItem("lokal_token");
 
 // Normalizes Laravel-style validation error responses:
 // { success:false, message:"Validation Error.", errors:{ field:["msg"] } }
+// Also returns the HTTP status so callers can react to e.g. 403.
 const parseError = (err, fallback) => {
   const data = err.response?.data;
-  if (!data) return { message: fallback, errors: {} };
+  const status = err.response?.status || null;
+  if (!data) return { message: fallback, errors: {}, status };
   return {
     message: data.message || fallback,
     errors: data.errors || {},
+    status,
   };
 };
 
@@ -88,6 +92,11 @@ const authSlice = createSlice({
   },
   reducers: {
     logout: (state) => {
+      // Logout wipes the saved location (this user's AND the guest one)
+      // so the location popup asks again on the next login.
+      writeLocation(state.user?.id ?? null, null);
+      writeLocation(null, null);
+
       state.user = null;
       state.token = null;
       localStorage.removeItem("lokal_token");

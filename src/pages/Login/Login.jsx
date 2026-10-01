@@ -1,30 +1,69 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Mail, Lock, LogIn } from "lucide-react";
-import { login, clearAuthError } from "../../redux/slices/authSlice";
+import { login, resendOtp, clearAuthError } from "../../redux/slices/authSlice";
+import { getRoleChoice } from "../../utils/role";
 import "./Auth.css";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const routeLocation = useLocation();
   const { loading, error, user } = useSelector((s) => s.auth);
   const [form, setForm] = useState({ email: "", password: "" });
+
+  // Set by the role popup (vendor) or by RequireAuth: where to go after login
+  const redirectTo = routeLocation.state?.redirectTo || null;
 
   useEffect(() => {
     dispatch(clearAuthError());
   }, [dispatch]);
 
+  // After a successful login:
+  //   vendor account that came from the vendor flow -> /become-vendor?type=...
+  //   everyone else                                 -> /profile
   useEffect(() => {
-    if (user) navigate("/profile");
-  }, [user, navigate]);
+    if (!user) return;
+
+    const choice = getRoleChoice();
+    const vendorTarget =
+      redirectTo ||
+      (choice?.role === "vendor"
+        ? choice.type
+          ? `/become-vendor?type=${encodeURIComponent(choice.type)}`
+          : "/become-vendor"
+        : null);
+
+    if (vendorTarget && user.role === "vendor") {
+      navigate(vendorTarget, { replace: true });
+    } else {
+      navigate("/profile", { replace: true });
+    }
+  }, [user, redirectTo, navigate]);
 
   const handleChange = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login(form));
+    try {
+      await dispatch(login(form)).unwrap();
+      // success: the `user` effect above redirects
+    } catch (err) {
+      const isInactive =
+        err?.status === 403 &&
+        /inactive/i.test(err?.message || "");
+
+      if (isInactive) {
+        // Account not verified yet: send a fresh OTP (ignore failure,
+        // the user can still hit "Resend" on the verify page) and redirect.
+        dispatch(resendOtp({ email: form.email }));
+        dispatch(clearAuthError());
+        navigate("/verify-otp", { state: { email: form.email } });
+      }
+      // other errors are shown via the `error` from the store
+    }
   };
 
   return (
@@ -46,7 +85,11 @@ const Login = () => {
             <LogIn size={12} /> Login
           </span>
           <h1>Sign in to your account</h1>
-          <p className="text-muted auth-sub">Access bookings, offers and your saved providers.</p>
+          <p className="text-muted auth-sub">
+            {redirectTo
+              ? "Sign in to continue setting up your listing."
+              : "Access bookings, offers and your saved providers."}
+          </p>
 
           <label>
             Email

@@ -33,7 +33,10 @@ import image from "../../assets/location.jpg";
 import { useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { toPng } from "html-to-image";
-import { Download, Globe } from "lucide-react";
+import { Download } from "lucide-react";
+import thozhaaLogo from "../../assets/logo1.jpeg";
+import BookNowButton from "../Booknowbutton/Booknowbutton";
+import { THOZHAA_PHONE_DISPLAY, formatPhone } from "../../utils/booking";
 
 const tabs = [
   { key: "Overview", icon: User },
@@ -67,7 +70,7 @@ const ProviderProfile = () => {
     toPng(qrCardRef.current, { pixelRatio: 3, backgroundColor: "#ffffff" })
       .then((dataUrl) => {
         const link = document.createElement("a");
-        link.download = `${displayName.replace(/\s+/g, "_")}_lokal_profile.png`;
+        link.download = `${displayName.replace(/\s+/g, "_")}_thozhaa_card.png`;
         link.href = dataUrl;
         link.click();
       })
@@ -120,6 +123,12 @@ const ProviderProfile = () => {
   const whatsapp = toWhatsAppLink(provider.whatsapp);
   const photos = provider.photos || [];
   const displayName = provider.shopName || provider.name;
+  const fullAddress = [provider.addressLine1, provider.addressLine2, provider.city, provider.pincode]
+    .filter(Boolean)
+    .join(", ");
+
+  // Book Now only for Home Services (vendor) and Activity. Stalls get no button.
+  const bookingType = type === "vendor" ? "Home Services" : type === "activity" ? "Activity" : null;
 
   // Supports either camelCase (subcategoryNames) or snake_case (subcategory_names)
   // depending on how the API response gets mapped in lokalApi.js
@@ -466,33 +475,51 @@ const ProviderProfile = () => {
           {/* ---------- SIDEBAR ---------- */}
           <aside className="vp-sidebar">
 
-            <div className="vp-card vp-qr-card" ref={qrCardRef}>
-              <div className="vp-qr-left">
-                <div className="vp-qr-brand">
-                  <Globe size={14} /> Thozhaa
-                </div>
-                <strong className="vp-qr-name">{displayName}</strong>
-                {provider.subtitle && <span className="vp-qr-service">{provider.subtitle}</span>}
-                {/* {provider.phone && (
-                  <span className="vp-qr-phone">
-                    <Phone size={13} /> {provider.phone}
-                  </span>
-                )} */}
+            {/* Business card (downloadable) */}
+            <div className="bz-card" ref={qrCardRef}>
+              <div className="bz-left">
+                <strong className="bz-name">{displayName}</strong>
+                <span className="bz-role">{provider.subtitle || provider.category}</span>
+                <span className="bz-rule" />
+                <ul className="bz-list">
+                  {provider.phone && (
+                    <li>
+                      <span className="bz-ico">
+                        <Phone size={11} />
+                      </span>
+                      <span>{formatPhone(provider.phone)}</span>
+                    </li>
+                  )}
+                  {fullAddress && (
+                    <li>
+                      <span className="bz-ico">
+                        <MapPin size={11} />
+                      </span>
+                      <span className="bz-addr">{fullAddress}</span>
+                    </li>
+                  )}
+                </ul>
               </div>
 
-              <div className="vp-qr-right">
-                <QRCodeCanvas
-                  value={window.location.href}
-                  size={92}
-                  bgColor="#ffffff"
-                  fgColor="#4c1d95"
-                  level="M"
-                />
+              <div className="bz-right">
+                <img className="bz-logo" src={thozhaaLogo} alt="Thozhaa" crossOrigin="anonymous" />
+                <span className="bz-qr">
+                  <QRCodeCanvas
+                    value={window.location.href}
+                    size={78}
+                    bgColor="#ffffff"
+                    fgColor="#14213d"
+                    level="M"
+                  />
+                </span>
+                <span className="bz-phone">
+                  <Phone size={10} /> {THOZHAA_PHONE_DISPLAY}
+                </span>
               </div>
             </div>
 
             <button className="btn btn-outline btn-block vp-qr-download-btn" onClick={handleDownloadCard}>
-              <Download size={15} /> Download Profile QR
+              <Download size={15} /> Download Card
             </button>
             <div className="vp-card vp-cta-card">
               <h4>Interested?</h4>
@@ -507,6 +534,17 @@ const ProviderProfile = () => {
                   <MessageCircle size={15} /> Message on WhatsApp
                 </a>
               )}
+
+              {/* Book Now (+ success popup -> WhatsApp). Renders nothing for stalls. */}
+              <BookNowButton
+                className="vp-book-wrap"
+                vendorUserId={provider.id}
+                bookingType={bookingType}
+                name={displayName}
+                category={provider.category || provider.subtitle}
+                phone={provider.phone}
+                whatsapp={provider.whatsapp}
+              />
             </div>
 
             <div className="vp-card vp-similar-card">

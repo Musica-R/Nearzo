@@ -1,40 +1,28 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { MapPin, Crosshair, CheckCircle2, Radar, Search } from "lucide-react";
 import { fetchCities } from "../../api/lokalApi";
+import { saveLocation } from "../../redux/slices/locationSlice";
+import { DEFAULT_RADIUS, RADIUS_OPTIONS, hasCoords } from "../../utils/location";
 import "./LocationBar.css";
 
-const STORAGE_KEY = "lokal_location";
-const AUTO_EXPIRE_MS = 6 * 60 * 60 * 1000; // saved location auto-deletes after 6 hours
-const RADIUS_OPTIONS = [5,10,15,20,25,30,35,40,45,50,55,60 ,100 ,200];
-const DEFAULT_RADIUS = 25;
-
-const loadSavedLocation = () => {
-    try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return { radius: DEFAULT_RADIUS };
-        const saved = JSON.parse(raw);
-        if (!saved.savedAt || Date.now() - saved.savedAt > AUTO_EXPIRE_MS) {
-            localStorage.removeItem(STORAGE_KEY);
-            return { radius: DEFAULT_RADIUS };
-        }
-        return saved;
-    } catch {
-        localStorage.removeItem(STORAGE_KEY);
-        return { radius: DEFAULT_RADIUS };
-    }
-};
-
-// onSearch is optional — called when the person hits the Search button,
-// useful for closing panels / scrolling to results / analytics, since the
-// grid itself already re-fetches reactively whenever location changes.
+// The saved location now lives in the redux `location` slice (and localStorage,
+// per user, valid for 7 days). This bar and the location popup edit the SAME
+// value, so changing it here updates the popup, navbar chip and every page.
+//
+// onChange (optional): called whenever the saved location changes.
+// onSearch (optional): called when the Search button is pressed.
 
 const LocationBar = ({ onChange, onSearch }) => {
+    const dispatch = useDispatch();
+    const saved = useSelector((s) => s.location.current);
+    const location = saved || { radius: DEFAULT_RADIUS };
+
     const [cities, setCities] = useState([]);
-    const [location, setLocation] = useState(() => loadSavedLocation());
     const [locating, setLocating] = useState(false);
     const [error, setError] = useState(null);
 
-    const hasCoords = location.latitude != null && location.longitude != null;
+    const coordsOn = hasCoords(location);
 
     useEffect(() => {
         fetchCities().then(setCities).catch(() => setCities([]));
@@ -43,18 +31,10 @@ const LocationBar = ({ onChange, onSearch }) => {
     useEffect(() => {
         onChange?.(location);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location]);
+    }, [saved]);
 
-    const persist = (next) => {
-        setLocation(next);
-        if (next.cityId || next.latitude != null) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...next, savedAt: Date.now() }));
-        } else {
-            localStorage.removeItem(STORAGE_KEY);
-        }
-    };
+    const persist = (next) => dispatch(saveLocation(next));
 
-    // Fully separate, standalone field #2 — the city select
     const handleCityChange = (e) => {
         const id = e.target.value;
         if (!id) {
@@ -70,9 +50,8 @@ const LocationBar = ({ onChange, onSearch }) => {
         });
     };
 
-    // Fully separate, standalone field #1 — current location, with its own name/label
     const handleUseCurrentLocation = () => {
-        if (hasCoords) {
+        if (coordsOn) {
             persist({ ...location, latitude: null, longitude: null });
             return;
         }
@@ -100,34 +79,26 @@ const LocationBar = ({ onChange, onSearch }) => {
         );
     };
 
-    const handleRadiusChange = (radius) => {
-        persist({ ...location, radius });
-    };
-
-    const handleSearchClick = () => {
-        onSearch?.(location);
-    };
+    const handleRadiusChange = (radius) => persist({ ...location, radius });
 
     return (
         <div className="location-search-wrap">
             <div className="location-search-card">
-                {/* Field 1 — Current location, standalone with its own label */}
                 <button
                     type="button"
-                    className={`location-search-field location-current-field ${hasCoords ? "active" : ""}`}
+                    className={`location-search-field location-current-field ${coordsOn ? "active" : ""}`}
                     onClick={handleUseCurrentLocation}
                     disabled={locating}
                 >
                     <Crosshair size={16} />
                     <span className="location-search-field-label">
-                        {locating ? "Locating..." : hasCoords ? "Current location" : "Use current location"}
+                        {locating ? "Locating..." : coordsOn ? "Current location" : "Use current location"}
                     </span>
-                    {hasCoords && <CheckCircle2 size={14} className="location-current-check" />}
+                    {coordsOn && <CheckCircle2 size={14} className="location-current-check" />}
                 </button>
 
                 <div className="location-search-divider" />
 
-                {/* Field 2 — City, its own standalone select */}
                 <div className="location-search-field location-city-field">
                     <MapPin size={16} />
                     <select
@@ -146,7 +117,6 @@ const LocationBar = ({ onChange, onSearch }) => {
 
                 <div className="location-search-divider" />
 
-                {/* Field 3 — Radius */}
                 <div className="location-search-field location-search-radius">
                     <Radar size={16} />
                     <select
@@ -161,7 +131,7 @@ const LocationBar = ({ onChange, onSearch }) => {
                     </select>
                 </div>
 
-                <button className="location-search-btn" onClick={handleSearchClick}>
+                <button type="button" className="location-search-btn" onClick={() => onSearch?.(location)}>
                     <Search size={16} />
                     Search
                 </button>

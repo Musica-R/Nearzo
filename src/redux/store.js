@@ -4,6 +4,7 @@ import vendorReducer from "./slices/vendorSlice";
 import categoryReducer from "./slices/categorySlice";
 import cityReducer from "./slices/citySlice";
 import activityCategoryReducer from "./slices/activityCategorySlice";
+import locationReducer from "./slices/locationSlice"; // ← added
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     category: categoryReducer,
     city: cityReducer,
     activityCategory: activityCategoryReducer,
+    location: locationReducer, // ← added
   },
 });
 

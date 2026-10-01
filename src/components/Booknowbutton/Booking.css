@@ -1,0 +1,239 @@
+/* Booking button + success popup (prefix: bk-) */
+.bk-wrap {
+  width: 100%;
+}
+
+.bk-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 999px;
+  background: #ff6b35;
+  color: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.bk-btn:hover:not(:disabled) {
+  background: #e85a2a;
+}
+
+.bk-btn:disabled {
+  opacity: 0.75;
+  cursor: wait;
+}
+
+.bk-btn.is-booked {
+  background: #047857;
+}
+
+.bk-spin {
+  animation: bk-rotate 0.8s linear infinite;
+}
+
+@keyframes bk-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bk-error {
+  margin: 8px 0 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #e11d48;
+}
+
+/* ---- popup ---- */
+.bk-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(20, 33, 61, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: bk-fade 0.18s ease;
+}
+
+.bk-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  padding: 28px 24px 22px;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(20, 33, 61, 0.35);
+  text-align: center;
+  font-family: "Inter", system-ui, sans-serif;
+  color: #14213d;
+  animation: bk-pop 0.22s ease;
+}
+
+.bk-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: #f1f3f8;
+  color: #5b6478;
+  cursor: pointer;
+}
+
+.bk-close:hover {
+  background: #e3e7ef;
+}
+
+.bk-check {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #d1fae5;
+  color: #047857;
+}
+
+.bk-title {
+  margin: 0 0 6px;
+  font-family: "Sora", system-ui, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.bk-sub {
+  margin: 0 0 16px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #5b6478;
+}
+
+.bk-sub strong {
+  color: #14213d;
+}
+
+.bk-summary {
+  margin: 0 0 18px;
+  padding: 4px 14px;
+  border: 1px solid #e3e7ef;
+  border-radius: 14px;
+  background: #fffbf8;
+  text-align: left;
+}
+
+.bk-summary > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px dashed #e3e7ef;
+  font-size: 0.84rem;
+}
+
+.bk-summary > div:last-child {
+  border-bottom: none;
+}
+
+.bk-summary dt {
+  color: #5b6478;
+  font-weight: 600;
+}
+
+.bk-summary dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+  word-break: break-word;
+}
+
+.bk-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 11px 16px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.bk-action-wa {
+  background: #ff6b35;
+  color: #fff;
+}
+
+.bk-action-wa:hover {
+  background: #e85a2a;
+}
+
+.bk-action-call {
+  background: #14213d;
+  color: #fff;
+}
+
+.bk-action-call:hover {
+  filter: brightness(1.12);
+}
+
+.bk-done {
+  width: 100%;
+  padding: 9px;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #5b6478;
+  cursor: pointer;
+}
+
+.bk-done:hover {
+  color: #14213d;
+}
+
+@keyframes bk-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes bk-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+}
+
+@media (max-width: 480px) {
+  .bk-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .bk-dialog {
+    max-width: none;
+    border-radius: 22px 22px 0 0;
+  }
+}
