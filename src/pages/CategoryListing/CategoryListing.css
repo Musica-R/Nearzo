@@ -22,3 +22,34 @@
   font-size: 1.4rem;
   margin-bottom: 20px;
 }
+
+/* ---- Location filter + pagination on the category page ---- */
+.lk-category-toolbar {
+  margin-bottom: 22px;
+}
+
+.lk-category-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.lk-category-pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border: 1.5px solid var(--color-border, #e5e7eb);
+  border-radius: 10px;
+  background: var(--color-surface, #fff);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lk-category-pagination-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

@@ -9,6 +9,7 @@ import {
   Radar,
   Filter,
   ArrowRight,
+  Users,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -80,7 +81,7 @@ const Vendors = () => {
   const counts = useMemo(() => {
     const map = {};
     vendors.forEach((v) => {
-      if (v.category) map[v.category] = (map[v.category] || 0) + 1;
+      if (v.categoryId != null) map[v.categoryId] = (map[v.categoryId] || 0) + 1;
     });
     return map;
   }, [vendors]);
@@ -89,8 +90,7 @@ const Vendors = () => {
     let items = vendors;
 
     if (activeCategoryId) {
-      const activeCategory = categories.find((c) => c.id === activeCategoryId);
-      if (activeCategory) items = items.filter((v) => v.category === activeCategory.name);
+      items = items.filter((v) => String(v.categoryId) === String(activeCategoryId));
     }
 
     if (topRatedOnly) {
@@ -201,6 +201,17 @@ const Vendors = () => {
                           ))}
                         </div>
                       )}
+                      <div className="vendor-card-stats">
+                        <span className="vendor-card-stat">
+                          <Star size={12} fill="currentColor" />
+                          {v.rating != null && v.rating !== ""
+                            ? `${Number(v.rating).toFixed(1)} (${v.totalRatings})`
+                            : "No ratings yet"}
+                        </span>
+                        <span className="vendor-card-stat">
+                          <Users size={12} /> {v.totalBookings} booked
+                        </span>
+                      </div>
                       <div className="vendor-card-footer">
                         <span className="vendor-card-price">
                           {formatPrice(v.price) || "Contact for price"}

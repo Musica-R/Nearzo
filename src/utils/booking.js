@@ -104,3 +104,37 @@ export const fetchBookings = async (userId) => {
   }
   return Array.isArray(json.data) ? json.data : [];
 };
+
+/**
+ * POST /booking-rating   (JSON body)
+ *   user_id   = logged-in user's id
+ *   vendor_id = the booking's vendor_id
+ *   rating    = whole number 1-5
+ */
+export const submitRating = async ({ userId, vendorId, rating }) => {
+  const res = await fetch(`${API_BASE}/booking-rating`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      user_id: Number(userId),
+      vendor_id: Number(vendorId),
+      rating: Number(rating),
+    }),
+  });
+
+  let json = {};
+  try {
+    json = await res.json();
+  } catch {
+    /* non-JSON response */
+  }
+
+  if (!res.ok || json.success === false) {
+    const firstValidation = json.errors && Object.values(json.errors)[0]?.[0];
+    throw new Error(firstValidation || json.message || "Couldn't submit your rating. Please try again.");
+  }
+  return json;
+};

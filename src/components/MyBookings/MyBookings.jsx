@@ -8,8 +8,10 @@ import {
   Loader2,
   MapPin,
   RotateCcw,
+  Star,
 } from "lucide-react";
 import { fetchBookings } from "../../utils/booking";
+import RatingPopup from "../popups/RatingPopup";
 import "./MyBookings.css";
 
 const PER_PAGE = 3;
@@ -50,6 +52,17 @@ const MyBookings = ({ userId, title = "My Bookings" }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
+  // Booking currently being rated (null = popup closed)
+  const [ratingFor, setRatingFor] = useState(null);
+
+  // Called by the popup after the API accepts the rating: update the card
+  // straight away. Matching on vendor_id because /booking-rating takes
+  // (user_id, vendor_id, rating) and no booking id.
+  const handleRated = (vendorId, value) => {
+    setBookings((list) =>
+      list.map((b) => (String(b.vendor_id) === String(vendorId) ? { ...b, rating: String(value) } : b))
+    );
+  };
 
   useEffect(() => {
     if (!userId) return;
@@ -109,6 +122,7 @@ const MyBookings = ({ userId, title = "My Bookings" }) => {
             const address = [vd.address_line1, vd.city?.name || vd.city_name].filter(Boolean).join(", ");
             const to = rebookPath(b);
             const status = String(b.status || "pending").toLowerCase();
+            const ratingValue = Number(b.rating) || 0;
 
             return (
               <li className="mb-item" key={b.id}>
@@ -134,13 +148,32 @@ const MyBookings = ({ userId, title = "My Bookings" }) => {
                       <MapPin size={13} /> {address}
                     </span>
                   )}
+                  {ratingValue > 0 && (
+                    <span className="mb-rating" aria-label={`Rated ${ratingValue} out of 5`}>
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <Star key={n} size={14} fill={n <= Math.round(ratingValue) ? "currentColor" : "none"} />
+                      ))}
+                      <span className="mb-rating-num">{ratingValue.toFixed(1)}</span>
+                    </span>
+                  )}
                 </div>
 
-                {to && (
-                  <Link to={to} className="mb-rebook">
-                    <RotateCcw size={14} /> Rebook
-                  </Link>
-                )}
+                <div className="mb-actions">
+                  {b.vendor_id && (
+                    <button
+                      type="button"
+                      className="mb-rate"
+                      onClick={() => setRatingFor({ vendorId: b.vendor_id, name, initial: ratingValue })}
+                    >
+                      <Star size={14} /> {ratingValue > 0 ? "Edit rating" : "Rate"}
+                    </button>
+                  )}
+                  {to && (
+                    <Link to={to} className="mb-rebook">
+                      <RotateCcw size={14} /> Rebook
+                    </Link>
+                  )}
+                </div>
               </li>
             );
           })}
@@ -164,6 +197,16 @@ const MyBookings = ({ userId, title = "My Bookings" }) => {
           </button>
         </div>
       )}
+
+      <RatingPopup
+        open={Boolean(ratingFor)}
+        onClose={() => setRatingFor(null)}
+        userId={userId}
+        vendorId={ratingFor?.vendorId}
+        vendorName={ratingFor?.name}
+        initial={ratingFor?.initial}
+        onSuccess={(value) => handleRated(ratingFor?.vendorId, value)}
+      />
     </section>
   );
 };

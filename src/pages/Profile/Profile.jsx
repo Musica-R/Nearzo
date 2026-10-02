@@ -73,10 +73,10 @@ const Profile = () => {
                 <Link to="/activity">
                   <CalendarCheck size={16} /> My Activity
                 </Link>
-                <Link to="/become-vendor">
-                  <Store size={16} /> Become a Vendor
+                <Link to="/nearby-stall">
+                  <Store size={16} /> Browse Nearby Shop
                 </Link>
-                <Link to="/service">
+                <Link to="/vendors">
                   <Briefcase size={16} /> Browse Services
                 </Link>
               </div>

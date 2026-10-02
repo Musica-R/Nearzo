@@ -10,6 +10,7 @@ import {
   Radar,
   Filter,
   X,
+  Users,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -23,6 +24,7 @@ import {
   normalizeProvider,
   hasLocationFilter,
   formatPrice,
+  getRatingInfo,
 } from "../../api/lokalApi";
 import "./Service.css";
 
@@ -264,6 +266,7 @@ const Service = () => {
                   // formatPrice already returns a complete label like "₹780 onwards" —
                   // don't append "onwards" again here or it duplicates ("onwards onwards").
                   const priceLabel = formatPrice ? formatPrice(price) : price ? `₹${price} onwards` : null;
+                  const { rating, totalRatings, totalBookings } = getRatingInfo(item.raw || item);
 
                   return (
                     <Link to={`/provider/activity/${item.id}`} key={item.id} className="service-item-card">
@@ -292,6 +295,15 @@ const Service = () => {
                             ))}
                           </div>
                         )}
+                        <div className="service-item-stats">
+                          <span className="service-item-stat">
+                            <Star size={12} fill="currentColor" />
+                            {rating != null ? `${rating.toFixed(1)} (${totalRatings})` : "No ratings yet"}
+                          </span>
+                          <span className="service-item-stat">
+                            <Users size={12} /> {totalBookings} booked
+                          </span>
+                        </div>
                         <div className="service-item-footer">
                           {priceLabel ? (
                             <div className="service-item-price">{priceLabel}</div>

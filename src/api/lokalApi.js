@@ -301,7 +301,10 @@ export function normalizeProvider(raw, type) {
         whatsapp: raw.whatsapp_number || "",
         experience: raw.experience || "",
         price: raw.price ?? null,
-        rating: raw.rating ?? raw.avg_rating ?? null,
+        // API sends average_rating (string like "4.0") - old keys kept as fallback
+        rating: raw.average_rating ?? raw.rating ?? raw.avg_rating ?? null,
+        totalRatings: Number(raw.total_ratings) || 0,
+        totalBookings: Number(raw.total_bookings) || 0,
         availabilityType: raw.availability_type || "",
         workingFrom: raw.working_from,
         workingTo: raw.working_to,
@@ -376,11 +379,13 @@ export async function fetchProviderById(type, id, locationOpts) {
 // ...keep everything already in the file, then add:
 
 // ---- Category-detail endpoints (used when a category card is clicked) ----
-export const fetchVendorsByCategory = (categoryId) =>
-    getJSON("vendors-category", { category_id: categoryId });
+// opts = { cityId, latitude, longitude, radius, page, perPage } — same shape the
+// other list endpoints use, so the LocationBar value can be passed straight in.
+export const fetchVendorsByCategory = (categoryId, opts = {}) =>
+    getJSON("vendors-category", { category_id: categoryId, ...buildLocationParams(opts) });
 
-export const fetchActivitiesByCategory = (categoryId) =>
-    getJSON("activity-category", { category_id: categoryId });
+export const fetchActivitiesByCategory = (categoryId, opts = {}) =>
+    getJSON("activity-category", { category_id: categoryId, ...buildLocationParams(opts) });
 
 // Maps a groupId (from mapApiCategory) to which detail endpoint/route to use.
 export const GROUP_TO_PROVIDER_TYPE = {
@@ -395,10 +400,10 @@ const fetchersByCategoryType = {
 };
 
 // Fetches the full list for a category-detail page (CategoryListing.jsx).
-export function fetchProvidersByCategory(type, categoryId) {
+export function fetchProvidersByCategory(type, categoryId, opts = {}) {
     const fetcher = fetchersByCategoryType[type];
     if (!fetcher) throw new Error(`Unknown provider type: ${type}`);
-    return fetcher(categoryId);
+    return fetcher(categoryId, opts);
 }
 
 // ---- Shared display helpers (category-detail API shape) ----
@@ -443,3 +448,13 @@ export const getInitials = (name) =>
         .map((w) => w[0])
         .join("")
         .toUpperCase();
+
+// Reads rating + booking count from either the raw API shape or the normalized shape
+export const getRatingInfo = (v = {}) => {
+    const rating = v.average_rating ?? v.rating ?? v.avg_rating ?? null;
+    return {
+        rating: rating != null && rating !== "" ? Number(rating) : null,
+        totalRatings: Number(v.total_ratings ?? v.totalRatings) || 0,
+        totalBookings: Number(v.total_bookings ?? v.totalBookings) || 0,
+    };
+};

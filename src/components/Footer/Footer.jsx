@@ -11,7 +11,7 @@ const exploreLinks = [
 ];
 
 const companyLinks = [
-  { label: "Become a Vendor", to: "/become-vendor", icon: UserPlus },
+  // { label: "Become a Vendor", to: "/become-vendor", icon: UserPlus },
   { label: "My Activity", to: "/activity", icon: FileText },
   // { label: "Help & Support", href: "#help", icon: HelpCircle },
   { label: "Terms & Conditions", to: "/terms", icon: ShieldCheck },

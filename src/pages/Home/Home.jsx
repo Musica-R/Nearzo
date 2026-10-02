@@ -4,8 +4,9 @@ import { useDispatch } from "react-redux";
 import * as Icons from "lucide-react";
 import { ShieldCheck, Zap, Lock, Headphones } from "lucide-react";
 import Hero from "../../components/Hero/Hero";
-import HowItWorks from "../../components/HowItWorks/HowItWorks";
+// import HowItWorks from "../../components/HowItWorks/HowItWorks";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
+import LocationBar from "../../components/LocationBar/LocationBar";
 import ServiceCard from "../../components/ServiceCard/ServiceCard";
 import VendorCard from "../../components/VendorCard/VendorCard";
 import JobCard from "../../components/JobCard/JobCard";
@@ -13,8 +14,11 @@ import { getCategories } from "../../redux/slices/categorySlice";
 import {
   fetchAllCategories,
   fetchNearStalls,
+  searchNearStalls,
   fetchVendors,
+  searchVendors,
   fetchJobs,
+  hasLocationFilter,
   normalizeProvider,
   normalizeJob,
   mapApiCategory,
@@ -147,6 +151,23 @@ const Home = () => {
   const [latestJobs, setLatestJobs] = useState([]);
   const [jobsLoading, setJobsLoading] = useState(true);
 
+  // Location filter (city / current location / radius) from the LocationBar.
+  // Near You, Top Rated Providers and Latest Jobs all follow it.
+  const [location, setLocation] = useState(null);
+  const resultsRef = useRef(null);
+
+  // Primitive copies of the filter so effects re-run only on a REAL change
+  // (LocationBar hands back a new object on mount).
+  const cityId = location?.cityId ?? null;
+  const latitude = location?.latitude ?? null;
+  const longitude = location?.longitude ?? null;
+  const radius = location?.radius ?? null;
+  const filterActive = hasLocationFilter({ cityId, latitude, longitude });
+
+  const scrollToResults = () => {
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   // One scroll ref per group, so each row's arrows scroll only that row.
   const scrollRefs = useRef({});
   const getScrollRef = (groupId) => {
@@ -195,7 +216,8 @@ const Home = () => {
     let ignore = false;
     setStallsLoading(true);
 
-    fetchNearStalls({ perPage: 6 })
+    const fetcher = filterActive ? searchNearStalls : fetchNearStalls;
+    fetcher({ cityId, latitude, longitude, radius, perPage: 6 })
       .then((data) => {
         if (ignore) return;
         setNearStalls((data || []).slice(0, 6).map((raw) => normalizeProvider(raw, "stall")));
@@ -210,14 +232,15 @@ const Home = () => {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [filterActive, cityId, latitude, longitude, radius]);
 
   // Top Rated Providers — live from /all-vendors, capped to 4 shown.
   useEffect(() => {
     let ignore = false;
     setVendorsLoading(true);
 
-    fetchVendors({ perPage: 8 })
+    const fetcher = filterActive ? searchVendors : fetchVendors;
+    fetcher({ cityId, latitude, longitude, radius, perPage: 8 })
       .then((data) => {
         if (ignore) return;
         setTopVendors((data || []).slice(0, 8).map((raw) => normalizeProvider(raw, "vendor")));
@@ -232,14 +255,14 @@ const Home = () => {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [filterActive, cityId, latitude, longitude, radius]);
 
   // Latest Job Openings — live from /jobs, capped to 6.
   useEffect(() => {
     let ignore = false;
     setJobsLoading(true);
 
-    fetchJobs({ perPage: 6 })
+    fetchJobs({ cityId, latitude, longitude, radius, perPage: 6 })
       .then((data) => {
         if (ignore) return;
         setLatestJobs((data || []).slice(0, 6).map(normalizeJob));
@@ -254,7 +277,7 @@ const Home = () => {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [filterActive, cityId, latitude, longitude, radius]);
 
   // Mixes categories across all 3 groups (round-robin) so the bento grid
   // isn't dominated by whichever type the API returns first.
@@ -265,22 +288,31 @@ const Home = () => {
 
   return (
     <div className="lk-home">
+      {/* ---------- Location filter (top of home) ---------- */}
+
+
       {/* ---------- Hero + Top Categories ---------- */}
       <div className="lk-hero-row">
         <div className="lk-container lk-hero-grid">
           <div className="lk-hero-left">
             <Hero />
 
+            <div className="lk-home-location">
+              <div className="lk-container">
+                <LocationBar onChange={setLocation} onSearch={scrollToResults} />
+              </div>
+            </div>
+
             {/* Fills the leftover space under the Hero so it lines up with
                 the taller Top Categories column on the right. */}
             <div className="lk-hero-highlights">
               <div className="lk-hero-highlights-text">
                 <h4>Why Choose Thozhaa?</h4>
-                <p>
-                Your trusted platform for finding verified professionals across home services, learning, fitness, sports, jobs, 
-                and local services. Discover the right professionals near you, explore their services — all in one place.
+                {/* <p>
+                  Your trusted platform for finding verified professionals across home services, learning, fitness, sports, jobs,
+                  and local services. Discover the right professionals near you, explore their services — all in one place.
 
-                </p>
+                </p> */}
               </div>
               <div className="lk-hero-highlights-stats">
                 {heroHighlightStats.map((stat) => (
@@ -454,7 +486,8 @@ const Home = () => {
       {/* <HowItWorks /> */}
 
       {/* ---------- Near You — live from /near-stalls-all, capped at 6 (unchanged) ---------- */}
-      {!stallsLoading && nearStalls.length > 0 && (
+      <div ref={resultsRef} className="lk-home-results-anchor" />
+      {!stallsLoading && (nearStalls.length > 0 || filterActive) && (
         <section className="lk-section">
           <div className="lk-container">
             <SectionHeader
@@ -463,17 +496,21 @@ const Home = () => {
               subtitle="Stalls and shops close to your location."
               linkTo="/nearby-stall"
             />
-            <div className="lk-vendor-grid">
-              {nearStalls.map((stall) => (
-                <VendorCard key={stall.id} vendor={stall} />
-              ))}
-            </div>
+            {nearStalls.length === 0 ? (
+              <p className="lk-home-empty">No stalls or shops found for this location. Try a bigger radius.</p>
+            ) : (
+              <div className="lk-vendor-grid">
+                {nearStalls.map((stall) => (
+                  <VendorCard key={stall.id} vendor={stall} />
+                ))}
+              </div>
+            )}
           </div>
         </section>
       )}
 
       {/* ---------- Latest Job Openings — live from /jobs, capped at 6 ---------- */}
-      {(jobsLoading || latestJobs.length > 0) && (
+      {(jobsLoading || latestJobs.length > 0 || filterActive) && (
         <section className="lk-section">
           <div className="lk-container">
             <SectionHeader
@@ -482,13 +519,17 @@ const Home = () => {
               subtitle="Fresh opportunities from companies near you."
               linkTo="/careers"
             />
-            <div className="lk-job-grid">
-              {jobsLoading
-                ? Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="lk-service-skeleton" aria-hidden="true" />
-                ))
-                : latestJobs.map((job) => <JobCard key={job.id} job={job} />)}
-            </div>
+            {!jobsLoading && latestJobs.length === 0 ? (
+              <p className="lk-home-empty">No job openings found for this location.</p>
+            ) : (
+              <div className="lk-job-grid">
+                {jobsLoading
+                  ? Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="lk-service-skeleton" aria-hidden="true" />
+                  ))
+                  : latestJobs.map((job) => <JobCard key={job.id} job={job} />)}
+              </div>
+            )}
           </div>
         </section>
       )}
@@ -502,11 +543,15 @@ const Home = () => {
             subtitle="Loved and reviewed by people in your area."
             linkTo="/service"
           />
-          <div className="lk-vendor-grid">
-            {vendorsLoading
-              ? Array.from({ length: 4 }).map((_, i) => <div key={i} className="lk-service-skeleton" aria-hidden="true" />)
-              : topVendors.slice(0, 4).map((vendor) => <VendorCard key={vendor.id} vendor={vendor} />)}
-          </div>
+          {!vendorsLoading && topVendors.length === 0 ? (
+            <p className="lk-home-empty">No providers found for this location. Try a bigger radius.</p>
+          ) : (
+            <div className="lk-vendor-grid">
+              {vendorsLoading
+                ? Array.from({ length: 4 }).map((_, i) => <div key={i} className="lk-service-skeleton" aria-hidden="true" />)
+                : topVendors.slice(0, 4).map((vendor) => <VendorCard key={vendor.id} vendor={vendor} />)}
+            </div>
+          )}
         </div>
       </section>
 

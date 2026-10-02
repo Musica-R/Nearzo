@@ -385,3 +385,18 @@
         padding: 7px 10px;
     }
 }
+
+.vendor-card-stats {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0 10px;
+    font-size: 0.78rem;
+    color: var(--color-text-muted, #6b7280);
+}
+.vendor-card-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.vendor-card-stat svg:first-child { color: #d69a1d; }

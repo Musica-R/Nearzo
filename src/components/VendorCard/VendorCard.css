@@ -108,3 +108,12 @@
     border-radius: 0px;
   }
 }
+
+.lk-vendor-card-bookings {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+.lk-vendor-card-meta { flex-wrap: wrap; gap: 6px 12px; }

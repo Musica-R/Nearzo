@@ -1,0 +1,59 @@
+/* Star rating popup (uses the shared .pp-* modal styles from Popupps.css) */
+.rp-stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 22px 0 6px;
+}
+
+.rp-star {
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: #cbd2de;
+  transition: transform 0.12s ease, color 0.12s ease;
+}
+
+.rp-star.is-on {
+  color: #f5a623;
+}
+
+.rp-star:hover:not(:disabled) {
+  transform: scale(1.12);
+}
+
+.rp-star:disabled {
+  cursor: default;
+}
+
+.rp-star:focus-visible {
+  outline: 2px solid var(--color-primary, #14213d);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.rp-label {
+  text-align: center;
+  min-height: 1.3em;
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-ink, #14213d);
+}
+
+.rp-spin {
+  animation: rp-rotate 0.8s linear infinite;
+}
+
+@keyframes rp-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 380px) {
+  .rp-stars {
+    gap: 2px;
+  }
+}

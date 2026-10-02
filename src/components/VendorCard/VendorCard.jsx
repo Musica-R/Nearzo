@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { Star, MapPin, ShieldCheck } from "lucide-react";
+import { Star, MapPin, ShieldCheck, Users } from "lucide-react";
 import {
   getProviderName,
   getProviderCity,
   getProviderCategoryName,
   formatCurrency,
   getInitials,
+  getRatingInfo,
 } from "../../api/lokalApi";
 import "./VendorCard.css";
 
@@ -19,7 +20,7 @@ const VendorCard = ({ raw, type, categoryId, vendor }) => {
   const city = isRaw ? getProviderCity(raw) : vendor.city;
   const categoryLabel = isRaw ? getProviderCategoryName(raw) : vendor.category || vendor.subtitle || "Service";
   const price = isRaw ? formatCurrency(raw.price) : vendor.price;
-  const rating = isRaw ? raw.rating ?? raw.avg_rating ?? null : vendor.rating;
+  const { rating, totalRatings, totalBookings } = getRatingInfo(isRaw ? raw : vendor);
   const photo = isRaw ? raw.profile_photo || raw.shop_photo : vendor.photo;
   const id = isRaw ? raw.id : vendor.id;
 
@@ -58,13 +59,13 @@ const VendorCard = ({ raw, type, categoryId, vendor }) => {
           </span>
         )}
         <div className="lk-vendor-card-meta">
-          {rating ? (
-            <span className="lk-vendor-card-rating">
-              <Star size={13} fill="currentColor" /> {rating}
-            </span>
-          ) : (
-            <span />
-          )}
+          <span className="lk-vendor-card-rating">
+            <Star size={13} fill="currentColor" />
+            {rating != null ? `${rating.toFixed(1)} (${totalRatings})` : "New"}
+          </span>
+          <span className="lk-vendor-card-bookings">
+            <Users size={12} /> {totalBookings} booked
+          </span>
           {price && <span className="lk-vendor-card-price">{price}</span>}
         </div>
       </div>

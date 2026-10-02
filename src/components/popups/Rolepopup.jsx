@@ -6,6 +6,10 @@ import {
   FiArrowLeft,
   FiArrowRight,
   FiCheck,
+  FiTool,
+  FiActivity,
+  FiBriefcase,
+  FiMapPin,
 } from "react-icons/fi";
 import useVendorTypes from "../../hooks/useVendorTypes";
 import { joinTypes } from "../../utils/vendorTypes";
@@ -14,6 +18,51 @@ import Modal from "./Modal";
 // list-category?type=vendor returns plain names: ["Home Services", "jobs", ...]
 // (an object like { type: "Home Services" } is also tolerated)
 const typeName = (item) => String(typeof item === "string" ? item : item?.type ?? item?.name ?? "");
+
+// What each vendor type means, shown on its card in step 2.
+// Keys are the lower-cased names returned by list-category?type=vendor.
+// The real API name is still what gets sent in the URL (see toggleType).
+// Icons are neutral now (no per-type colours) so the popup stays calm and natural.
+const TYPE_INFO = {
+  "home services": {
+    label: "Home Services",
+    Icon: FiTool,
+    headline: "Show your details as a professional",
+    description: "For people who visit customers at home. Add your skills, experience and price so customers can book you.",
+    examples: ["Electrician", "Plumber", "Carpenter", "Painter"],
+  },
+  activity: {
+    label: "Activity",
+    Icon: FiActivity,
+    headline: "Teach or train people",
+    description: "For trainers, coaches and academies. List your classes and let people join your sessions.",
+    examples: ["Dance", "Gym trainer", "Yoga", "Karate"],
+  },
+  "nearby stall": {
+    label: "Nearby Stall",
+    Icon: FiMapPin,
+    headline: "Show your shop or business",
+    description: "For shops, stalls and local businesses. Let people nearby find your place and contact you.",
+    examples: ["Shop", "Food stall", "Salon", "Store"],
+  },
+  jobs: {
+    label: "Jobs",
+    Icon: FiBriefcase,
+    headline: "Post your job openings",
+    description: "For companies that are hiring. Post vacancies and receive applications from people near you.",
+    examples: ["Full-time", "Part-time", "Internship", "Walk-in"],
+  },
+};
+
+// Unknown future types still get a sensible card.
+const infoFor = (name) =>
+  TYPE_INFO[name.toLowerCase()] || {
+    label: name,
+    Icon: FiShoppingBag,
+    headline: "",
+    description: "",
+    examples: [],
+  };
 
 /**
  * Step 1: Customer or Vendor
@@ -66,10 +115,14 @@ const RolePopup = ({ open, onClose, onDone }) => {
     <Modal open={open} onClose={onClose} labelledBy="rp-title">
       {step === "role" && (
         <>
-          <div className="pp-scroll">
+          {/* soft header band with the icon sitting on its edge */}
+          <div className="pp-hero">
             <div className="pp-avatar" aria-hidden="true">
               <FiUser size={26} />
             </div>
+          </div>
+
+          <div className="pp-scroll pp-scroll-center">
             <p className="pp-eyebrow">Step 1 of 2</p>
             <h2 id="rp-title" className="pp-title">Set up your profile</h2>
             <p className="pp-sub">How would you like to use Thozhaa?</p>
@@ -105,19 +158,23 @@ const RolePopup = ({ open, onClose, onDone }) => {
 
       {step === "vendor" && (
         <>
-          <div className="pp-scroll">
+          <div className="pp-hero">
             <button type="button" className="pp-back" onClick={() => setStep("role")}>
               <FiArrowLeft size={15} /> Back
             </button>
-
             <div className="pp-avatar" aria-hidden="true">
               <FiShoppingBag size={26} />
             </div>
-            <p className="pp-eyebrow">Step 2 of 2</p>
-            <h2 id="rp-title" className="pp-title">What do you offer?</h2>
-            <p className="pp-sub">
-              Select every type that fits your business. It will be filled in on the next page.
-            </p>
+          </div>
+
+          <div className="pp-scroll">
+            <div className="pp-head-center">
+              <p className="pp-eyebrow">Step 2 of 2</p>
+              <h2 id="rp-title" className="pp-title">What do you offer?</h2>
+              <p className="pp-sub">
+                Select every type that fits your business. It will be filled in on the next page.
+              </p>
+            </div>
 
             {loading && (
               <div className="pp-skeletons" aria-hidden="true">
@@ -130,19 +187,35 @@ const RolePopup = ({ open, onClose, onDone }) => {
               {types.map((item) => {
                 const name = typeName(item);
                 const active = selectedTypes.includes(name);
+                const { label, Icon, headline, description, examples } = infoFor(name);
 
                 return (
-                  <label key={name} className={`pp-check ${active ? "is-active" : ""}`}>
+                  <label key={name} className={`pp-offer ${active ? "is-active" : ""}`}>
                     <input
                       type="checkbox"
                       checked={active}
                       onChange={() => toggleType(name)}
                     />
-                    <span className="pp-box" aria-hidden="true">
-                      {active && <FiCheck size={14} strokeWidth={3} />}
+
+                    <span className="pp-offer-icon" aria-hidden="true">
+                      <Icon size={20} />
                     </span>
-                    <span className="pp-check-body">
-                      <strong>{name}</strong>
+
+                    <span className="pp-offer-body">
+                      <strong className="pp-offer-title">{label}</strong>
+                      {headline && <span className="pp-offer-headline">{headline}</span>}
+                      {description && <span className="pp-offer-desc">{description}</span>}
+                      {examples.length > 0 && (
+                        <span className="pp-offer-chips">
+                          {examples.map((ex) => (
+                            <span key={ex} className="pp-offer-chip">{ex}</span>
+                          ))}
+                        </span>
+                      )}
+                    </span>
+
+                    <span className="pp-offer-tick" aria-hidden="true">
+                      {active && <FiCheck size={13} strokeWidth={3} />}
                     </span>
                   </label>
                 );

@@ -229,13 +229,61 @@
   }
 }
 
+/* ---- Rating: stars on the card + Rate button ---- */
+.mb-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 2px;
+  color: #f5a623;
+}
+
+.mb-rating-num {
+  margin-left: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.mb-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mb-rate {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid #f5a623;
+  background: #fff8ea;
+  color: #9a6b00;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.mb-rate:hover {
+  background: #ffefcc;
+}
+
 @media (max-width: 560px) {
   .mb-item {
     flex-wrap: wrap;
   }
 
-  .mb-rebook {
+  .mb-actions {
     width: 100%;
+  }
+
+  .mb-rate,
+  .mb-rebook {
+    flex: 1;
     justify-content: center;
   }
 }

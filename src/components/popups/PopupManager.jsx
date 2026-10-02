@@ -9,8 +9,8 @@ import LocationPopup from "./LocationPopup";
 const ROLE_FIRST_MS = 20 * 1000;       // 1st time  -> 1 minute after opening the site (or after logout)
 const ROLE_REPEAT_MS = 3 * 60 * 1000;  // then      -> every 3 minutes (as long as they stay and don't log in)
 // Logged in: location popup
-const LOCATION_FIRST_MS = 10 * 1000;   // 1st time  -> 10 seconds after login
-const LOCATION_REPEAT_MS = 60 * 1000;  // cancelled -> again every 1 minute until a location is saved
+const LOCATION_FIRST_MS = 60 * 1000;   // 1st time  -> 10 seconds after login
+const LOCATION_REPEAT_MS = 8 * 60 * 1000; // cancelled -> again every 1 minute until a location is saved
 
 const TOKEN_KEY = "lokal_token";
 const USER_KEY = "lokal_user";
