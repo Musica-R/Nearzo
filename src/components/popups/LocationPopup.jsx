@@ -6,12 +6,7 @@ import { saveLocation } from "../../redux/slices/locationSlice";
 import { DEFAULT_RADIUS, QUICK_RADII, hasCoords, hasPlace } from "../../utils/location";
 import Modal from "./Modal";
 
-/**
- * Lets the user pick: current GPS position, a city, and a radius in km.
- * - Pre-fills from the saved location, or from a week-old (stale) one.
- * - Saving writes to the redux store + localStorage and resets the 7-day timer,
- *   so every page using useUserLocation() refetches automatically.
- */
+
 const LocationPopup = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const current = useSelector((s) => s.location.current);

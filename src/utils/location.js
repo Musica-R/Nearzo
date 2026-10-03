@@ -9,8 +9,8 @@
 export const STORAGE_KEY = "lokal_location";
 export const LOCATION_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 1 week
 export const DEFAULT_RADIUS = 25;
-export const RADIUS_OPTIONS = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 100, 200];
-export const QUICK_RADII = [5, 10, 25, 50, 100, 200];
+export const RADIUS_OPTIONS = [5, 10, 15, 20, 25, 30];
+export const QUICK_RADII = [5, 10, 15, 20, 25, 30];
 
 const keyFor = (userId) => (userId ? `${STORAGE_KEY}_${userId}` : STORAGE_KEY);
 const EMPTY = { current: null, stale: null };

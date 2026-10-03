@@ -4,7 +4,7 @@ import {
   FiUser,
   FiShoppingBag,
   FiArrowLeft,
-  FiArrowRight,
+  FiChevronRight,
   FiCheck,
   FiTool,
   FiActivity,
@@ -22,7 +22,6 @@ const typeName = (item) => String(typeof item === "string" ? item : item?.type ?
 // What each vendor type means, shown on its card in step 2.
 // Keys are the lower-cased names returned by list-category?type=vendor.
 // The real API name is still what gets sent in the URL (see toggleType).
-// Icons are neutral now (no per-type colours) so the popup stays calm and natural.
 const TYPE_INFO = {
   "home services": {
     label: "Home Services",
@@ -63,6 +62,18 @@ const infoFor = (name) =>
     description: "",
     examples: [],
   };
+
+// Small progress indicator: "Step 1 of 2" + two segments
+const StepProgress = ({ current, total = 2 }) => (
+  <div className="pp-steps" aria-label={`Step ${current} of ${total}`}>
+    <span className="pp-steps-bar" aria-hidden="true">
+      {Array.from({ length: total }, (_, i) => (
+        <i key={i} className={i < current ? "is-done" : ""} />
+      ))}
+    </span>
+    <span>Step {current} of {total}</span>
+  </div>
+);
 
 /**
  * Step 1: Customer or Vendor
@@ -115,35 +126,31 @@ const RolePopup = ({ open, onClose, onDone }) => {
     <Modal open={open} onClose={onClose} labelledBy="rp-title">
       {step === "role" && (
         <>
-          {/* soft header band with the icon sitting on its edge */}
-          <div className="pp-hero">
-            <div className="pp-avatar" aria-hidden="true">
-              <FiUser size={26} />
-            </div>
+          <div className="pp-top">
+            <StepProgress current={1} />
           </div>
 
-          <div className="pp-scroll pp-scroll-center">
-            <p className="pp-eyebrow">Step 1 of 2</p>
+          <div className="pp-scroll">
             <h2 id="rp-title" className="pp-title">Set up your profile</h2>
             <p className="pp-sub">How would you like to use Thozhaa?</p>
 
             <div className="pp-options">
               <button type="button" className="pp-option" onClick={chooseCustomer}>
-                <span className="pp-option-icon"><FiUser size={20} /></span>
+                <span className="pp-option-icon"><FiUser size={18} /></span>
                 <span className="pp-option-text">
                   <strong>Customer</strong>
                   <small>Find and book services near you</small>
                 </span>
-                <FiArrowRight className="pp-option-go" size={18} />
+                <FiChevronRight className="pp-option-go" size={18} />
               </button>
 
               <button type="button" className="pp-option" onClick={() => setStep("vendor")}>
-                <span className="pp-option-icon"><FiShoppingBag size={20} /></span>
+                <span className="pp-option-icon"><FiShoppingBag size={18} /></span>
                 <span className="pp-option-text">
                   <strong>Vendor</strong>
                   <small>List your business and get booked</small>
                 </span>
-                <FiArrowRight className="pp-option-go" size={18} />
+                <FiChevronRight className="pp-option-go" size={18} />
               </button>
             </div>
           </div>
@@ -158,23 +165,18 @@ const RolePopup = ({ open, onClose, onDone }) => {
 
       {step === "vendor" && (
         <>
-          <div className="pp-hero">
+          <div className="pp-top">
             <button type="button" className="pp-back" onClick={() => setStep("role")}>
-              <FiArrowLeft size={15} /> Back
+              <FiArrowLeft size={14} /> Back
             </button>
-            <div className="pp-avatar" aria-hidden="true">
-              <FiShoppingBag size={26} />
-            </div>
+            <StepProgress current={2} />
           </div>
 
           <div className="pp-scroll">
-            <div className="pp-head-center">
-              <p className="pp-eyebrow">Step 2 of 2</p>
-              <h2 id="rp-title" className="pp-title">What do you offer?</h2>
-              <p className="pp-sub">
-                Select every type that fits your business. It will be filled in on the next page.
-              </p>
-            </div>
+            <h2 id="rp-title" className="pp-title">What do you offer?</h2>
+            <p className="pp-sub">
+              Select every type that fits your business. It will be filled in on the next page.
+            </p>
 
             {loading && (
               <div className="pp-skeletons" aria-hidden="true">
@@ -198,7 +200,7 @@ const RolePopup = ({ open, onClose, onDone }) => {
                     />
 
                     <span className="pp-offer-icon" aria-hidden="true">
-                      <Icon size={20} />
+                      <Icon size={18} />
                     </span>
 
                     <span className="pp-offer-body">
@@ -215,7 +217,7 @@ const RolePopup = ({ open, onClose, onDone }) => {
                     </span>
 
                     <span className="pp-offer-tick" aria-hidden="true">
-                      {active && <FiCheck size={13} strokeWidth={3} />}
+                      {active && <FiCheck size={12} strokeWidth={3} />}
                     </span>
                   </label>
                 );

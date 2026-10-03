@@ -1,24 +1,24 @@
 /* =====================================================================
    Popups: role, location, login, rating  |  Thozhaa
-   Clean, flat and natural: white card, one soft header band, neutral greys,
-   and a single orange accent used only for the main action + selected state.
+   Professional + light: white card, hairline borders, small type,
+   regular/medium weights, one orange accent (main action + selected).
    Desktop: centered dialog.  Phones (<= 600px): bottom sheet.
    ===================================================================== */
 
 .pp-overlay {
-    --pp-ink: #1d2433;
-    --pp-text: #1d2433;
+    --pp-ink: #101828;
+    --pp-text: #344054;
     --pp-muted: #667085;
     --pp-faint: #98a2b3;
-    --pp-line: #e5e7eb;
+    --pp-line: #eaecf0;
     --pp-line-strong: #d0d5dd;
     --pp-surface: #ffffff;
-    --pp-band: #eef2f9;
-    --pp-soft: #f7f8fa;
+    --pp-band: #f9fafb;
+    --pp-soft: #f9fafb;
     --pp-primary: #ff6b35;
     --pp-primary-dark: #e85a2a;
-    --pp-primary-tint: #fff4ee;
-    --pp-ring: 0 0 0 3px rgba(255, 107, 53, 0.2);
+    --pp-primary-tint: #fff6f1;
+    --pp-ring: 0 0 0 3px rgba(255, 107, 53, 0.16);
 
     position: fixed;
     inset: 0;
@@ -27,9 +27,9 @@
     align-items: center;
     justify-content: center;
     padding: 16px;
-    background: rgba(17, 24, 39, 0.5);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: rgba(16, 24, 40, 0.45);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     animation: pp-fade 0.18s ease-out;
 }
 
@@ -38,33 +38,28 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 460px;
+    max-width: 440px;
     max-height: 88vh;
-    max-height: min(88dvh, 740px);
+    max-height: min(88dvh, 720px);
     overflow: hidden;
     background: var(--pp-surface);
     color: var(--pp-text);
-    border-radius: 18px;
-    box-shadow: 0 20px 50px rgba(17, 24, 39, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 24px 48px -12px rgba(16, 24, 40, 0.25);
     font-family: "Sora", "Poppins", system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
     animation: pp-pop 0.2s ease-out;
     outline: none;
 }
 
-@keyframes pp-fade {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
+@keyframes pp-fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes pp-pop {
-    from { opacity: 0; transform: translateY(10px) scale(0.985); }
+    from { opacity: 0; transform: translateY(8px) scale(0.99); }
     to { opacity: 1; transform: none; }
 }
-
-@keyframes pp-sheet {
-    from { transform: translateY(100%); }
-    to { transform: none; }
-}
+@keyframes pp-sheet { from { transform: translateY(100%); } to { transform: none; } }
 
 /* ---- close button ---- */
 .pp-close {
@@ -72,40 +67,78 @@
     top: 12px;
     right: 12px;
     z-index: 3;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: 50%;
+    border-radius: 8px;
     background: transparent;
-    color: var(--pp-ink);
+    color: var(--pp-muted);
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background 0.15s, color 0.15s;
 }
 
 .pp-close:hover {
-    background: rgba(17, 24, 39, 0.08);
+    background: var(--pp-line);
+    color: var(--pp-ink);
 }
 
-/* ---- header band (role popup) ---- */
+/* ---- top bar: back button + step progress (role popup) ---- */
+.pp-top {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 52px;
+    padding: 12px 20px 0;
+}
+
+.pp-steps {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.74rem;
+    color: var(--pp-muted);
+}
+
+.pp-steps-bar {
+    display: flex;
+    gap: 4px;
+}
+
+.pp-steps-bar i {
+    display: block;
+    width: 26px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--pp-line);
+    transition: background 0.2s;
+}
+
+.pp-steps-bar i.is-done {
+    background: var(--pp-primary);
+}
+
+/* ---- legacy header band (still used by other popups) ---- */
 .pp-hero {
     position: relative;
     z-index: 2;
     flex-shrink: 0;
-    height: 68px;
+    height: 56px;
     background: var(--pp-band);
+    border-bottom: 1px solid var(--pp-line);
 }
 
-/* icon sits half on the band, half on the white body */
 .pp-hero .pp-avatar {
     position: absolute;
     left: 50%;
-    bottom: -32px;
+    bottom: -28px;
     transform: translateX(-50%);
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
     margin: 0;
     background: #fff;
     border: 4px solid #fff;
@@ -115,7 +148,7 @@
 
 .pp-hero .pp-back {
     position: absolute;
-    top: 14px;
+    top: 16px;
     left: 18px;
     margin: 0;
 }
@@ -133,13 +166,16 @@
     min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 30px 26px 18px;
+    padding: 20px 24px 16px;
     background: var(--pp-surface);
 }
 
-/* under the header band, leave room for the overlapping icon */
+.pp-top + .pp-scroll {
+    padding-top: 16px;
+}
+
 .pp-hero + .pp-scroll {
-    padding-top: 44px;
+    padding-top: 40px;
 }
 
 .pp-scroll-center,
@@ -150,8 +186,8 @@
 .pp-footer {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 14px 26px 20px;
+    gap: 8px;
+    padding: 14px 24px 18px;
     border-top: 1px solid var(--pp-line);
     background: var(--pp-surface);
 }
@@ -162,9 +198,9 @@
 
 /* ---- type ---- */
 .pp-avatar {
-    width: 56px;
-    height: 56px;
-    margin: 0 0 14px;
+    width: 48px;
+    height: 48px;
+    margin: 0 0 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -174,38 +210,36 @@
 }
 
 .pp-eyebrow {
-    margin: 0 0 6px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    margin: 0 0 4px;
+    font-size: 0.74rem;
+    font-weight: 400;
     color: var(--pp-faint);
 }
 
 .pp-title {
-    margin: 0 0 6px;
-    font-size: 1.3rem;
-    font-weight: 600;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
     color: var(--pp-ink);
 }
 
 .pp-sub {
-    margin: 0 0 20px;
-    font-size: 0.9rem;
+    margin: 0 0 18px;
+    font-size: 0.82rem;
     line-height: 1.55;
     color: var(--pp-muted);
 }
 
 .pp-error {
-    margin: 14px 0 0;
-    padding: 10px 12px;
-    border: 1px solid #f6c4c9;
-    border-radius: 10px;
-    background: #fdecee;
-    font-size: 0.84rem;
-    color: #b42335;
+    margin: 12px 0 0;
+    padding: 9px 12px;
+    border: 1px solid #fecdca;
+    border-radius: 8px;
+    background: #fef3f2;
+    font-size: 0.8rem;
+    color: #b42318;
 }
 
 /* ---- buttons ---- */
@@ -215,13 +249,13 @@
     justify-content: center;
     gap: 8px;
     width: 100%;
-    min-height: 48px;
-    padding: 12px 18px;
-    border: 1.5px solid transparent;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid transparent;
     border-radius: 10px;
     font: inherit;
-    font-size: 0.93rem;
-    font-weight: 600;
+    font-size: 0.86rem;
+    font-weight: 500;
     cursor: pointer;
     transition: background 0.15s, color 0.15s, border-color 0.15s, opacity 0.15s;
 }
@@ -243,12 +277,17 @@
 
 .pp-btn-outline:hover:not(:disabled) {
     background: var(--pp-soft);
-    border-color: var(--pp-ink);
 }
 
 .pp-btn:disabled {
-    opacity: 0.45;
+    background: var(--pp-line);
+    color: var(--pp-faint);
     cursor: not-allowed;
+}
+
+.pp-btn-outline:disabled {
+    background: #fff;
+    opacity: 0.6;
 }
 
 .pp-link {
@@ -256,7 +295,7 @@
     border: none;
     background: none;
     font: inherit;
-    font-size: 0.86rem;
+    font-size: 0.82rem;
     color: var(--pp-muted);
     cursor: pointer;
     text-decoration: underline;
@@ -268,7 +307,7 @@
 }
 
 .pp-link-strong {
-    font-weight: 600;
+    font-weight: 500;
     color: var(--pp-primary-dark);
     padding: 0;
 }
@@ -280,42 +319,45 @@
 .pp-switch {
     margin: 0;
     text-align: center;
-    font-size: 0.86rem;
+    font-size: 0.82rem;
     color: var(--pp-muted);
 }
 
 .pp-back {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    margin: 0 0 12px;
-    padding: 0;
+    gap: 4px;
+    margin: 0;
+    padding: 4px 8px 4px 4px;
     border: none;
+    border-radius: 6px;
     background: none;
     font: inherit;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--pp-ink);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--pp-text);
     cursor: pointer;
+    transition: background 0.15s, color 0.15s;
 }
 
 .pp-back:hover {
-    color: var(--pp-primary-dark);
+    background: var(--pp-line);
+    color: var(--pp-ink);
 }
 
 /* ---- step 1: role options ---- */
 .pp-options {
     display: grid;
-    gap: 10px;
+    gap: 8px;
     text-align: left;
 }
 
 .pp-option {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     width: 100%;
-    padding: 14px 16px;
+    padding: 12px 14px;
     text-align: left;
     border: 1px solid var(--pp-line);
     border-radius: 12px;
@@ -328,14 +370,15 @@
 
 .pp-option-icon {
     flex-shrink: 0;
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: 10px;
     background: var(--pp-soft);
-    color: var(--pp-ink);
+    border: 1px solid var(--pp-line);
+    color: var(--pp-text);
 }
 
 .pp-option-text {
@@ -345,15 +388,15 @@
 
 .pp-option-text strong {
     display: block;
-    font-size: 0.98rem;
-    font-weight: 600;
+    font-size: 0.88rem;
+    font-weight: 500;
     color: var(--pp-ink);
 }
 
 .pp-option-text small {
     display: block;
     margin-top: 2px;
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     color: var(--pp-muted);
 }
 
@@ -365,28 +408,28 @@
 
 .pp-option:hover,
 .pp-option:focus-visible {
-    border-color: var(--pp-ink);
+    border-color: var(--pp-line-strong);
     background: var(--pp-soft);
     outline: none;
 }
 
 .pp-option:hover .pp-option-go {
     color: var(--pp-ink);
-    transform: translateX(3px);
+    transform: translateX(2px);
 }
 
 /* ---- step 2: "What do you offer?" cards ---- */
 .pp-types {
     display: grid;
-    gap: 10px;
+    gap: 8px;
 }
 
 .pp-offer {
     position: relative;
     display: flex;
     align-items: flex-start;
-    gap: 14px;
-    padding: 14px 16px;
+    gap: 12px;
+    padding: 12px 14px;
     border: 1px solid var(--pp-line);
     border-radius: 12px;
     background: #fff;
@@ -401,7 +444,7 @@
 
 .pp-offer.is-active {
     border-color: var(--pp-primary);
-    background: #fff;
+    background: var(--pp-primary-tint);
     box-shadow: 0 0 0 1px var(--pp-primary);
 }
 
@@ -417,16 +460,27 @@
     box-shadow: var(--pp-ring);
 }
 
+.pp-offer.is-active:has(input:focus-visible) {
+    box-shadow: 0 0 0 1px var(--pp-primary), var(--pp-ring);
+}
+
 .pp-offer-icon {
     flex-shrink: 0;
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
     background: var(--pp-soft);
-    color: var(--pp-ink);
+    border: 1px solid var(--pp-line);
+    color: var(--pp-text);
+}
+
+.pp-offer.is-active .pp-offer-icon {
+    background: #fff;
+    border-color: #ffd9c9;
+    color: var(--pp-primary-dark);
 }
 
 .pp-offer-body {
@@ -434,24 +488,24 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 2px;
 }
 
 .pp-offer-title {
-    font-size: 0.98rem;
-    font-weight: 600;
-    line-height: 1.25;
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.3;
     color: var(--pp-ink);
 }
 
 .pp-offer-headline {
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--pp-ink);
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--pp-text);
 }
 
 .pp-offer-desc {
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     line-height: 1.5;
     color: var(--pp-muted);
 }
@@ -459,30 +513,34 @@
 .pp-offer-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 5px;
     margin-top: 6px;
 }
 
 .pp-offer-chip {
-    padding: 2px 10px;
+    padding: 1px 8px;
     border: 1px solid var(--pp-line);
-    border-radius: 999px;
+    border-radius: 6px;
     background: #fff;
-    font-size: 0.72rem;
-    font-weight: 500;
+    font-size: 0.7rem;
+    font-weight: 400;
     color: var(--pp-muted);
+}
+
+.pp-offer.is-active .pp-offer-chip {
+    border-color: #ffe0d2;
 }
 
 .pp-offer-tick {
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    margin-top: 2px;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1.5px solid var(--pp-line-strong);
-    border-radius: 50%;
+    border: 1px solid var(--pp-line-strong);
+    border-radius: 5px;
     background: #fff;
     color: #fff;
     transition: background 0.15s, border-color 0.15s;
@@ -495,28 +553,26 @@
 
 .pp-skeletons {
     display: grid;
-    gap: 10px;
+    gap: 8px;
 }
 
 .pp-skeletons span {
-    height: 100px;
+    height: 88px;
     border-radius: 12px;
-    background: linear-gradient(90deg, #f1f2f4 25%, #f8f9fa 50%, #f1f2f4 75%);
+    background: linear-gradient(90deg, #f2f4f7 25%, #f9fafb 50%, #f2f4f7 75%);
     background-size: 200% 100%;
     animation: pp-shimmer 1.2s linear infinite;
 }
 
-@keyframes pp-shimmer {
-    to { background-position: -200% 0; }
-}
+@keyframes pp-shimmer { to { background-position: -200% 0; } }
 
 /* ---- forms (login + location) ---- */
 .pp-label {
     display: block;
-    margin: 16px 0 7px;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--pp-ink);
+    margin: 14px 0 6px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--pp-text);
 }
 
 .pp-label-flush {
@@ -528,8 +584,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 0 14px;
-    min-height: 48px;
+    padding: 0 12px;
+    min-height: 44px;
     border: 1px solid var(--pp-line-strong);
     border-radius: 10px;
     background: #fff;
@@ -547,13 +603,20 @@
 .pp-field select {
     flex: 1;
     min-width: 0;
-    height: 46px;
+    height: 42px;
     border: none;
     outline: none;
     background: transparent;
     font: inherit;
     font-size: 16px; /* 16px stops iOS from zooming the page on focus */
     color: var(--pp-ink);
+}
+
+@media (min-width: 601px) {
+    .pp-field input,
+    .pp-field select {
+        font-size: 14px;
+    }
 }
 
 .pp-field input::placeholder {
@@ -564,8 +627,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     margin-right: -6px;
     border: none;
     border-radius: 8px;
@@ -575,7 +638,7 @@
 }
 
 .pp-eye:hover {
-    background: var(--pp-soft);
+    background: var(--pp-line);
     color: var(--pp-ink);
 }
 
@@ -584,8 +647,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin: 18px 0;
-    font-size: 0.8rem;
+    margin: 16px 0;
+    font-size: 0.76rem;
     color: var(--pp-faint);
 }
 
@@ -601,7 +664,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 14px;
+    padding: 10px 12px;
     border: 1px solid var(--pp-line);
     border-radius: 10px;
     background: var(--pp-soft);
@@ -609,8 +672,8 @@
 
 .pp-coords-icon {
     flex-shrink: 0;
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -626,13 +689,14 @@
 
 .pp-coords-text strong {
     display: block;
-    font-size: 0.92rem;
+    font-size: 0.84rem;
+    font-weight: 500;
     color: var(--pp-ink);
 }
 
 .pp-coords-text small {
     display: block;
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     color: var(--pp-muted);
     font-variant-numeric: tabular-nums;
 }
@@ -641,8 +705,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border: none;
     border-radius: 50%;
     background: #fff;
@@ -665,7 +729,7 @@
 
 .pp-select-caret {
     position: absolute;
-    right: 14px;
+    right: 12px;
     pointer-events: none;
 }
 
@@ -673,14 +737,14 @@
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    margin: 22px 0 10px;
-    font-size: 0.9rem;
-    color: var(--pp-ink);
+    margin: 20px 0 8px;
+    font-size: 0.82rem;
+    color: var(--pp-text);
 }
 
 .pp-radius-head strong {
     color: var(--pp-ink);
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .pp-radii {
@@ -690,20 +754,19 @@
 }
 
 .pp-radius {
-    min-height: 44px;
+    min-height: 40px;
     border: 1px solid var(--pp-line-strong);
     border-radius: 10px;
     background: #fff;
-    color: var(--pp-ink);
+    color: var(--pp-text);
     font: inherit;
-    font-size: 0.86rem;
-    font-weight: 600;
+    font-size: 0.82rem;
+    font-weight: 500;
     cursor: pointer;
     transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
 .pp-radius:hover {
-    border-color: var(--pp-ink);
     background: var(--pp-soft);
 }
 
@@ -722,6 +785,7 @@
 
 .pp-option:focus-visible {
     outline: none;
+    box-shadow: var(--pp-ring);
 }
 
 /* ---- navbar location chip ---- */
@@ -730,14 +794,14 @@
     align-items: center;
     gap: 7px;
     max-width: 220px;
-    min-height: 38px;
+    min-height: 36px;
     padding: 0 14px;
-    border: 1.5px solid var(--color-border, #e4e8f0);
+    border: 1px solid var(--color-border, #e4e8f0);
     border-radius: 999px;
     background: #fff;
     color: var(--color-ink, #14213d);
-    font-size: 0.85rem;
-    font-weight: 600;
+    font-size: 0.82rem;
+    font-weight: 500;
     cursor: pointer;
     transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
@@ -758,7 +822,7 @@
     flex-shrink: 0;
     padding-left: 7px;
     border-left: 1px solid currentColor;
-    font-weight: 500;
+    font-weight: 400;
     opacity: 0.75;
 }
 
@@ -780,36 +844,38 @@
         max-width: none;
         max-height: 92vh;
         max-height: 92dvh;
-        border-radius: 18px 18px 0 0;
+        border-radius: 16px 16px 0 0;
         animation: pp-sheet 0.26s cubic-bezier(0.2, 0.9, 0.3, 1);
     }
 
-    /* grab handle (only on popups without the header band) */
-    .pp-modal > .pp-scroll:first-child::before,
-    .pp-modal > .pp-form:first-child::before {
-        content: none;
+    .pp-top {
+        padding: 12px 16px 0;
     }
 
     .pp-hero {
-        height: 60px;
+        height: 52px;
     }
 
     .pp-hero .pp-avatar {
-        width: 58px;
-        height: 58px;
-        bottom: -29px;
+        width: 52px;
+        height: 52px;
+        bottom: -26px;
     }
 
     .pp-hero + .pp-scroll {
-        padding-top: 40px;
+        padding-top: 38px;
     }
 
     .pp-scroll {
-        padding: 22px 20px 16px;
+        padding: 18px 18px 14px;
+    }
+
+    .pp-top + .pp-scroll {
+        padding-top: 14px;
     }
 
     .pp-footer {
-        padding: 12px 20px calc(16px + env(safe-area-inset-bottom, 0px));
+        padding: 12px 18px calc(14px + env(safe-area-inset-bottom, 0px));
     }
 }
 
@@ -821,7 +887,8 @@
     }
 
     .pp-option,
-    .pp-offer {
+    .pp-offer,
+    .pp-steps-bar i {
         transition: none;
     }
 }

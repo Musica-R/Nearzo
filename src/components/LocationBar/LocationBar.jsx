@@ -6,12 +6,6 @@ import { saveLocation } from "../../redux/slices/locationSlice";
 import { DEFAULT_RADIUS, RADIUS_OPTIONS, hasCoords } from "../../utils/location";
 import "./LocationBar.css";
 
-// The saved location now lives in the redux `location` slice (and localStorage,
-// per user, valid for 7 days). This bar and the location popup edit the SAME
-// value, so changing it here updates the popup, navbar chip and every page.
-//
-// onChange (optional): called whenever the saved location changes.
-// onSearch (optional): called when the Search button is pressed.
 
 const LocationBar = ({ onChange, onSearch }) => {
     const dispatch = useDispatch();

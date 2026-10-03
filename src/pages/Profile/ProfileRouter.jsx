@@ -1,6 +1,6 @@
 import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Mail, Phone, MapPin, LogOut, Briefcase, Store } from "lucide-react";
+import { Mail, Phone, MapPin, LogOut, Briefcase, Store, ChevronRight } from "lucide-react";
 import { getUserRole, getUserType } from "../../utils/role";
 import { logout } from "../../redux/slices/authSlice";
 import MyBookings from "../../components/MyBookings/MyBookings";
@@ -17,65 +17,93 @@ const initialsOf = (name = "") =>
     .join("")
     .toUpperCase();
 
+// "Home Services|Activity" -> ["Home Services", "Activity"]
+const splitTypes = (type) =>
+  String(type || "")
+    .split("|")
+    .map((t) => t.trim())
+    .filter(Boolean);
+
 const VendorProfile = ({ user }) => {
   const dispatch = useDispatch();
   const type = getUserType(user);
+  const typeList = splitTypes(type);
+
+  const contacts = [
+    { key: "email", Icon: Mail, label: "Email", value: user.email },
+    { key: "mobile", Icon: Phone, label: "Mobile", value: user.mobile_number },
+    { key: "location", Icon: MapPin, label: "Location", value: user.location },
+  ].filter((c) => c.value);
 
   return (
     <div className="section profile-page">
       <div className="container">
-        <div className="profile-header">
-          <div className="profile-banner" />
-          <div className="profile-header-body">
-            {user.profile_image ? (
-              <img src={user.profile_image} alt={user.name} className="profile-avatar" />
-            ) : (
-              <div className="profile-avatar profile-avatar-fallback">{initialsOf(user.name)}</div>
-            )}
-            <div className="profile-header-text">
-              <h1>{user.name}</h1>
-              <p className="text-muted">Vendor{type ? ` · ${type}` : ""}</p>
+        {/* ---------- Header ---------- */}
+        <header className="profile-header">
+          {user.profile_image ? (
+            <img src={user.profile_image} alt={user.name} className="profile-avatar" />
+          ) : (
+            <div className="profile-avatar profile-avatar-fallback" aria-hidden="true">
+              {initialsOf(user.name)}
             </div>
-            <button className="btn btn-outline profile-logout" onClick={() => dispatch(logout())}>
-              <LogOut size={15} /> Logout
-            </button>
-          </div>
-        </div>
+          )}
 
+          <div className="profile-header-text">
+            <h1>{user.name}</h1>
+            <div className="profile-meta">
+              <span className="profile-badge">Vendor</span>
+              {typeList.map((t) => (
+                <span key={t} className="profile-tag">{t}</span>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="btn btn-outline profile-logout"
+            onClick={() => dispatch(logout())}
+          >
+            <LogOut size={14} /> Logout
+          </button>
+        </header>
+
+        {/* ---------- Body ---------- */}
         <div className="profile-layout">
           <aside className="profile-side">
-            <div className="profile-card">
-              <h3>Contact Details</h3>
-              <ul className="profile-info-list">
-                {user.email && (
-                  <li>
-                    <span className="profile-ico"><Mail size={14} /></span> {user.email}
-                  </li>
-                )}
-                {user.mobile_number && (
-                  <li>
-                    <span className="profile-ico"><Phone size={14} /></span> {user.mobile_number}
-                  </li>
-                )}
-                {user.location && (
-                  <li>
-                    <span className="profile-ico"><MapPin size={14} /></span> {user.location}
-                  </li>
-                )}
-              </ul>
-            </div>
+            <section className="profile-card">
+              <h3>Contact details</h3>
+              {contacts.length > 0 ? (
+                <ul className="profile-info-list">
+                  {contacts.map(({ key, Icon, label, value }) => (
+                    <li key={key}>
+                      <span className="profile-ico"><Icon size={14} /></span>
+                      <span className="profile-info-text">
+                        <small>{label}</small>
+                        <span>{value}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="profile-empty">No contact details added yet.</p>
+              )}
+            </section>
 
-            <div className="profile-card">
-              <h3>Quick Links</h3>
+            <section className="profile-card">
+              <h3>Quick links</h3>
               <div className="profile-links">
                 <Link to={type ? `/become-vendor?type=${encodeURIComponent(type)}` : "/become-vendor"}>
-                  <Store size={16} /> Manage my vendor listing
+                  <span className="profile-link-ico"><Store size={15} /></span>
+                  <span>Manage my vendor listing</span>
+                  <ChevronRight size={16} className="profile-link-go" />
                 </Link>
                 <Link to="/service">
-                  <Briefcase size={16} /> Browse Services
+                  <span className="profile-link-ico"><Briefcase size={15} /></span>
+                  <span>Browse services</span>
+                  <ChevronRight size={16} className="profile-link-go" />
                 </Link>
               </div>
-            </div>
+            </section>
           </aside>
 
           <main className="profile-main">

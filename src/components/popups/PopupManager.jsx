@@ -6,7 +6,7 @@ import LocationPopup from "./LocationPopup";
 
 // ---- timings ----
 // Not logged in (no lokal_token / lokal_user): Customer / Vendor popup
-const ROLE_FIRST_MS = 20 * 1000;       // 1st time  -> 1 minute after opening the site (or after logout)
+const ROLE_FIRST_MS = 40 * 1000;       // 1st time  -> 1 minute after opening the site (or after logout)
 const ROLE_REPEAT_MS = 3 * 60 * 1000;  // then      -> every 3 minutes (as long as they stay and don't log in)
 // Logged in: location popup
 const LOCATION_FIRST_MS = 60 * 1000;   // 1st time  -> 10 seconds after login
