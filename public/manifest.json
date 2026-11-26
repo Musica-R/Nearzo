@@ -3,12 +3,12 @@
   "name": "Thozhaa – Local Services Near You",
   "icons": [
     {
-      "src": "logoen.png",
+      "src": "enlogo.png",
       "sizes": "192x192",
       "type": "image/jpeg"
     },
     {
-      "src": "logoen.png",
+      "src": "enlogo.png",
       "sizes": "512x512",
       "type": "image/jpeg"
     }
