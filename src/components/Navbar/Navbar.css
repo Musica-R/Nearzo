@@ -39,14 +39,14 @@
   background: var(--lk-gradient);
   color: #E7ECF5;
   font-size: 0.78rem;
-  padding: 10px 0px;
+  padding: 2px 0;
 }
 
 .lk-navbar-top-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 34px;
+  min-height: 46px;
 }
 
 /* ---------- Social icons (left side of top bar) ---------- */
@@ -148,8 +148,9 @@
   font-size: 0.9rem;
   font-weight: 700;
   color: #fff;
-  background: var(--lk-primary);
+  background: linear-gradient(135deg, var(--lk-primary-light), var(--lk-primary-dark));
   border-radius: var(--lk-radius-pill);
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.35);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -174,73 +175,57 @@
   display: flex;
   align-items: center;
   gap: 28px;
-  padding: 14px 0;
+  padding: 8px 0;
   position: relative;
 }
 
 .lk-navbar-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
   font-family: var(--lk-font-display);
-  font-weight: 800;
-  font-size: 1.4rem;
   color: var(--lk-ink);
   flex-shrink: 0;
 }
 
 .lk-navbar-logo-mark {
-  width: 98px;
-  height: 58px;
-  border-radius: 12px;
-  object-fit: cover;
+  height: 60px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
   flex-shrink: 0;
-  box-shadow: var(--lk-shadow-sm);
-}
-
-.lk-navbar-logo small {
   display: block;
-  font-family: var(--lk-font-body);
-  font-weight: 500;
-  font-size: 0.62rem;
-  color: var(--lk-text-muted);
-  letter-spacing: 0.02em;
 }
 
 /* ---------- Desktop nav ---------- */
 .lk-navbar-nav-desktop {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 4px;
   margin-left: auto;
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: var(--lk-ink);
 }
 
-.lk-navbar-nav-desktop a {
+.lk-navbar-nav-desktop > a {
   position: relative;
-  transition: color 0.15s ease;
+  padding: 10px 14px;
+  border-radius: var(--lk-radius-pill);
+  transition: color 0.15s ease, background 0.15s ease;
 }
 
-.lk-navbar-nav-desktop a:hover,
-.lk-navbar-nav-desktop a.active {
+.lk-navbar-nav-desktop > a:hover {
+  background: var(--lk-primary-tint);
   color: var(--lk-primary-dark);
 }
 
-.lk-navbar-nav-desktop a.active::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -4px;
-  height: 2px;
-  background: var(--lk-primary);
-  border-radius: 2px;
+.lk-navbar-nav-desktop > a.active {
+  background: var(--lk-primary-tint);
+  color: var(--lk-primary-dark);
 }
 
 .lk-navbar-account {
-  margin-left: 6px;
+  margin-left: 12px;
 }
 
 /* ---------- Desktop nav login button (outline) ---------- */
@@ -550,6 +535,17 @@
   outline: none;
 }
 
+/* ---------- tam.png badge (end of top bar) ---------- */
+.lk-navbar-top-badge {
+  width: 170px;
+  height: 170px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  margin: -62px -26px -62px 6px;
+  pointer-events: none;
+}
+
 /* =========================================================
    RESPONSIVE
    ========================================================= */
@@ -584,6 +580,7 @@
 
   .lk-navbar-top-inner {
     height: auto;
+    min-height: 0;
   }
 
   .lk-navbar-top-links {
@@ -597,24 +594,16 @@
   }
 
   .lk-navbar-main {
-    padding: 10px 0;
+    padding: 6px 0;
     gap: 12px;
   }
 
-  .lk-navbar-logo {
-    font-size: 1.15rem;
-    gap: 8px;
-  }
 
   .lk-navbar-logo-mark {
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
+    height: 44px;
+    width: auto;
   }
 
-  .lk-navbar-logo small {
-    font-size: 0.56rem;
-  }
 
   .lk-navbar-toggle {
     width: 36px;
@@ -625,6 +614,7 @@
     width: min(88vw, 300px);
   }
 
+  /* Top links (and the tam.png badge inside them) are hidden on mobile */
   .lk-navbar-top-links {
     display: none;
   }
@@ -646,24 +636,16 @@
   }
 
   .lk-navbar-main {
-    padding: 8px 15px;
+    padding: 5px 15px;
     gap: 8px;
   }
 
-  .lk-navbar-logo {
-    font-size: 2rem;
-    gap: 6px;
-  }
 
   .lk-navbar-logo-mark {
-    width: 68px;
-    height: 48px;
-    border-radius: 8px;
+    height: 38px;
+    width: auto;
   }
 
-  .lk-navbar-logo small {
-    font-size: 0.5rem;
-  }
 
   .lk-navbar-toggle {
     width: 34px;
@@ -699,20 +681,12 @@
     padding-right: 10px;
   }
 
-  .lk-navbar-logo {
-    font-size: 0.88rem;
-    gap: 5px;
-  }
 
   .lk-navbar-logo-mark {
-    width: 24px;
-    height: 24px;
-    border-radius: 7px;
+    height: 32px;
+    width: auto;
   }
 
-  .lk-navbar-logo small {
-    font-size: 0.46rem;
-  }
 
   .lk-navbar-drawer {
     width: 90vw;

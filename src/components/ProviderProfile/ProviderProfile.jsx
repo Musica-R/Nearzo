@@ -34,7 +34,7 @@ import { useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { toPng } from "html-to-image";
 import { Download } from "lucide-react";
-import thozhaaLogo from "../../assets/logo1.jpeg";
+import thozhaaLogo from "../../assets/logoen.png";
 import BookNowButton from "../Booknowbutton/Booknowbutton";
 import { THOZHAA_PHONE_DISPLAY, formatPhone } from "../../utils/booking";
 

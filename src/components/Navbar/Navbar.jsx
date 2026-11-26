@@ -29,7 +29,6 @@ import { logout } from "../../redux/slices/authSlice";
 import { useEffectiveRole } from "../../utils/role";
 import PopupManager from "../popups/PopupManager";
 import "./Navbar.css";
-import logo from "../../assets/logo1.jpeg";
 
 const navItems = [
   { label: "Home", to: "/", icon: FiHome },
@@ -100,18 +99,20 @@ const Navbar = () => {
               <FiGlobe size={14} />
               <span className="text">Your Business Portfolio</span>
             </Link>
+
+            <img
+              className="lk-navbar-top-badge"
+              src="/assets/tam.png"
+              alt="TAM"
+            />
           </div>
         </div>
       </div>
 
       {/* ---------- Main bar ---------- */}
       <div className="lk-navbar-container lk-navbar-main">
-        <Link to="/" className="lk-navbar-logo">
-          <img className="lk-navbar-logo-mark" src={logo} alt="Thozhaa" />
-          <span>
-            Thozhaa
-            <small>Find trusted help, nearby</small>
-          </span>
+        <Link to="/" className="lk-navbar-logo" aria-label="Thozhaa - Home">
+          <img className="lk-navbar-logo-mark" src="/assets/en.png" alt="Thozhaa" />
         </Link>
 
         {/* Desktop nav */}

@@ -36,7 +36,7 @@ import {
 } from "../../api/lokalApi";
 import "./VendorProfile.css";
 import image from "../../assets/location.jpg";
-import thozhaaLogo from "../../assets/logo1.jpeg";
+import thozhaaLogo from "../../assets/logoen.png";
 import BookNowButton from "../../components/Booknowbutton/Booknowbutton";
 import { THOZHAA_PHONE_DISPLAY, formatPhone, toTelHref, toWhatsAppUrl } from "../../utils/booking";
 
