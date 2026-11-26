@@ -598,12 +598,10 @@
     gap: 12px;
   }
 
-
   .lk-navbar-logo-mark {
     height: 44px;
     width: auto;
   }
-
 
   .lk-navbar-toggle {
     width: 36px;
@@ -614,9 +612,20 @@
     width: min(88vw, 300px);
   }
 
-  /* Top links (and the tam.png badge inside them) are hidden on mobile */
+  /* Mobile: hide the text links, keep only the tam.png badge */
   .lk-navbar-top-links {
+    display: flex;
+    gap: 0;
+  }
+
+  .lk-navbar-top-links > :not(.lk-navbar-top-badge) {
     display: none;
+  }
+
+  .lk-navbar-top-badge {
+    width: 120px;
+    height: 120px;
+    margin: -43px -16px -43px 0;
   }
 }
 
@@ -627,7 +636,7 @@
   }
 
   .lk-navbar-top-links {
-    gap: 5px;
+    gap: 0;
   }
 
   .lk-navbar-container {
@@ -635,17 +644,34 @@
     padding-right: 10%;
   }
 
+  /* top bar keeps normal side padding so the badge isn't pushed inward */
+  .lk-navbar-top .lk-navbar-container {
+    padding-right: 16px;
+  }
+
+  .lk-navbar-connected-label {
+    display: none;
+  }
+
+  .lk-navbar-social {
+    gap: 10px;
+  }
+
+  .lk-navbar-top-badge {
+    width: 104px;
+    height: 104px;
+    margin: -36px -14px -36px 0;
+  }
+
   .lk-navbar-main {
     padding: 5px 15px;
     gap: 8px;
   }
 
-
   .lk-navbar-logo-mark {
     height: 38px;
     width: auto;
   }
-
 
   .lk-navbar-toggle {
     width: 34px;
@@ -673,7 +699,7 @@
   }
 
   .lk-navbar-top-links {
-    gap: 4px;
+    gap: 0;
   }
 
   .lk-navbar-container {
@@ -681,12 +707,24 @@
     padding-right: 10px;
   }
 
+  .lk-navbar-top .lk-navbar-container {
+    padding-right: 12px;
+  }
+
+  .lk-navbar-social {
+    gap: 8px;
+  }
+
+  .lk-navbar-top-badge {
+    width: 90px;
+    height: 90px;
+    margin: -31px -12px -31px 0;
+  }
 
   .lk-navbar-logo-mark {
     height: 32px;
     width: auto;
   }
-
 
   .lk-navbar-drawer {
     width: 90vw;
